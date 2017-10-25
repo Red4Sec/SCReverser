@@ -33,6 +33,7 @@ namespace SCReverser.Core.Types
         {
             // Write OpCode
             int l = OpCode.Write(stream);
+            // Write arguments
             l += Argument.Write(stream);
             return l;
         }
