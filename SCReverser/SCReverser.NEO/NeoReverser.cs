@@ -14,7 +14,7 @@ namespace SCReverser.NEO
 {
     public class NeoReverser : IReverser
     {
-        static ObjectCache<byte, OpCodeArgumentAttribute> OpCodeCache = new ObjectCache<byte, OpCodeArgumentAttribute>();
+        static Dictionary<byte, OpCodeArgumentAttribute> OpCodeCache = new Dictionary<byte, OpCodeArgumentAttribute>();
 
         /// <summary>
         /// Static constructor for Cache OpCodes
