@@ -12,7 +12,7 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// OpCache
         /// </summary>
-        Dictionary<byte, OpCodeArgumentAttribute> OpCodeCache = new Dictionary<byte, OpCodeArgumentAttribute>();
+        Dictionary<byte, OpCodeArgumentAttribute> OpCodeCache;
 
         /// <summary>
         /// Get instructions from byte array
