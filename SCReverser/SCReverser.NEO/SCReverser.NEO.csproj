@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NeoReverser.cs" />
     <Compile Include="OpCodeArguments\OpCodeVarByteArrayArgument.cs" />
     <Compile Include="OpCodes\OpCodeList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

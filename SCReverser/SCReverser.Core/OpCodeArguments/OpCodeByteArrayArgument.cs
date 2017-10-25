@@ -1,4 +1,5 @@
 ﻿using SCReverser.Core.Types;
+using System.IO;
 using System.Text;
 
 namespace SCReverser.Core.OpCodeArguments
@@ -23,7 +24,17 @@ namespace SCReverser.Core.OpCodeArguments
             Length = length;
             Value = new byte[length];
         }
+        /// <summary>
+        /// Read from stream
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        public override uint Read(Stream stream)
+        {
+            int lee = stream.Read(Value, 0, Length);
+            if (lee != Length) throw (new EndOfStreamException());
 
+            return (uint)lee;
+        }
         /// <summary>
         /// String representation
         /// </summary>

@@ -7,6 +7,10 @@ namespace SCReverser.Core.Attributes
     public class OpCodeArgumentAttribute : Attribute
     {
         /// <summary>
+        /// OpCode
+        /// </summary>
+        public string OpCode { get; set; }
+        /// <summary>
         /// Argument Type
         /// </summary>
         public Type ArgumentType { get; private set; }
@@ -14,6 +18,10 @@ namespace SCReverser.Core.Attributes
         /// Constructor arguments
         /// </summary>
         public object[] ConstructorArguments { get; set; }
+        /// <summary>
+        /// Description
+        /// </summary>
+        public string Description { get; set; }
 
         /// <summary>
         /// Constructor
@@ -26,7 +34,6 @@ namespace SCReverser.Core.Attributes
 
             ArgumentType = argumentType;
         }
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -35,13 +42,20 @@ namespace SCReverser.Core.Attributes
             // Empty argument
             ArgumentType = typeof(OpCodeArgument);
         }
-
         /// <summary>
         /// Create OpCodeArgument
         /// </summary>
         public OpCodeArgument Create()
         {
             return (OpCodeArgument)Activator.CreateInstance(ArgumentType, ConstructorArguments);
+        }
+        /// <summary>
+        /// String representation
+        /// </summary>
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(Description)) return OpCode;
+            return OpCode + " - " + Description.ToString();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SCReverser.Core.Types;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace SCReverser.Core.OpCodeArguments
@@ -18,11 +19,18 @@ namespace SCReverser.Core.OpCodeArguments
         /// <summary>
         /// Constructor
         /// </summary>
-        public OpCodeValueArgument()
+        protected OpCodeValueArgument()
         {
             Size = Marshal.SizeOf<T>();
         }
-
+        /// <summary>
+        /// Read from stream
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        public override uint Read(Stream stream)
+        {
+            throw (new NotImplementedException());
+        }
         /// <summary>
         /// String representation
         /// </summary>

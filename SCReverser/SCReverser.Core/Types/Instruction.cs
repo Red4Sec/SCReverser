@@ -1,11 +1,15 @@
 ﻿namespace SCReverser.Core.Types
 {
-    public class InstructionLine
+    public class Instruction
     {
+        /// <summary>
+        /// Instruction number
+        /// </summary>
+        public uint InstructionNumber { get; set; }
         /// <summary>
         /// Offset
         /// </summary>
-        public int Offset { get; set; }
+        public uint Offset { get; set; }
         /// <summary>
         /// OpCode
         /// </summary>
@@ -32,7 +36,7 @@
             if (!string.IsNullOrEmpty(Comment))
                 arg += " # " + Comment;
 
-            return arg;
+            return "[" + Offset.ToString("x2").PadLeft(4) + "] " + arg;
         }
     }
 }

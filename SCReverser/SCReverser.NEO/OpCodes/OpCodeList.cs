@@ -241,13 +241,13 @@ namespace SCReverser.NEO.OpCodes
         PUSHBYTES75 = 0x4B,
         #endregion
 
-        [OpCodeArgument(typeof(OpCodeValueArgument<byte>))]
+        [OpCodeArgument(typeof(OpCodeByteArgument))]
         [Description("The next byte contains the number of bytes to be pushed onto the stack.")]
         PUSHDATA1 = 0x4C,
-        [OpCodeArgument(typeof(OpCodeValueArgument<ushort>))]
+        [OpCodeArgument(typeof(OpCodeUShortArgument))]
         [Description("The next two bytes contain the number of bytes to be pushed onto the stack.")]
         PUSHDATA2 = 0x4D,
-        [OpCodeArgument(typeof(OpCodeValueArgument<int>))]
+        [OpCodeArgument(typeof(OpCodeIntArgument))]
         [Description("The next four bytes contain the number of bytes to be pushed onto the stack.")]
         PUSHDATA4 = 0x4E,
 
@@ -257,7 +257,6 @@ namespace SCReverser.NEO.OpCodes
         [OpCodeArgument]
         [Description("The number 1 is pushed onto the stack.")]
         PUSH1 = 0x51,
-        PUSHT = PUSH1,
         [OpCodeArgument]
         [Description("The number 2 is pushed onto the stack.")]
         PUSH2 = 0x52,
@@ -309,13 +308,13 @@ namespace SCReverser.NEO.OpCodes
         [OpCodeArgument]
         [Description("Does nothing.")]
         NOP = 0x61,
-        [OpCodeArgument(typeof(OpCodeValueArgument<short>))]
+        [OpCodeArgument(typeof(OpCodeUShortArgument))]
         JMP = 0x62,
-        [OpCodeArgument(typeof(OpCodeValueArgument<short>))]
+        [OpCodeArgument(typeof(OpCodeUShortArgument))]
         JMPIF = 0x63,
-        [OpCodeArgument(typeof(OpCodeValueArgument<short>))]
+        [OpCodeArgument(typeof(OpCodeUShortArgument))]
         JMPIFNOT = 0x64,
-        [OpCodeArgument]
+        [OpCodeArgument(typeof(OpCodeUShortArgument))]
         CALL = 0x65,
         [OpCodeArgument]
         RET = 0x66,

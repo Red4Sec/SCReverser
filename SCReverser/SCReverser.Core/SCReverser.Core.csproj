@@ -40,16 +40,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\OpCodeArgumentAttribute.cs" />
+    <Compile Include="Exceptions\OpCodeNotFoundException.cs" />
+    <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="OpCodeArguments\OpCodeIntArgument.cs" />
+    <Compile Include="OpCodeArguments\OpCodeUShortArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeByteArrayArgument.cs" />
+    <Compile Include="OpCodeArguments\OpCodeByteArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeValueArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\OpCode.cs" />
     <Compile Include="Types\OpCodeArgument.cs" />
-    <Compile Include="Types\InstructionLine.cs" />
+    <Compile Include="Types\Instruction.cs" />
+    <Compile Include="Cache\ObjectCache.cs" />
+    <Compile Include="Interfaces\IReverser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
