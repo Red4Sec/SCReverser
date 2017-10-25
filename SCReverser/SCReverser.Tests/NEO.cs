@@ -15,10 +15,8 @@ namespace SCReverser.Tests
             IReverser reverser = new NeoReverser();
             Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
 
-            Assert.IsTrue(instructions.Length == 2053);
-            Assert.IsTrue(instructions.LastOrDefault().Offset == 0x0F1C);
-
             Assert.IsTrue(instructions.Length == SmartContractSampleTxt.Length);
+            Assert.IsTrue(instructions.LastOrDefault().Offset == 0x0F1C);
 
             for (int x = 0; x < SmartContractSampleTxt.Length; x++)
             {
