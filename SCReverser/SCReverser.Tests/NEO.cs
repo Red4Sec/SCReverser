@@ -10,7 +10,7 @@ namespace SCReverser.Tests
     public class NEO
     {
         [TestMethod]
-        public void TestInstructions()
+        public void ParseTest()
         {
             IReverser reverser = new NeoReverser();
             Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
@@ -34,7 +34,6 @@ namespace SCReverser.Tests
                 Assert.AreEqual(sp[0], instructions[x].Offset.ToString("x2").PadLeft(4, '0').ToUpperInvariant());
                 Assert.AreEqual(sp[1], instructions[x].OpCode.Name);
             }
-
         }
 
         #region Sample
