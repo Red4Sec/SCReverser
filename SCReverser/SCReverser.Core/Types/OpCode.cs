@@ -1,4 +1,7 @@
-﻿namespace SCReverser.Core.Types
+﻿using System;
+using System.IO;
+
+namespace SCReverser.Core.Types
 {
     public class OpCode
     {
@@ -21,6 +24,17 @@
         public override string ToString()
         {
             return Name;
+        }
+
+        /// <summary>
+        /// Write OpCode
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        public int Write(Stream stream)
+        {
+            int l = RawValue.Length;
+            stream.Write(RawValue, 0, l);
+            return l;
         }
     }
 }

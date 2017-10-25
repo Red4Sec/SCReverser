@@ -28,5 +28,13 @@ namespace SCReverser.Core.Types
         {
             return 0;
         }
+        /// <summary>
+        /// Write
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        public virtual int Write(Stream stream)
+        {
+            return 0;
+        }
     }
 }

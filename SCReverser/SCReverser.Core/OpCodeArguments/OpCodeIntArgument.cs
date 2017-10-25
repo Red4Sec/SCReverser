@@ -1,26 +1,33 @@
 ﻿using SCReverser.Core.Extensions;
-using System.IO;
 
 namespace SCReverser.Core.OpCodeArguments
 {
-    public class OpCodeIntArgument : OpCodeValueArgument<int>
+    public class OpCodeIntArgument : OpCodeByteArrayArgument
     {
+        /// <summary>
+        /// Value
+        /// </summary>
+        public int Value
+        {
+            get
+            {
+                return RawValue.ToInt32(0);
+            }
+            set
+            {
+                RawValue = value.ToByteArray();
+            }
+        }
         /// <summary>
         /// Constructor
         /// </summary>
-        public OpCodeIntArgument() : base() { }
+        public OpCodeIntArgument() : base(4) { }
         /// <summary>
-        /// Read from stream
+        /// String representation
         /// </summary>
-        /// <param name="stream">Stream</param>
-        public override uint Read(Stream stream)
+        public override string ToString()
         {
-            RawValue = new byte[4];
-            if (stream.Read(RawValue, 0, 4) != 4)
-                throw (new EndOfStreamException());
-
-            Value = RawValue.ToInt32(0);
-            return 4;
+            return Value.ToString();
         }
     }
 }

@@ -1,25 +1,25 @@
-﻿using System.IO;
-
-namespace SCReverser.Core.OpCodeArguments
+﻿namespace SCReverser.Core.OpCodeArguments
 {
-    public class OpCodeByteArgument : OpCodeValueArgument<byte>
+    public class OpCodeByteArgument : OpCodeByteArrayArgument
     {
+        /// <summary>
+        /// Value
+        /// </summary>
+        public byte Value
+        {
+            get { return RawValue[0]; }
+            set { RawValue[0] = value; }
+        }
         /// <summary>
         /// Constructor
         /// </summary>
-        public OpCodeByteArgument() : base() { }
+        public OpCodeByteArgument() : base(1) { }
         /// <summary>
-        /// Read from stream
+        /// String representation
         /// </summary>
-        /// <param name="stream">Stream</param>
-        public override uint Read(Stream stream)
+        public override string ToString()
         {
-            int read = stream.ReadByte();
-            if (read < 0) throw (new EndOfStreamException());
-
-            RawValue = new byte[] { (byte)read };
-            Value = RawValue[0];
-            return 1;
+            return Value.ToString();
         }
     }
 }

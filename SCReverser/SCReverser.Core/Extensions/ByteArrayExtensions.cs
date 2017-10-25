@@ -16,13 +16,83 @@ namespace SCReverser.Core.Extensions
             return hex.ToString();
         }
 
-        public static ushort ToUInt16(this byte[] buffer, int index = 0)
+        public static byte[] ToByteArray(this int value)
         {
-            return (ushort)((int)buffer[index] | (int)buffer[index + 1] << 8);
+            return new byte[] 
+            {
+                (byte)value,
+                (byte)(value >> 8),
+                (byte)(value >> 16),
+                (byte)(value >> 24)
+            };
         }
+
+        public static byte[] ToByteArray(this uint value)
+        {
+            return new byte[]
+            {
+                (byte)value,
+                (byte)(value >> 8),
+                (byte)(value >> 16),
+                (byte)(value >> 24)
+            };
+        }
+
+        public static byte[] ToByteArray(this long value)
+        {
+            return new byte[]
+            {
+                (byte)value,
+                (byte)(value >> 8),
+                (byte)(value >> 16),
+                (byte)(value >> 24),
+                (byte)(value >> 32),
+                (byte)(value >> 40),
+                (byte)(value >> 48),
+                (byte)(value >> 56),
+            };
+        }
+
+        public static byte[] ToByteArray(this ulong value)
+        {
+            return new byte[]
+            {
+                (byte)value,
+                (byte)(value >> 8),
+                (byte)(value >> 16),
+                (byte)(value >> 24),
+                (byte)(value >> 32),
+                (byte)(value >> 40),
+                (byte)(value >> 48),
+                (byte)(value >> 56),
+            };
+        }
+
+        public static byte[] ToByteArray(this short value)
+        {
+            return new byte[]
+            {
+                (byte)value,
+                (byte)(value >> 8),
+            };
+        }
+
+        public static byte[] ToByteArray(this ushort value)
+        {
+            return new byte[]
+            {
+                (byte)value,
+                (byte)(value >> 8),
+            };
+        }
+
         public static short ToInt16(this byte[] buffer, int index = 0)
         {
             return (short)((int)buffer[index] | (int)buffer[index + 1] << 8);
+        }
+        public static ushort ToUInt16(this byte[] buffer, int index = 0)
+        {
+            return (ushort)((int)buffer[index] | (int)buffer[index + 1] << 8);
         }
 
         public static int ToInt32(this byte[] buffer, int index = 0)
@@ -34,17 +104,17 @@ namespace SCReverser.Core.Extensions
             return (uint)((int)buffer[index + 0] | (int)buffer[index + 1] << 8 | (int)buffer[index + 2] << 16 | (int)buffer[index + 3] << 24);
         }
 
-        public static ulong ToUInt64(this byte[] buffer, int index = 0)
-        {
-            uint num = (uint)((int)buffer[index + 0] | (int)buffer[index + 1] << 8 | (int)buffer[index + 2] << 16 | (int)buffer[index + 3] << 24);
-            uint num2 = (uint)((int)buffer[index + 4] | (int)buffer[index + 5] << 8 | (int)buffer[index + 6] << 16 | (int)buffer[index + 7] << 24);
-            return (ulong)num2 << 32 | (ulong)num;
-        }
         public static long ToInt64(this byte[] buffer, int index = 0)
         {
             uint num = (uint)((int)buffer[index + 0] | (int)buffer[index + 1] << 8 | (int)buffer[index + 2] << 16 | (int)buffer[index + 3] << 24);
             uint num2 = (uint)((int)buffer[index + 4] | (int)buffer[index + 5] << 8 | (int)buffer[index + 6] << 16 | (int)buffer[index + 7] << 24);
             return (long)num2 << 32 | (long)num;
+        }
+        public static ulong ToUInt64(this byte[] buffer, int index = 0)
+        {
+            uint num = (uint)((int)buffer[index + 0] | (int)buffer[index + 1] << 8 | (int)buffer[index + 2] << 16 | (int)buffer[index + 3] << 24);
+            uint num2 = (uint)((int)buffer[index + 4] | (int)buffer[index + 5] << 8 | (int)buffer[index + 6] << 16 | (int)buffer[index + 7] << 24);
+            return (ulong)num2 << 32 | (ulong)num;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SCReverser.Core.Types
+﻿using System.IO;
+
+namespace SCReverser.Core.Types
 {
     public class Instruction
     {
@@ -22,6 +24,18 @@
         /// Comment
         /// </summary>
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Write instruction
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        public virtual int Write(Stream stream)
+        {
+            // Write OpCode
+            int l = OpCode.Write(stream);
+            l += Argument.Write(stream);
+            return l;
+        }
 
         /// <summary>
         /// String representation
