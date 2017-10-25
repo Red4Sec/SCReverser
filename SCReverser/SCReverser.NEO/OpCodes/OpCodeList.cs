@@ -1,6 +1,5 @@
 ﻿using SCReverser.Core.Attributes;
 using SCReverser.Core.OpCodeArguments;
-using SCReverser.Core.Types;
 using SCReverser.NEO.OpCodeArguments;
 using System.ComponentModel;
 

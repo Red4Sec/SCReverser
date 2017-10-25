@@ -42,7 +42,6 @@
     <Compile Include="Attributes\OpCodeArgumentAttribute.cs" />
     <Compile Include="Exceptions\OpCodeNotFoundException.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="OpCodeArguments\OpCodeIntArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeUShortArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeByteArrayArgument.cs" />
