@@ -47,7 +47,7 @@ namespace SCReverser.Core.Types
             string arg = Argument == null ? "" : Argument.ToString();
 
             if (string.IsNullOrEmpty(arg)) arg = OpCode.ToString();
-            arg = OpCode.ToString() + " [" + arg + "]";
+            else arg = OpCode.ToString() + " [" + arg + "]";
 
             if (!string.IsNullOrEmpty(Comment))
                 arg += " # " + Comment;
