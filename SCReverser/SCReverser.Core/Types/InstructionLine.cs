@@ -1,7 +1,11 @@
 ﻿namespace SCReverser.Core.Types
 {
-    public class ScriptExecutionLine
+    public class InstructionLine
     {
+        /// <summary>
+        /// Offset
+        /// </summary>
+        public int Offset { get; set; }
         /// <summary>
         /// OpCode
         /// </summary>
