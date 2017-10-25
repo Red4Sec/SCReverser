@@ -26,5 +26,9 @@ namespace SCReverser.Core.Interfaces
         {
             throw (new NotImplementedException());
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        protected IReverser () { }
     }
 }
