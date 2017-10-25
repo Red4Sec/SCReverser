@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace SCReverser.NEO
 {
@@ -73,14 +72,14 @@ namespace SCReverser.NEO
 
                 yield return new Instruction()
                 {
-                    Argument = arg,
+                    InstructionNumber = insNumber,
+                    Offset = offset,
                     OpCode = new OpCode()
                     {
                         Name = read.OpCode,
                         Description = read.Description
                     },
-                    InstructionNumber = insNumber,
-                    Offset = offset,
+                    Argument = arg,
                 };
 
                 offset += rBytes + 1;
