@@ -8,6 +8,11 @@ namespace SCReverser.Core.Types
     public class OpCodeArgument
     {
         /// <summary>
+        /// Raw value
+        /// </summary>
+        public byte[] RawValue { get; protected set; }
+
+        /// <summary>
         /// String representation
         /// </summary>
         public override string ToString()

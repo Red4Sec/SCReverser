@@ -76,6 +76,7 @@ namespace SCReverser.NEO
                     Offset = offset,
                     OpCode = new OpCode()
                     {
+                        RawValue = new byte[] { (byte)opCode },
                         Name = read.OpCode,
                         Description = read.Description
                     },

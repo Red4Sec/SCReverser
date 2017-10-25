@@ -3,6 +3,10 @@
     public class OpCode
     {
         /// <summary>
+        /// Value
+        /// </summary>
+        public byte[] RawValue { get; set; }
+        /// <summary>
         /// OpCode name
         /// </summary>
         public string Name { get; set; }

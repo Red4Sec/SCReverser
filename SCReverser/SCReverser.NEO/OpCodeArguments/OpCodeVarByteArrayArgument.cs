@@ -36,9 +36,10 @@ namespace SCReverser.NEO.OpCodeArguments
             int read;
             ulong l = ReadVarInt(stream, out read, MaxLength);
 
-            Value = new byte[l];
-            int lee = stream.Read(Value, 0, Value.Length);
-            if (lee != Value.Length)
+            // TODO: This Raw value are wrong!
+            RawValue = new byte[l];
+            int lee = stream.Read(RawValue, 0, RawValue.Length);
+            if (lee != RawValue.Length)
                 throw (new EndOfStreamException());
 
             read += lee;
@@ -60,15 +61,27 @@ namespace SCReverser.NEO.OpCodeArguments
 
             if (fb == 0xFD)
             {
-                value = reader.ReadUInt16(); read += 2;
+                byte[] data = new byte[2];
+                if (reader.Read(data, 0, 2) != 2) throw (new EndOfStreamException());
+
+                value = data.ToUInt16(0);
+                read += 2;
             }
             else if (fb == 0xFE)
             {
-                value = reader.ReadUInt32(); read += 4;
+                byte[] data = new byte[4];
+                if (reader.Read(data, 0, 4) != 4) throw (new EndOfStreamException());
+
+                value = data.ToUInt32(0);
+                read += 4;
             }
             else if (fb == 0xFF)
             {
-                value = reader.ReadUInt64(); read += 8;
+                byte[] data = new byte[8];
+                if (reader.Read(data, 0, 8) != 8) throw (new EndOfStreamException());
+
+                value = data.ToUInt64(0);
+                read += 8;
             }
             else value = (ulong)fb;
 

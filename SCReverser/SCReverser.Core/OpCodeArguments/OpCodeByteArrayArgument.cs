@@ -10,10 +10,6 @@ namespace SCReverser.Core.OpCodeArguments
         /// Length
         /// </summary>
         public int Length { get; protected set; }
-        /// <summary>
-        /// Value
-        /// </summary>
-        public byte[] Value { get; protected set; }
 
         /// <summary>
         /// Constructor
@@ -22,7 +18,7 @@ namespace SCReverser.Core.OpCodeArguments
         public OpCodeByteArrayArgument(int length)
         {
             Length = length;
-            Value = new byte[length];
+            RawValue = new byte[length];
         }
         /// <summary>
         /// Read from stream
@@ -30,7 +26,7 @@ namespace SCReverser.Core.OpCodeArguments
         /// <param name="stream">Stream</param>
         public override uint Read(Stream stream)
         {
-            int lee = stream.Read(Value, 0, Length);
+            int lee = stream.Read(RawValue, 0, Length);
             if (lee != Length) throw (new EndOfStreamException());
 
             return (uint)lee;
@@ -43,7 +39,7 @@ namespace SCReverser.Core.OpCodeArguments
             StringBuilder sb = new StringBuilder();
 
             bool allAsciiPrintables = true;
-            foreach (byte b in Value)
+            foreach (byte b in RawValue)
             {
                 if (char.IsControl((char)b) && !char.IsWhiteSpace((char)b))
                 {
@@ -56,7 +52,7 @@ namespace SCReverser.Core.OpCodeArguments
             if (allAsciiPrintables)
             {
                 sb.AppendLine();
-                sb.Append(Encoding.ASCII.GetString(Value).Trim());
+                sb.Append(Encoding.ASCII.GetString(RawValue).Trim());
             }
 
             return sb.ToString().Trim();

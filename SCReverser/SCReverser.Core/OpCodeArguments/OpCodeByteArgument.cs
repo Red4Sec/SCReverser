@@ -17,7 +17,8 @@ namespace SCReverser.Core.OpCodeArguments
             int read = stream.ReadByte();
             if (read < 0) throw (new EndOfStreamException());
 
-            Value = (byte)read;
+            RawValue = new byte[] { (byte)read };
+            Value = RawValue[0];
             return 1;
         }
     }

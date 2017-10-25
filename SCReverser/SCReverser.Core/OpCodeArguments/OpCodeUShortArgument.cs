@@ -15,7 +15,11 @@ namespace SCReverser.Core.OpCodeArguments
         /// <param name="stream">Stream</param>
         public override uint Read(Stream stream)
         {
-            Value = stream.ReadUInt16();
+            RawValue = new byte[2];
+            if (stream.Read(RawValue, 0, 2) != 2)
+                throw (new EndOfStreamException());
+
+            Value = RawValue.ToUInt16(0);
             return 2;
         }
     }
