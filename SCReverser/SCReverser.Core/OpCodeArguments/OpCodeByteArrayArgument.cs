@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SCReverser.Core.OpCodeArguments
 {
-    public class OpCodeByteArrayArgument : OpCodeArgument
+    public class OpCodeByteArrayArgument : OpCodeEmptyArgument
     {
         /// <summary>
         /// Length

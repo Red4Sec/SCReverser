@@ -49,9 +49,8 @@
     <Compile Include="OpCodeArguments\OpCodeByteArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\OpCode.cs" />
-    <Compile Include="Types\OpCodeArgument.cs" />
+    <Compile Include="OpCodeArguments\OpCodeEmptyArgument.cs" />
     <Compile Include="Types\Instruction.cs" />
-    <Compile Include="Cache\ObjectCache.cs" />
     <Compile Include="Interfaces\IReverser.cs" />
   </ItemGroup>
   <ItemGroup>

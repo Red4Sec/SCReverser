@@ -1,11 +1,11 @@
 ﻿using System.IO;
 
-namespace SCReverser.Core.Types
+namespace SCReverser.Core.OpCodeArguments
 {
     /// <summary>
     /// Empty OpCode argument
     /// </summary>
-    public class OpCodeArgument
+    public class OpCodeEmptyArgument
     {
         /// <summary>
         /// Raw value

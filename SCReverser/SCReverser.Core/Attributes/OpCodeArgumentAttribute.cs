@@ -1,4 +1,4 @@
-﻿using SCReverser.Core.Types;
+﻿using SCReverser.Core.OpCodeArguments;
 using System;
 
 namespace SCReverser.Core.Attributes
@@ -29,7 +29,7 @@ namespace SCReverser.Core.Attributes
         /// <param name="argumentType">Argument Type</param>
         public OpCodeArgumentAttribute(Type argumentType)
         {
-            if (!typeof(OpCodeArgument).IsAssignableFrom(argumentType))
+            if (!typeof(OpCodeEmptyArgument).IsAssignableFrom(argumentType))
                 throw (new ArgumentException("argumentType"));
 
             ArgumentType = argumentType;
@@ -40,14 +40,14 @@ namespace SCReverser.Core.Attributes
         public OpCodeArgumentAttribute()
         {
             // Empty argument
-            ArgumentType = typeof(OpCodeArgument);
+            ArgumentType = typeof(OpCodeEmptyArgument);
         }
         /// <summary>
         /// Create OpCodeArgument
         /// </summary>
-        public OpCodeArgument Create()
+        public OpCodeEmptyArgument Create()
         {
-            return (OpCodeArgument)Activator.CreateInstance(ArgumentType, ConstructorArguments);
+            return (OpCodeEmptyArgument)Activator.CreateInstance(ArgumentType, ConstructorArguments);
         }
         /// <summary>
         /// String representation

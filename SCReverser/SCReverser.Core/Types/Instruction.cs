@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using SCReverser.Core.OpCodeArguments;
+using System.IO;
 
 namespace SCReverser.Core.Types
 {
@@ -19,7 +20,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Argument
         /// </summary>
-        public OpCodeArgument Argument { get; set; }
+        public OpCodeEmptyArgument Argument { get; set; }
         /// <summary>
         /// Comment
         /// </summary>

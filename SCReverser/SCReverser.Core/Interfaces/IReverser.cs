@@ -1,5 +1,7 @@
-﻿using SCReverser.Core.Types;
-using System;
+﻿using SCReverser.Core.Attributes;
+using SCReverser.Core.Exceptions;
+using SCReverser.Core.OpCodeArguments;
+using SCReverser.Core.Types;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,6 +9,11 @@ namespace SCReverser.Core.Interfaces
 {
     public class IReverser
     {
+        /// <summary>
+        /// OpCache
+        /// </summary>
+        Dictionary<byte, OpCodeArgumentAttribute> OpCodeCache = new Dictionary<byte, OpCodeArgumentAttribute>();
+
         /// <summary>
         /// Get instructions from byte array
         /// </summary>
@@ -22,13 +29,55 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         /// <param name="stream">Stream</param>
         /// <param name="leaveOpen">Leave open</param>
-        public virtual IEnumerable<Instruction> GetInstructions(Stream sr, bool leaveOpen)
+        public virtual IEnumerable<Instruction> GetInstructions(Stream stream, bool leaveOpen)
         {
-            throw (new NotImplementedException());
+            int opCode;
+            uint insNumber = 0;
+            uint offset = 0;
+
+            while ((opCode = stream.ReadByte()) != -1)
+            {
+                OpCodeArgumentAttribute read;
+                if (!OpCodeCache.TryGetValue((byte)opCode, out read))
+                    throw (new OpCodeNotFoundException()
+                    {
+                        Offset = offset,
+                        OpCode = opCode,
+                    });
+
+                OpCodeEmptyArgument arg = read.Create();
+                uint rBytes = arg.Read(stream);
+
+                yield return new Instruction()
+                {
+                    InstructionNumber = insNumber,
+                    Offset = offset,
+                    OpCode = new OpCode()
+                    {
+                        RawValue = new byte[] { (byte)opCode },
+                        Name = read.OpCode,
+                        Description = read.Description
+                    },
+                    Argument = arg,
+                };
+
+                offset += rBytes + 1;
+                insNumber++;
+            }
+
+            if (!leaveOpen)
+            {
+                stream.Close();
+                stream.Dispose();
+            }
         }
         /// <summary>
         /// Constructor
         /// </summary>
-        protected IReverser () { }
+        /// <param name="cache">OpCache</param>
+        protected IReverser(Dictionary<byte, OpCodeArgumentAttribute> cache)
+        {
+            OpCodeCache = cache;
+        }
     }
 }
