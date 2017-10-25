@@ -36,7 +36,7 @@ namespace SCReverser.NEO.OpCodeArguments
             int read;
             ulong l = ReadVarInt(stream, out read, MaxLength);
 
-            // TODO: This Raw value are wrong!
+            // This RawValue are not the same that will write!
             RawValue = new byte[l];
             int lee = stream.Read(RawValue, 0, RawValue.Length);
             if (lee != RawValue.Length)
@@ -44,6 +44,18 @@ namespace SCReverser.NEO.OpCodeArguments
 
             read += lee;
             return (uint)read;
+        }
+        /// <summary>
+        /// Write header
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public override int Write(Stream stream)
+        {
+            // TODO Write VarInt logic
+
+            // Write RawValue
+            return base.Write(stream);
         }
         /// <summary>
         /// Read Var Int logic from NEO

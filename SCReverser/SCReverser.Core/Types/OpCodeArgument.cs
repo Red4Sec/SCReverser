@@ -11,15 +11,6 @@ namespace SCReverser.Core.Types
         /// Raw value
         /// </summary>
         public byte[] RawValue { get; protected set; }
-
-        /// <summary>
-        /// String representation
-        /// </summary>
-        public override string ToString()
-        {
-            return "";
-        }
-
         /// <summary>
         /// Read data from stream
         /// </summary>
@@ -34,7 +25,18 @@ namespace SCReverser.Core.Types
         /// <param name="stream">Stream</param>
         public virtual int Write(Stream stream)
         {
-            return 0;
+            int l = RawValue == null ? 0 : RawValue.Length;
+
+            stream.Write(RawValue, 0, l);
+
+            return l;
+        }
+        /// <summary>
+        /// String representation
+        /// </summary>
+        public override string ToString()
+        {
+            return "";
         }
     }
 }
