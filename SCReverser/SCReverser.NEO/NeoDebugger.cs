@@ -50,7 +50,7 @@ namespace SCReverser.NEO
             // Prepare engine
 
             IScriptContainer container = null;
-            
+
             // Internal object
             Type cachedScriptTable = typeof(ECPoint).Assembly.GetType("Neo.SmartContract.CachedScriptTable");
 
@@ -129,7 +129,7 @@ namespace SCReverser.NEO
                     // Copy registers
                     GasConsumed = Engine.GasConsumed.ToString();
                     InvocationStackCount = (uint)Engine.InvocationStack.Count;
-                    CurrentInstructionIndex = (uint)Engine.CurrentContext.InstructionPointer;
+                    CurrentInstructionIndex = Offsets[(uint)Engine.CurrentContext.InstructionPointer];
                 }
                 catch (Exception e)
                 {

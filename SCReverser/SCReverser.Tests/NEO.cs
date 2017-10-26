@@ -23,15 +23,15 @@ namespace SCReverser.Tests
             using (NeoDebugger debugger = n.CreateDebugger(instructions))
             {
                 // Check event
-                debugger.OnBreakPoint += (d, offset) =>
+                debugger.OnBreakPoint += (d, instructionIndex) =>
                 {
                     // Remove BP
-                    debugger.BreakPoints.Remove(offset);
+                    debugger.BreakPoints.Remove(instructionIndex);
                 };
 
                 // Add two demo BP
-                debugger.BreakPoints.Add(debugger[1].Offset);
-                debugger.BreakPoints.Add(debugger[2].Offset);
+                debugger.BreakPoints.Add(1);
+                debugger.BreakPoints.Add(2);
 
                 // Prevent config form calling directly (fail in unit test)
                 debugger.Initialize(new NeoDebuggerConfig()
@@ -46,11 +46,11 @@ namespace SCReverser.Tests
 
                 // Check BP Executed
 
-                Assert.IsTrue(debugger.CurrentInstructionIndex == debugger[1].Offset && debugger.State.HasFlag(DebuggerState.BreakPoint));
+                Assert.IsTrue(debugger.CurrentInstruction == debugger[1] && debugger.State.HasFlag(DebuggerState.BreakPoint));
 
                 debugger.StepInto();
 
-                Assert.IsTrue(debugger.CurrentInstructionIndex == debugger[2].Offset && debugger.State.HasFlag(DebuggerState.BreakPoint));
+                Assert.IsTrue(debugger.CurrentInstruction == debugger[2] && debugger.State.HasFlag(DebuggerState.BreakPoint));
 
                 // Check event
 

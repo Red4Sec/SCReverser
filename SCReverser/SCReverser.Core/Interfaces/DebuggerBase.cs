@@ -1,6 +1,7 @@
 ﻿using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,8 @@ namespace SCReverser.Core.Interfaces
 {
     public class DebuggerBase : IDebugger
     {
+        protected Dictionary<uint, uint> Offsets = new Dictionary<uint, uint>();
+
         /// <summary>
         /// Delegate for On instruction event
         /// </summary>
@@ -104,6 +107,14 @@ namespace SCReverser.Core.Interfaces
             State = DebuggerState.None;
             InvocationStackCount = 0;
             CurrentInstructionIndex = 0;
+
+            // Cache offsets
+            uint ix = 0;
+            foreach (Instruction i in instructions)
+            {
+                Offsets.Add(i.Offset, ix);
+                ix++;
+            }
         }
         /// <summary>
         /// Initialize debuger
