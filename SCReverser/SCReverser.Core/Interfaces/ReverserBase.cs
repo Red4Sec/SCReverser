@@ -128,7 +128,7 @@ namespace SCReverser.Core.Interfaces
                     Argument = arg,
                 };
 
-                offset += rBytes + 1;
+                offset += rBytes + OpCodeSize;
                 insNumber++;
             }
 
