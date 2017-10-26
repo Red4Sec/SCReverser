@@ -258,7 +258,7 @@
     <Compile Include="NeoReverser.cs" />
     <Compile Include="NeoTemplate.cs" />
     <Compile Include="OpCodeArguments\OpCodeVarByteArrayArgument.cs" />
-    <Compile Include="OpCodes\OpCodeList.cs" />
+    <Compile Include="NeoOpCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

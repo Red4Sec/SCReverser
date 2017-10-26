@@ -9,14 +9,8 @@ namespace SCReverser.Core.OpCodeArguments
         /// </summary>
         public ushort Value
         {
-            get
-            {
-                return RawValue.ToUInt16();
-            }
-            set
-            {
-                RawValue = value.ToByteArray();
-            }
+            get { return RawValue.ToUInt16(); }
+            set { RawValue = value.ToByteArray(); }
         }
         /// <summary>
         /// Constructor

@@ -9,6 +9,7 @@ using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SCReverser.NEO
@@ -28,7 +29,7 @@ namespace SCReverser.NEO
         /// Run
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        public NeoDebugger(Instruction[] instructions) : base(instructions) { }
+        public NeoDebugger(IEnumerable<Instruction> instructions) : base(instructions) { }
         /// <summary>
         /// Initialize
         /// </summary>

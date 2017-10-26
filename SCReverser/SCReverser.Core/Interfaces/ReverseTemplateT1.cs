@@ -1,5 +1,6 @@
 ﻿using System;
 using SCReverser.Core.Types;
+using System.Collections.Generic;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -42,7 +43,7 @@ namespace SCReverser.Core.Interfaces
             return Activator.CreateInstance<ReverserT>();
         }
 
-        public IDebugger CreateDebugger(params Instruction[] instructions)
+        public IDebugger CreateDebugger(IEnumerable<Instruction> instructions)
         {
             throw new NotImplementedException();
         }

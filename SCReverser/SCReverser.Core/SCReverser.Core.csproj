@@ -67,9 +67,7 @@
     <Compile Include="Types\Instruction.cs" />
     <Compile Include="Interfaces\IReverser.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="FEditConfig.resx">
       <DependentUpon>FEditConfig.cs</DependentUpon>

@@ -104,9 +104,9 @@ namespace SCReverser.Core.Interfaces
         /// Constructor
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        protected DebuggerBase(params Instruction[] instructions)
+        protected DebuggerBase(IEnumerable< Instruction> instructions)
         {
-            Instructions = instructions;
+            Instructions = instructions.ToArray();
             BreakPoints = new ObservableCollection<uint>();
             State = DebuggerState.None;
             InvocationStackCount = 0;
@@ -114,7 +114,7 @@ namespace SCReverser.Core.Interfaces
 
             // Cache offsets
             uint ix = 0;
-            foreach (Instruction i in instructions)
+            foreach (Instruction i in Instructions)
             {
                 Offsets.Add(i.Offset, ix);
                 ix++;

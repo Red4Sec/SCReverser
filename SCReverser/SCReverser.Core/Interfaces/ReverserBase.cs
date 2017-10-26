@@ -117,7 +117,7 @@ namespace SCReverser.Core.Interfaces
 
                 yield return new Instruction()
                 {
-                    InstructionNumber = insNumber,
+                    Index = insNumber,
                     Offset = offset,
                     OpCode = new OpCode()
                     {

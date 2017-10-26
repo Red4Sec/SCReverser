@@ -9,14 +9,8 @@ namespace SCReverser.Core.OpCodeArguments
         /// </summary>
         public int Value
         {
-            get
-            {
-                return RawValue.ToInt32(0);
-            }
-            set
-            {
-                RawValue = value.ToByteArray();
-            }
+            get { return RawValue.ToInt32(0); }
+            set { RawValue = value.ToByteArray(); }
         }
         /// <summary>
         /// Constructor

@@ -1,9 +1,8 @@
 ﻿using SCReverser.Core.Interfaces;
-using SCReverser.NEO.OpCodes;
 
 namespace SCReverser.NEO
 {
-    public class NeoReverser : ReverserBase<OpCodeList>
+    public class NeoReverser : ReverserBase<NeoOpCode>
     {
         /// <summary>
         /// Constructor

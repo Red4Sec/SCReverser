@@ -6,9 +6,9 @@ namespace SCReverser.Core.Types
     public class Instruction
     {
         /// <summary>
-        /// Instruction number
+        /// Instruction index
         /// </summary>
-        public uint InstructionNumber { get; set; }
+        public uint Index { get; set; }
         /// <summary>
         /// Offset
         /// </summary>

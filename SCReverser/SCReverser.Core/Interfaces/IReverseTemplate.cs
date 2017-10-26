@@ -1,5 +1,6 @@
 ﻿using System;
 using SCReverser.Core.Types;
+using System.Collections.Generic;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -8,7 +9,7 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Have debugger
         /// </summary>
-        bool HaveDebugger{get;}
+        bool HaveDebugger { get; }
         /// <summary>
         /// Template
         /// </summary>
@@ -29,6 +30,6 @@ namespace SCReverser.Core.Interfaces
         /// Create debugger
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        IDebugger CreateDebugger(params Instruction[] instructions);
+        IDebugger CreateDebugger(IEnumerable<Instruction> instructions);
     }
 }

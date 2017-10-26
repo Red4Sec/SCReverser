@@ -1,5 +1,6 @@
 ﻿using SCReverser.Core.Types;
 using System;
+using System.Collections.Generic;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -41,7 +42,7 @@ namespace SCReverser.Core.Interfaces
         /// Create debugger
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        public DebuggerT CreateDebugger(Instruction[] instructions)
+        public DebuggerT CreateDebugger(IEnumerable<Instruction> instructions)
         {
             return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions });
         }
@@ -50,7 +51,7 @@ namespace SCReverser.Core.Interfaces
         {
             return Activator.CreateInstance<ReverserT>();
         }
-        IDebugger IReverseTemplate.CreateDebugger(params Instruction[] instructions)
+        IDebugger IReverseTemplate.CreateDebugger(IEnumerable<Instruction> instructions)
         {
             return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions });
         }

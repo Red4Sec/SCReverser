@@ -3,9 +3,9 @@ using SCReverser.Core.OpCodeArguments;
 using SCReverser.NEO.OpCodeArguments;
 using System.ComponentModel;
 
-namespace SCReverser.NEO.OpCodes
+namespace SCReverser.NEO
 {
-    public enum OpCodeList : byte
+    public enum NeoOpCode : byte
     {
         #region Constants
         [OpCodeArgument]
