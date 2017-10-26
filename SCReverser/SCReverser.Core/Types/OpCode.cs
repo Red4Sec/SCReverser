@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace SCReverser.Core.Types
 {
@@ -19,22 +18,22 @@ namespace SCReverser.Core.Types
         public string Description { get; set; }
 
         /// <summary>
-        /// String representation
-        /// </summary>
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        /// <summary>
         /// Write OpCode
         /// </summary>
         /// <param name="stream">Stream</param>
         public int Write(Stream stream)
         {
-            int l = RawValue.Length;
-            stream.Write(RawValue, 0, l);
+            int l = RawValue == null ? 0 : RawValue.Length;
+            if (l > 0) stream.Write(RawValue, 0, l);
+
             return l;
+        }
+        /// <summary>
+        /// String representation
+        /// </summary>
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

@@ -26,8 +26,7 @@ namespace SCReverser.Core.OpCodeArguments
         public virtual int Write(Stream stream)
         {
             int l = RawValue == null ? 0 : RawValue.Length;
-
-            stream.Write(RawValue, 0, l);
+            if (l > 0) stream.Write(RawValue, 0, l);
 
             return l;
         }

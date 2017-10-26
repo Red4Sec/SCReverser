@@ -40,8 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\OpCodeArgumentAttribute.cs" />
+    <Compile Include="Enums\DebuggerState.cs" />
     <Compile Include="Exceptions\OpCodeNotFoundException.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Interfaces\DebuggerBase.cs" />
+    <Compile Include="Interfaces\IDebugger.cs" />
+    <Compile Include="Interfaces\IReverseTemplate.cs" />
+    <Compile Include="Interfaces\ReverserBase.cs" />
+    <Compile Include="Interfaces\ReverseTemplateT1.cs" />
+    <Compile Include="Interfaces\ReverseTemplateT2.cs" />
     <Compile Include="OpCodeArguments\OpCodeIntArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeUShortArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeByteArrayArgument.cs" />

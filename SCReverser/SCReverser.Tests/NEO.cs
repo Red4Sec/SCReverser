@@ -10,6 +10,19 @@ namespace SCReverser.Tests
     public class NEO
     {
         [TestMethod]
+        public void ParseTemplate()
+        {
+            NeoTemplate n = new NeoTemplate();
+
+            IReverser reverser = n.CreateReverser();
+            Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
+
+            IDebugger debugger = n.CreateDebugger(instructions);
+
+            Assert.IsInstanceOfType(debugger, typeof(NeoDebugger));
+            Assert.IsInstanceOfType(reverser, typeof(NeoReverser));
+        }
+        [TestMethod]
         public void ParseTest()
         {
             IReverser reverser = new NeoReverser();

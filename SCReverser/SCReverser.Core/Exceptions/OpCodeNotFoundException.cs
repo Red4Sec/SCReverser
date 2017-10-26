@@ -11,6 +11,6 @@ namespace SCReverser.Core.Exceptions
         /// <summary>
         /// OpCode
         /// </summary>
-        public int OpCode { get; set; }
+        public byte[] OpCode { get; set; }
     }
 }

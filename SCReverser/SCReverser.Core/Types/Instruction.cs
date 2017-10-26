@@ -32,13 +32,16 @@ namespace SCReverser.Core.Types
         /// <param name="stream">Stream</param>
         public virtual int Write(Stream stream)
         {
+            int l = 0;
+            
             // Write OpCode
-            int l = OpCode.Write(stream);
+            if (OpCode != null) l += OpCode.Write(stream);
+            
             // Write arguments
-            l += Argument.Write(stream);
+            if (Argument != null) l += Argument.Write(stream);
+
             return l;
         }
-
         /// <summary>
         /// String representation
         /// </summary>
