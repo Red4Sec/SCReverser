@@ -10,14 +10,14 @@ namespace SCReverser.Core.Interfaces
 {
     public class DebuggerBase : IDebugger
     {
-        protected Dictionary<uint, uint> Offsets = new Dictionary<uint, uint>();
+        protected readonly Dictionary<uint, uint> Offsets = new Dictionary<uint, uint>();
 
         /// <summary>
         /// Delegate for On instruction event
         /// </summary>
         /// <param name="sender">Debugger</param>
-        /// <param name="currentInstruction">Current instruction</param>
-        public delegate void delOnInstructionChanged(IDebugger sender, uint currentInstruction);
+        /// <param name="instructionIndex">Instruction index</param>
+        public delegate void delOnInstructionChanged(IDebugger sender, uint instructionIndex);
         /// <summary>
         /// On instruction changed event
         /// </summary>
