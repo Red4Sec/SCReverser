@@ -253,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NeoDebugger.cs" />
+    <Compile Include="NeoDebuggerConfig.cs" />
     <Compile Include="NeoReverser.cs" />
     <Compile Include="NeoTemplate.cs" />
     <Compile Include="OpCodeArguments\OpCodeVarByteArrayArgument.cs" />

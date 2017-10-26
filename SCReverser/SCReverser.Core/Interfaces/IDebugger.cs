@@ -1,14 +1,32 @@
-﻿using SCReverser.Core.Types;
+﻿using SCReverser.Core.Enums;
+using SCReverser.Core.Types;
 using System;
+using System.Collections.ObjectModel;
 
 namespace SCReverser.Core.Interfaces
 {
     public interface IDebugger : IDisposable
     {
         /// <summary>
+        /// On instruction changed event
+        /// </summary>
+        event DebuggerBase.delOnInstructionChanged OnInstructionChanged;
+        /// <summary>
+        /// On breakpoint raised
+        /// </summary>
+        event DebuggerBase.delOnInstructionChanged OnBreakPoint;
+        /// <summary>
+        /// BreakPoints
+        /// </summary>
+        ObservableCollection<uint> BreakPoints { get; }
+        /// <summary>
+        /// Debugger state
+        /// </summary>
+        DebuggerState State { get; }
+        /// <summary>
         /// Invocation stack count
         /// </summary>
-        uint InvocationStackCount { get;  }
+        uint InvocationStackCount { get; }
         /// <summary>
         /// Current Instruction Index
         /// </summary>
@@ -21,6 +39,14 @@ namespace SCReverser.Core.Interfaces
         /// Instructions
         /// </summary>
         Instruction[] Instructions { get; }
+        /// <summary>
+        /// Have any breakpoint ?
+        /// </summary>
+        bool HaveBreakPoints { get; }
+        /// <summary>
+        /// Initialize debuger
+        /// </summary>
+        bool Initialize();
         /// <summary>
         /// Resume
         /// </summary>

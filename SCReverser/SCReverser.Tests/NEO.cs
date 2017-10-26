@@ -1,7 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Neo.SmartContract;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using SCReverser.NEO;
+using System.IO;
 using System.Linq;
 
 namespace SCReverser.Tests
@@ -9,25 +12,51 @@ namespace SCReverser.Tests
     [TestClass]
     public class NEO
     {
-        [TestMethod]
-        public void ParseTemplate()
+        NeoTemplate CreateTemplate()
         {
-            NeoTemplate n = new NeoTemplate();
+            return new NeoTemplate();
+        }
+
+        [TestMethod]
+        public void DebugTest()
+        {
+            NeoTemplate n = CreateTemplate();
 
             IReverser reverser = n.CreateReverser();
             Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
 
-            IDebugger debugger = n.CreateDebugger(instructions);
+            using (NeoDebugger debugger = n.CreateDebugger(instructions))
+            {
+                debugger.BreakPoints.Add(0);
+                debugger.BreakPoints.Add(1);
 
-            Assert.IsInstanceOfType(debugger, typeof(NeoDebugger));
-            Assert.IsInstanceOfType(reverser, typeof(NeoReverser));
+                // Prevent form
+                debugger.Initialize(new NeoDebuggerConfig()
+                {
+                    TriggerType = TriggerType.Application,
+                });
+
+                debugger.Execute();
+
+                Assert.IsTrue(debugger.CurrentInstructionIndex == 0 && debugger.State.HasFlag(DebuggerState.BreakPoint));
+
+                debugger.StepInto();
+
+                Assert.IsTrue(debugger.CurrentInstructionIndex == 1 && debugger.State.HasFlag(DebuggerState.BreakPoint));
+            }
         }
         [TestMethod]
         public void ParseTest()
         {
-            IReverser reverser = new NeoReverser();
+            // Do the job
+            IReverseTemplate n = CreateTemplate();
+            IReverser reverser = n.CreateReverser();
+
+            Assert.IsInstanceOfType(reverser, typeof(NeoReverser));
+
             Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
 
+            // Parse test
             Assert.IsTrue(instructions.Length == SmartContractSampleTxt.Length);
             Assert.IsTrue(instructions.LastOrDefault().Offset == 0x0F1C);
 
@@ -44,6 +73,15 @@ namespace SCReverser.Tests
 
                 Assert.AreEqual(sp[0], instructions[x].Offset.ToString("x2").PadLeft(4, '0').ToUpperInvariant());
                 Assert.AreEqual(sp[1], instructions[x].OpCode.Name);
+            }
+
+            // Write test
+            using (MemoryStream ms = new MemoryStream())
+            {
+                foreach (Instruction i in instructions)
+                    i.Write(ms);
+
+                Assert.IsTrue(ms.ToArray().SequenceEqual(SmartContractSampleRaw));
             }
         }
 

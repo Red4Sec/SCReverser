@@ -2,6 +2,8 @@
 using SCReverser.Core.Types;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -87,26 +89,44 @@ namespace SCReverser.Core.Interfaces
         {
             Instructions = instructions;
             BreakPoints = new ObservableCollection<uint>();
-            CurrentInstructionIndex = 0;
             State = DebuggerState.None;
+            InvocationStackCount = 0;
+            CurrentInstructionIndex = 0;
         }
         /// <summary>
-        /// Run
+        /// Initialize debuger
         /// </summary>
-        /// <param name="instructions">Instructions</param>
-        public virtual void Run(params Instruction[] instructions)
+        public virtual bool Initialize()
         {
-            State = DebuggerState.Run;
-            Instructions = instructions;
-            CurrentInstructionIndex = 0;
-            InvocationStackCount = 0;
+            // Check Initialize method with one parameter like this
+            //      public bool Initialize(NeoDebuggerConfig config)
+
+            Type t = GetType();
+
+            // Get method
+            MethodInfo mi = t.GetMethods()
+                .Where(u => u.Name == "Initialize")
+                .Where(u => u.GetParameters().Count() == 1)
+                .FirstOrDefault();
+
+            if (mi != null)
+            {
+                object par = Activator.CreateInstance(mi.GetParameters()[0].ParameterType);
+
+                if (!FEditConfig.Configure(par))
+                    return false;
+
+                mi.Invoke(this, new object[] { par });
+            }
+
+            return true;
         }
         /// <summary>
         /// Free resources
         /// </summary>
         public virtual void Dispose()
         {
-            State = DebuggerState.Disposed;
+            State |= DebuggerState.Disposed;
         }
         /// <summary>
         /// Step into

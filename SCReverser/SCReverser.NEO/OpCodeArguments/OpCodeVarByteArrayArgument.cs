@@ -52,10 +52,40 @@ namespace SCReverser.NEO.OpCodeArguments
         /// <returns></returns>
         public override int Write(Stream stream)
         {
-            // TODO Write VarInt logic
+            // Write VarInt logic
+            WriteVarInt(stream, RawValue == null ? 0 : RawValue.Length);
 
             // Write RawValue
             return base.Write(stream);
+        }
+        /// <summary>
+        /// Write var int
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        /// <param name="value">Value</param>
+        public static void WriteVarInt(Stream stream, long value)
+        {
+            if (value < 0) throw new ArgumentOutOfRangeException();
+
+            if (value < 0xFD)
+            {
+                stream.WriteByte((byte)value);
+            }
+            else if (value <= 0xFFFF)
+            {
+                stream.WriteByte(0xFD);
+                stream.Write(((ushort)value).ToByteArray(), 0, 2);
+            }
+            else if (value <= 0xFFFFFFFF)
+            {
+                stream.WriteByte(0xFE);
+                stream.Write(((uint)value).ToByteArray(), 0, 4);
+            }
+            else
+            {
+                stream.WriteByte(0xFF);
+                stream.Write(value.ToByteArray(), 0, 8);
+            }
         }
         /// <summary>
         /// Read Var Int logic from NEO

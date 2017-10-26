@@ -32,6 +32,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -43,6 +45,12 @@
     <Compile Include="Enums\DebuggerState.cs" />
     <Compile Include="Exceptions\OpCodeNotFoundException.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="FEditConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FEditConfig.Designer.cs">
+      <DependentUpon>FEditConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\DebuggerBase.cs" />
     <Compile Include="Interfaces\IDebugger.cs" />
     <Compile Include="Interfaces\IReverseTemplate.cs" />
@@ -61,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FEditConfig.resx">
+      <DependentUpon>FEditConfig.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

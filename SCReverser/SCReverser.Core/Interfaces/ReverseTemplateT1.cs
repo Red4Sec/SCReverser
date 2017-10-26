@@ -1,8 +1,10 @@
 ﻿using System;
+using SCReverser.Core.Types;
 
 namespace SCReverser.Core.Interfaces
 {
     public class ReverseTemplate<ReverserT> : IReverseTemplate
+        where ReverserT :IReverser
     {
         /// <summary>
         /// Template
@@ -33,6 +35,16 @@ namespace SCReverser.Core.Interfaces
         public ReverserT CreateReverser()
         {
             return Activator.CreateInstance<ReverserT>();
+        }
+
+        IReverser IReverseTemplate.CreateReverser()
+        {
+            return Activator.CreateInstance<ReverserT>();
+        }
+
+        public IDebugger CreateDebugger(params Instruction[] instructions)
+        {
+            throw new NotImplementedException();
         }
     }
 }

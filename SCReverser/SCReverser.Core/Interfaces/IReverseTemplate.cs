@@ -1,4 +1,5 @@
 ﻿using System;
+using SCReverser.Core.Types;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -20,5 +21,14 @@ namespace SCReverser.Core.Interfaces
         /// Debugger type
         /// </summary>
         Type DebuggerType { get; }
+        /// <summary>
+        /// Create reverser
+        /// </summary>
+        IReverser CreateReverser();
+        /// <summary>
+        /// Create debugger
+        /// </summary>
+        /// <param name="instructions">Instructions</param>
+        IDebugger CreateDebugger(params Instruction[] instructions);
     }
 }
