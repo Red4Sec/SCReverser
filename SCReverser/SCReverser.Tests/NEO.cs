@@ -12,15 +12,10 @@ namespace SCReverser.Tests
     [TestClass]
     public class NEO
     {
-        NeoTemplate CreateTemplate()
-        {
-            return new NeoTemplate();
-        }
-
         [TestMethod]
         public void DebugTest()
         {
-            NeoTemplate n = CreateTemplate();
+            NeoTemplate n = new NeoTemplate();
 
             IReverser reverser = n.CreateReverser();
             Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
@@ -67,7 +62,7 @@ namespace SCReverser.Tests
         public void ParseTest()
         {
             // Do the job
-            IReverseTemplate n = CreateTemplate();
+            IReverseTemplate n = new NeoTemplate();
             IReverser reverser = n.CreateReverser();
 
             Assert.IsInstanceOfType(reverser, typeof(NeoReverser));
