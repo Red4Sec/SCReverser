@@ -1,8 +1,4 @@
-﻿using Neo;
-using Neo.Core;
-using Neo.Cryptography.ECC;
-using Neo.Implementations.Blockchains.LevelDB;
-using Neo.IO.Caching;
+﻿using Neo.Core;
 using Neo.SmartContract;
 using Neo.VM;
 using SCReverser.Core.Enums;
@@ -16,7 +12,7 @@ namespace SCReverser.NEO
 {
     public class NeoDebugger : DebuggerBase
     {
-        bool HaveBlockChain;
+        Blockchain BlockChain;
         NeoDebuggerConfig Config;
         ApplicationEngine Engine;
 
@@ -26,7 +22,7 @@ namespace SCReverser.NEO
         public string GasConsumed { get; private set; }
 
         /// <summary>
-        /// Run
+        /// Constructor
         /// </summary>
         /// <param name="instructions">Instructions</param>
         public NeoDebugger(IEnumerable<Instruction> instructions) : base(instructions) { }
@@ -44,51 +40,18 @@ namespace SCReverser.NEO
             byte[] script;
             using (MemoryStream ms = new MemoryStream())
             {
-                foreach (Instruction i in Instructions) i.Write(ms);
+                //uint offset = 0;
+                foreach (Instruction i in Instructions)
+                {
+                    //i.Offset = offset;
+                    /*offset +=*/ i.Write(ms);
+                }
                 script = ms.ToArray();
             }
 
             // Prepare engine
 
-            IScriptContainer container = null;
-
-            // Internal object
-            Type cachedScriptTable = typeof(ECPoint).Assembly.GetType("Neo.SmartContract.CachedScriptTable");
-
-            DataCache<UInt160, AccountState> accounts;
-            DataCache<ECPoint, ValidatorState> validators;
-            DataCache<UInt256, AssetState> assets;
-            DataCache<UInt160, ContractState> contracts;
-            DataCache<StorageKey, StorageItem> storages;
-
-            if (!string.IsNullOrEmpty(config.BlockChainPath))
-            {
-                HaveBlockChain = true;
-                Blockchain.RegisterBlockchain(new LevelDBBlockchain(config.BlockChainPath));
-
-                // Real Blockchain
-
-                accounts = Blockchain.Default.CreateCache<UInt160, AccountState>();
-                validators = Blockchain.Default.CreateCache<ECPoint, ValidatorState>();
-                assets = Blockchain.Default.CreateCache<UInt256, AssetState>();
-                contracts = Blockchain.Default.CreateCache<UInt160, ContractState>();
-                storages = Blockchain.Default.CreateCache<StorageKey, StorageItem>();
-            }
-            else
-            {
-                // Fake Blockchain
-
-                accounts = new NeoFakeDbCache<UInt160, AccountState>();
-                validators = new NeoFakeDbCache<ECPoint, ValidatorState>();
-                assets = new NeoFakeDbCache<UInt256, AssetState>();
-                contracts = new NeoFakeDbCache<UInt160, ContractState>();
-                storages = new NeoFakeDbCache<StorageKey, StorageItem>();
-            }
-
-            // Create Engine
-            IScriptTable script_table = (IScriptTable)Activator.CreateInstance(cachedScriptTable, contracts);
-            StateMachine service = new StateMachine(accounts, validators, assets, contracts, storages);
-            Engine = new ApplicationEngine(Config.TriggerType, container, script_table, service, Fixed8.Zero, true);
+            Engine = config.CreateEngine(out BlockChain);
 
             // Load script
             Engine.LoadScript(script, false);
@@ -156,10 +119,10 @@ namespace SCReverser.NEO
             Engine = null;
 
             // Free blockchain
-            if (HaveBlockChain && Blockchain.Default != null)
+            if (BlockChain != null)
             {
-                HaveBlockChain = false;
-                Blockchain.Default.Dispose();
+                BlockChain.Dispose();
+                BlockChain = null;
             }
         }
     }

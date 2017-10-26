@@ -77,8 +77,7 @@ namespace SCReverser.Tests
             {
                 string[] sp = SmartContractSampleTxt[x].Split(' ');
 
-                int ix;
-                if (int.TryParse(sp[1], out ix))
+                if (int.TryParse(sp[1], out int ix))
                 {
                     // Fix push bytes
                     sp[1] = "PUSHBYTES" + sp[1];

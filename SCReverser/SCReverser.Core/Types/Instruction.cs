@@ -1,9 +1,10 @@
-﻿using SCReverser.Core.OpCodeArguments;
+﻿using SCReverser.Core.Interfaces;
+using SCReverser.Core.OpCodeArguments;
 using System.IO;
 
 namespace SCReverser.Core.Types
 {
-    public class Instruction
+    public class Instruction : IWritable
     {
         /// <summary>
         /// Instruction index
@@ -30,13 +31,13 @@ namespace SCReverser.Core.Types
         /// Write instruction
         /// </summary>
         /// <param name="stream">Stream</param>
-        public virtual int Write(Stream stream)
+        public virtual uint Write(Stream stream)
         {
-            int l = 0;
-            
+            uint l = 0;
+
             // Write OpCode
             if (OpCode != null) l += OpCode.Write(stream);
-            
+
             // Write arguments
             if (Argument != null) l += Argument.Write(stream);
 

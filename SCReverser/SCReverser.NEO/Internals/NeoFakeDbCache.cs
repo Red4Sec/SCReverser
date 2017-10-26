@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SCReverser.NEO
+namespace SCReverser.NEO.Internals
 {
     /// <summary>
     /// Fake DataCache for work without BlockChain

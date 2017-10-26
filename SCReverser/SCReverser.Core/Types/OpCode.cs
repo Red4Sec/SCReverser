@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using SCReverser.Core.Interfaces;
+using System.IO;
 
 namespace SCReverser.Core.Types
 {
-    public class OpCode
+    public class OpCode : IWritable
     {
         /// <summary>
         /// Value
@@ -21,12 +22,12 @@ namespace SCReverser.Core.Types
         /// Write OpCode
         /// </summary>
         /// <param name="stream">Stream</param>
-        public int Write(Stream stream)
+        public uint Write(Stream stream)
         {
             int l = RawValue == null ? 0 : RawValue.Length;
             if (l > 0) stream.Write(RawValue, 0, l);
 
-            return l;
+            return (uint)l;
         }
         /// <summary>
         /// String representation

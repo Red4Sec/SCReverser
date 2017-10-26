@@ -50,41 +50,45 @@ namespace SCReverser.NEO.OpCodeArguments
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public override int Write(Stream stream)
+        public override uint Write(Stream stream)
         {
             // Write VarInt logic
-            WriteVarInt(stream, RawValue == null ? 0 : RawValue.Length);
+            uint r = WriteVarInt(stream, RawValue == null ? 0 : RawValue.Length);
 
             // Write RawValue
-            return base.Write(stream);
+            return r + base.Write(stream);
         }
         /// <summary>
         /// Write var int
         /// </summary>
         /// <param name="stream">Stream</param>
         /// <param name="value">Value</param>
-        public static void WriteVarInt(Stream stream, long value)
+        public static uint WriteVarInt(Stream stream, long value)
         {
             if (value < 0) throw new ArgumentOutOfRangeException();
 
             if (value < 0xFD)
             {
                 stream.WriteByte((byte)value);
+                return 1;
             }
             else if (value <= 0xFFFF)
             {
                 stream.WriteByte(0xFD);
                 stream.Write(((ushort)value).ToByteArray(), 0, 2);
+                return 3;
             }
             else if (value <= 0xFFFFFFFF)
             {
                 stream.WriteByte(0xFE);
                 stream.Write(((uint)value).ToByteArray(), 0, 4);
+                return 5;
             }
             else
             {
                 stream.WriteByte(0xFF);
                 stream.Write(value.ToByteArray(), 0, 8);
+                return 9;
             }
         }
         /// <summary>

@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\DebuggerBase.cs" />
     <Compile Include="Interfaces\IDebugger.cs" />
     <Compile Include="Interfaces\IReverseTemplate.cs" />
+    <Compile Include="Interfaces\IWritable.cs" />
     <Compile Include="Interfaces\ReverserBase.cs" />
     <Compile Include="Interfaces\ReverseTemplateT1.cs" />
     <Compile Include="Interfaces\ReverseTemplateT2.cs" />

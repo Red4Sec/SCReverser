@@ -252,9 +252,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internals\CachedScriptTable.cs" />
     <Compile Include="NeoDebugger.cs" />
     <Compile Include="NeoDebuggerConfig.cs" />
-    <Compile Include="NeoFakeDbCache.cs" />
+    <Compile Include="Internals\NeoFakeDbCache.cs" />
     <Compile Include="NeoReverser.cs" />
     <Compile Include="NeoTemplate.cs" />
     <Compile Include="OpCodeArguments\OpCodeVarByteArrayArgument.cs" />
