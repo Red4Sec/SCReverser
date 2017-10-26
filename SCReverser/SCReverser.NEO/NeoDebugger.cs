@@ -9,43 +9,12 @@ using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace SCReverser.NEO
 {
     public class NeoDebugger : DebuggerBase
     {
-        public class FakeCache<TKey, TValue> : DataCache<TKey, TValue>
-           where TKey : IEquatable<TKey>, Neo.IO.ISerializable
-            where TValue : class, Neo.IO.ISerializable, new()
-        {
-            Dictionary<TKey, TValue> Dic = new Dictionary<TKey, TValue>();
-
-            protected override IEnumerable<KeyValuePair<TKey, TValue>> FindInternal(byte[] key_prefix)
-            {
-                yield break;
-            }
-
-            protected override TValue GetInternal(TKey key)
-            {
-                TValue ret;
-                if (!Dic.TryGetValue(key, out ret))
-                    return default(TValue);
-
-                return ret;
-            }
-
-            protected override TValue TryGetInternal(TKey key)
-            {
-                TValue ret;
-                if (!Dic.TryGetValue(key, out ret))
-                    return default(TValue);
-
-                return ret;
-            }
-        }
-
         bool HaveBlockChain;
         NeoDebuggerConfig Config;
         ApplicationEngine Engine;
@@ -108,11 +77,11 @@ namespace SCReverser.NEO
             {
                 // Fake Blockchain
 
-                accounts = new FakeCache<UInt160, AccountState>();
-                validators = new FakeCache<ECPoint, ValidatorState>();
-                assets = new FakeCache<UInt256, AssetState>();
-                contracts = new FakeCache<UInt160, ContractState>();
-                storages = new FakeCache<StorageKey, StorageItem>();
+                accounts = new NeoFakeDbCache<UInt160, AccountState>();
+                validators = new NeoFakeDbCache<ECPoint, ValidatorState>();
+                assets = new NeoFakeDbCache<UInt256, AssetState>();
+                contracts = new NeoFakeDbCache<UInt160, ContractState>();
+                storages = new NeoFakeDbCache<StorageKey, StorageItem>();
             }
 
             // Create Engine

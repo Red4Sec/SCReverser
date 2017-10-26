@@ -123,6 +123,8 @@ namespace SCReverser.Core.Interfaces
 
             if (mi != null)
             {
+                // Configure object for Initialize debugger
+
                 object par = Activator.CreateInstance(mi.GetParameters()[0].ParameterType);
 
                 if (!FEditConfig.Configure(par))
