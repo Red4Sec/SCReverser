@@ -48,6 +48,18 @@ namespace SCReverser.Core.Interfaces
             }
         }
         /// <summary>
+        /// Get instruction by index
+        /// </summary>
+        /// <param name="instructionIndex">Instruction index</param>
+        public Instruction this[uint instructionIndex]
+        {
+            get
+            {
+                if (Instructions.Length <= instructionIndex) return null;
+                return Instructions[instructionIndex];
+            }
+        }
+        /// <summary>
         /// Current Instruction
         /// </summary>
         public Instruction CurrentInstruction

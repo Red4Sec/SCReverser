@@ -40,6 +40,11 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         Instruction[] Instructions { get; }
         /// <summary>
+        /// Get instruction by index
+        /// </summary>
+        /// <param name="instructionIndex">Instruction index</param>
+        Instruction this[uint instructionIndex] { get; }
+        /// <summary>
         /// Have any breakpoint ?
         /// </summary>
         bool HaveBreakPoints { get; }

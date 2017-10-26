@@ -1,4 +1,5 @@
 ﻿using Neo.SmartContract;
+
 namespace SCReverser.NEO
 {
     public class NeoDebuggerConfig
@@ -7,5 +8,9 @@ namespace SCReverser.NEO
         /// Trigger type
         /// </summary>
         public TriggerType TriggerType { get; set; } = TriggerType.Application;
+        /// <summary>
+        /// Blockchain Path
+        /// </summary>
+        public string BlockChainPath { get; set; } = null;
     }
 }

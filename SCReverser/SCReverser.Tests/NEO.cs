@@ -27,24 +27,42 @@ namespace SCReverser.Tests
 
             using (NeoDebugger debugger = n.CreateDebugger(instructions))
             {
-                debugger.BreakPoints.Add(0);
-                debugger.BreakPoints.Add(1);
+                // Check event
+                debugger.OnBreakPoint += (d, offset) =>
+                {
+                    // Remove BP
+                    debugger.BreakPoints.Remove(offset);
+                };
 
-                // Prevent form
+                // Add two demo BP
+                debugger.BreakPoints.Add(debugger[1].Offset);
+                debugger.BreakPoints.Add(debugger[2].Offset);
+
+                // Prevent config form calling directly (fail in unit test)
                 debugger.Initialize(new NeoDebuggerConfig()
                 {
                     TriggerType = TriggerType.Application,
+                    BlockChainPath = null,
                 });
+
+                // Run!
 
                 debugger.Execute();
 
-                Assert.IsTrue(debugger.CurrentInstructionIndex == 0 && debugger.State.HasFlag(DebuggerState.BreakPoint));
+                // Check BP Executed
+
+                Assert.IsTrue(debugger.CurrentInstructionIndex == debugger[1].Offset && debugger.State.HasFlag(DebuggerState.BreakPoint));
 
                 debugger.StepInto();
 
-                Assert.IsTrue(debugger.CurrentInstructionIndex == 1 && debugger.State.HasFlag(DebuggerState.BreakPoint));
+                Assert.IsTrue(debugger.CurrentInstructionIndex == debugger[2].Offset && debugger.State.HasFlag(DebuggerState.BreakPoint));
+
+                // Check event
+
+                Assert.IsTrue(!debugger.HaveBreakPoints);
             }
         }
+
         [TestMethod]
         public void ParseTest()
         {
