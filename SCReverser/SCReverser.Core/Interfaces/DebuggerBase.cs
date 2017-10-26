@@ -10,7 +10,12 @@ namespace SCReverser.Core.Interfaces
 {
     public class DebuggerBase : IDebugger
     {
+        /// <summary>
+        /// Cache offset - instruction index
+        /// </summary>
         protected readonly Dictionary<uint, uint> Offsets = new Dictionary<uint, uint>();
+
+        uint _CurrentInstructionIndex;
 
         /// <summary>
         /// Delegate for On instruction event
@@ -27,7 +32,6 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         public event delOnInstructionChanged OnBreakPoint;
 
-        uint _CurrentInstructionIndex;
         /// <summary>
         /// Current Instruction
         /// </summary>
