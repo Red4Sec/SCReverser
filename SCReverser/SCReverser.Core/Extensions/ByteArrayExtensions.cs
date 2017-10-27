@@ -12,7 +12,7 @@ namespace SCReverser.Core.Extensions
         public static string ToHexString(this byte[] buffer)
         {
             StringBuilder hex = new StringBuilder(buffer.Length * 2);
-            foreach (byte b in buffer) hex.Append(b.ToString("x2"));
+            foreach (byte b in buffer) hex.Append(b.ToString("X2"));
 
             return hex.ToString();
         }

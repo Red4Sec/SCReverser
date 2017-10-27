@@ -1,5 +1,6 @@
 ﻿using SCReverser.Core.Interfaces;
 using System.IO;
+using System.Text;
 
 namespace SCReverser.Core.OpCodeArguments
 {
@@ -12,6 +13,29 @@ namespace SCReverser.Core.OpCodeArguments
         /// Raw value
         /// </summary>
         public byte[] RawValue { get; protected set; }
+        /// <summary>
+        /// Ascii value
+        /// </summary>
+        public string ASCIIValue
+        {
+            get
+            {
+                if (RawValue != null)
+                {
+                    bool allAsciiPrintables = true;
+                    foreach (byte b in RawValue)
+                    {
+                        if (char.IsControl((char)b) && !char.IsWhiteSpace((char)b))
+                            allAsciiPrintables = false;
+                    }
+
+                    if (allAsciiPrintables)
+                        return Encoding.ASCII.GetString(RawValue).Trim();
+                }
+
+                return "";
+            }
+        }
         /// <summary>
         /// Read data from stream
         /// </summary>

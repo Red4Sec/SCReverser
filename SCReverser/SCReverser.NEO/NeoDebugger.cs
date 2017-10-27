@@ -4,16 +4,16 @@ using Neo.VM;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
+using SCReverser.NEO.Internals;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace SCReverser.NEO
 {
-    public class NeoDebugger : DebuggerBase
+    public class NeoDebugger : DebuggerBase<NeoConfig>
     {
-        Blockchain BlockChain;
-        NeoDebuggerConfig Config;
+        bool HaveBlockChain;
         ApplicationEngine Engine;
 
         /// <summary>
@@ -25,16 +25,11 @@ namespace SCReverser.NEO
         /// Constructor
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        public NeoDebugger(IEnumerable<Instruction> instructions) : base(instructions) { }
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        public bool Initialize(NeoDebuggerConfig config)
+        /// <param name="config">Configuration</param>
+        public NeoDebugger(IEnumerable<Instruction> instructions, NeoConfig config) : base(instructions, config)
         {
             // Set config
-            if (config == null) config = new NeoDebuggerConfig();
-
-            Config = config;
+            if (config == null) config = new NeoConfig();
 
             // Create script
             byte[] script;
@@ -44,15 +39,26 @@ namespace SCReverser.NEO
                 foreach (Instruction i in Instructions)
                 {
                     //i.Offset = offset;
-                    /*offset +=*/ i.Write(ms);
+                    /*offset +=*/
+                    i.Write(ms);
                 }
                 script = ms.ToArray();
             }
 
             // Prepare engine
 
-            Engine = config.CreateEngine(out BlockChain);
+            Blockchain bc;
+            Engine = config.CreateEngine(out bc);
 
+            // Register blockchain
+            if (bc != null)
+            {
+                HaveBlockChain = true;
+                
+                // Prevent double dispose errors
+                Blockchain.RegisterBlockchain(new NullBlockChain());
+                Blockchain.RegisterBlockchain(bc);
+            }
             // Load script
             Engine.LoadScript(script, false);
 
@@ -60,13 +66,11 @@ namespace SCReverser.NEO
             {
                 // Start
                 State |= DebuggerState.Initialized;
-                return true;
             }
             else
             {
                 State |= DebuggerState.Error;
             }
-            return false;
         }
         /// <summary>
         /// Step into
@@ -86,7 +90,7 @@ namespace SCReverser.NEO
 
                     // Copy state
                     if (Engine.State.HasFlag(VMState.HALT))
-                        State |= DebuggerState.Ended;
+                        State |= DebuggerState.Halt;
                     if (Engine.State.HasFlag(VMState.FAULT))
                         State |= DebuggerState.Error;
 
@@ -119,10 +123,9 @@ namespace SCReverser.NEO
             Engine = null;
 
             // Free blockchain
-            if (BlockChain != null)
+            if (HaveBlockChain)
             {
-                BlockChain.Dispose();
-                BlockChain = null;
+                Blockchain.RegisterBlockchain(new NullBlockChain());
             }
         }
     }

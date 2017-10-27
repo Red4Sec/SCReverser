@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Enums;
+﻿using SCReverser.Core.Delegates;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
 using System.Collections.ObjectModel;
@@ -10,11 +11,38 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// On instruction changed event
         /// </summary>
-        event DebuggerBase.delOnInstructionChanged OnInstructionChanged;
+        event OnInstructionDelegate OnInstructionChanged;
+        /// <summary>
+        /// On state changed
+        /// </summary>
+        event OnStateChangedDelegate OnStateChanged;
         /// <summary>
         /// On breakpoint raised
         /// </summary>
-        event DebuggerBase.delOnInstructionChanged OnBreakPoint;
+        event OnInstructionDelegate OnBreakPoint;
+
+        #region State variables
+        /// <summary>
+        /// Return true if have Disposed State
+        /// </summary>
+        bool IsDisposed { get; }
+        /// <summary>
+        /// Return true if have Halt State
+        /// </summary>
+        bool IsHalt { get; }
+        /// <summary>
+        /// Return true if have Error State
+        /// </summary>
+        bool IsError { get; }
+        /// <summary>
+        /// Return true if have BreakPoint State
+        /// </summary>
+        bool IsBreakPoint { get; }
+        /// <summary>
+        /// Return true if have Initialized State
+        /// </summary>
+        bool IsInitialized { get; }
+        #endregion
         /// <summary>
         /// BreakPoints
         /// </summary>
@@ -48,10 +76,6 @@ namespace SCReverser.Core.Interfaces
         /// Have any breakpoint ?
         /// </summary>
         bool HaveBreakPoints { get; }
-        /// <summary>
-        /// Initialize debuger
-        /// </summary>
-        bool Initialize();
         /// <summary>
         /// Resume
         /// </summary>

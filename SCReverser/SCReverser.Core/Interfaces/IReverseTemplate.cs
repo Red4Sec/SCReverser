@@ -1,6 +1,7 @@
 ﻿using System;
 using SCReverser.Core.Types;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -23,6 +24,11 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         Type DebuggerType { get; }
         /// <summary>
+        /// Config Type
+        /// </summary>
+        Type ConfigType { get; }
+
+        /// <summary>
         /// Create reverser
         /// </summary>
         IReverser CreateReverser();
@@ -30,6 +36,16 @@ namespace SCReverser.Core.Interfaces
         /// Create debugger
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        IDebugger CreateDebugger(IEnumerable<Instruction> instructions);
+        /// <param name="debugConfig">Config</param>
+        IDebugger CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig);
+        /// <summary>
+        /// Get Logo
+        /// </summary>
+        Image GetLogo();
+
+        /// <summary>
+        /// Get new config type
+        /// </summary>
+        object CreateNewConfig();
     }
 }

@@ -1,12 +1,13 @@
-﻿using System;
-using SCReverser.Core.Types;
+﻿using SCReverser.Core.Types;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace SCReverser.Core.Interfaces
 {
-    public class ReverseTemplate<ReverserT, CfgType> : IReverseTemplate
+    public class ReverseTemplate<ReverserT, DebuggerT, CfgType> : IReverseTemplate
         where ReverserT : IReverser
+        where DebuggerT : IDebugger
         where CfgType : class, new()
     {
         /// <summary>
@@ -21,11 +22,11 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Debugger
         /// </summary>
-        public Type DebuggerType => null;
+        public Type DebuggerType => typeof(DebuggerT);
         /// <summary>
         /// Have debugger
         /// </summary>
-        public bool HaveDebugger { get { return false; } }
+        public bool HaveDebugger { get { return true; } }
         /// <summary>
         /// Config Type
         /// </summary>
@@ -43,18 +44,26 @@ namespace SCReverser.Core.Interfaces
         {
             return Activator.CreateInstance<ReverserT>();
         }
+        /// <summary>
+        /// Create debugger
+        /// </summary>
+        /// <param name="instructions">Instructions</param>
+        /// <param name="debugConfig">Debugger config</param>
+        public DebuggerT CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        {
+            return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions, debugConfig });
+        }
 
         IReverser IReverseTemplate.CreateReverser()
         {
             return Activator.CreateInstance<ReverserT>();
         }
-
-        public IDebugger CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        IDebugger IReverseTemplate.CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
         {
-            throw new NotImplementedException();
+            return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions, debugConfig });
         }
         /// <summary>
-        /// Get new config Type
+        /// Get new config type
         /// </summary>
         public object CreateNewConfig()
         {

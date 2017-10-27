@@ -31,14 +31,15 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FEditConfig));
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.bOk = new System.Windows.Forms.Button();
             this.bCancel = new System.Windows.Forms.Button();
+            this.bOk = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // propertyGrid1
             // 
             resources.ApplyResources(this.propertyGrid1, "propertyGrid1");
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Name = "propertyGrid1";
             // 
             // panel1
@@ -49,18 +50,19 @@
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
+            // bCancel
+            // 
+            resources.ApplyResources(this.bCancel, "bCancel");
+            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.bCancel.Name = "bCancel";
+            this.bCancel.UseVisualStyleBackColor = true;
+            // 
             // bOk
             // 
             resources.ApplyResources(this.bOk, "bOk");
+            this.bOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.bOk.Name = "bOk";
             this.bOk.UseVisualStyleBackColor = true;
-            // 
-            // bCancel
-            // 
-            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.bCancel, "bCancel");
-            this.bCancel.Name = "bCancel";
-            this.bCancel.UseVisualStyleBackColor = true;
             // 
             // FEditConfig
             // 
@@ -70,6 +72,7 @@
             this.CancelButton = this.bCancel;
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.panel1);
+            this.MinimizeBox = false;
             this.Name = "FEditConfig";
             this.ShowIcon = false;
             this.panel1.ResumeLayout(false);

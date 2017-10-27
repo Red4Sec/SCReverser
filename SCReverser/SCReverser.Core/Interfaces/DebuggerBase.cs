@@ -1,37 +1,69 @@
-﻿using SCReverser.Core.Enums;
+﻿using SCReverser.Core.Delegates;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 
 namespace SCReverser.Core.Interfaces
 {
-    public class DebuggerBase : IDebugger
+    public class DebuggerBase<T> : IDebugger
     {
         /// <summary>
         /// Cache offset - instruction index
         /// </summary>
         protected readonly Dictionary<uint, uint> Offsets = new Dictionary<uint, uint>();
 
+        DebuggerState _State;
         uint _CurrentInstructionIndex;
 
+        #region State variables
         /// <summary>
-        /// Delegate for On instruction event
+        /// Return true if have Disposed State
         /// </summary>
-        /// <param name="sender">Debugger</param>
-        /// <param name="instructionIndex">Instruction index</param>
-        public delegate void delOnInstructionChanged(IDebugger sender, uint instructionIndex);
+        public bool IsDisposed { get { return State.HasFlag(DebuggerState.Disposed); } }
+        /// <summary>
+        /// Return true if have Halt State
+        /// </summary>
+        public bool IsHalt { get { return State.HasFlag(DebuggerState.Halt); } }
+        /// <summary>
+        /// Return true if have Error State
+        /// </summary>
+        public bool IsError { get { return State.HasFlag(DebuggerState.Error); } }
+        /// <summary>
+        /// Return true if have BreakPoint State
+        /// </summary>
+        public bool IsBreakPoint { get { return State.HasFlag(DebuggerState.BreakPoint); } }
+        /// <summary>
+        /// Return true if have Initialized State
+        /// </summary>
+        public bool IsInitialized { get { return State.HasFlag(DebuggerState.Initialized); } }
+        #endregion
+
         /// <summary>
         /// On instruction changed event
         /// </summary>
-        public event delOnInstructionChanged OnInstructionChanged;
+        public event OnInstructionDelegate OnInstructionChanged;
         /// <summary>
         /// On breakpoint raised
         /// </summary>
-        public event delOnInstructionChanged OnBreakPoint;
-
+        public event OnInstructionDelegate OnBreakPoint;
+        /// <summary>
+        /// On state changed
+        /// </summary>
+        public event OnStateChangedDelegate OnStateChanged;
+        /// <summary>
+        /// Configuration
+        /// </summary>
+        public T Config { get; private set; }
+        /// <summary>
+        /// Get Type of ConfigType
+        /// </summary>
+        public Type InitializeConfigType
+        {
+            get { return typeof(T); }
+        }
         /// <summary>
         /// Current Instruction
         /// </summary>
@@ -99,13 +131,28 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Debugger state
         /// </summary>
-        public DebuggerState State { get; protected set; }
+        public DebuggerState State
+        {
+            get { return _State; }
+            protected set
+            {
+                if (_State == value) return;
+
+                DebuggerState old = _State;
+                _State = value;
+
+                // Raise event
+                OnStateChanged?.Invoke(this, old, _State);
+            }
+        }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="instructions">Instructions</param>
-        protected DebuggerBase(IEnumerable< Instruction> instructions)
+        /// <param name="debugConfig">Debugger config</param>
+        protected DebuggerBase(IEnumerable<Instruction> instructions, T debugConfig)
         {
+            Config = debugConfig;
             Instructions = instructions.ToArray();
             BreakPoints = new ObservableCollection<uint>();
             State = DebuggerState.None;
@@ -119,36 +166,6 @@ namespace SCReverser.Core.Interfaces
                 Offsets.Add(i.Offset, ix);
                 ix++;
             }
-        }
-        /// <summary>
-        /// Initialize debuger
-        /// </summary>
-        public virtual bool Initialize()
-        {
-            // Check Initialize method with one parameter like this
-            //      public bool Initialize(NeoDebuggerConfig config)
-
-            Type t = GetType();
-
-            // Get method
-            MethodInfo mi = t.GetMethods()
-                .Where(u => u.Name == "Initialize")
-                .Where(u => u.GetParameters().Count() == 1)
-                .FirstOrDefault();
-
-            if (mi != null)
-            {
-                // Configure object for Initialize debugger
-
-                object par = Activator.CreateInstance(mi.GetParameters()[0].ParameterType);
-
-                if (!FEditConfig.Configure(par))
-                    return false;
-
-                mi.Invoke(this, new object[] { par });
-            }
-
-            return true;
         }
         /// <summary>
         /// Free resources
@@ -172,7 +189,7 @@ namespace SCReverser.Core.Interfaces
         {
             return
                 (
-                State.HasFlag(DebuggerState.Disposed) || State.HasFlag(DebuggerState.Error) || State.HasFlag(DebuggerState.Ended)
+                State.HasFlag(DebuggerState.Disposed) || State.HasFlag(DebuggerState.Error) || State.HasFlag(DebuggerState.Halt)
                 );
         }
         /// <summary>

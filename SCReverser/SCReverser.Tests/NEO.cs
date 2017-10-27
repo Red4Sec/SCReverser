@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neo.SmartContract;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using SCReverser.NEO;
+using SCReverser.NEO.Internals;
 using System.IO;
 using System.Linq;
 
@@ -20,7 +20,11 @@ namespace SCReverser.Tests
             IReverser reverser = n.CreateReverser();
             Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
 
-            using (NeoDebugger debugger = n.CreateDebugger(instructions))
+            using (IDebugger debugger = n.CreateDebugger(instructions, new NeoConfig()
+            {
+                TriggerType = ETriggerType.Application,
+                BlockChainPath = null,
+            }))
             {
                 // Check event
                 debugger.OnBreakPoint += (d, instructionIndex) =>
@@ -33,13 +37,6 @@ namespace SCReverser.Tests
                 debugger.BreakPoints.Add(1);
                 debugger.BreakPoints.Add(2);
 
-                // Prevent config form calling directly (fail in unit test)
-                debugger.Initialize(new NeoDebuggerConfig()
-                {
-                    TriggerType = TriggerType.Application,
-                    BlockChainPath = null,
-                });
-
                 // Run!
 
                 debugger.Execute();
@@ -48,7 +45,7 @@ namespace SCReverser.Tests
 
                 Assert.IsTrue(debugger.CurrentInstruction == debugger[1] && debugger.State.HasFlag(DebuggerState.BreakPoint));
 
-                debugger.StepInto();
+                debugger.Execute();
 
                 Assert.IsTrue(debugger.CurrentInstruction == debugger[2] && debugger.State.HasFlag(DebuggerState.BreakPoint));
 

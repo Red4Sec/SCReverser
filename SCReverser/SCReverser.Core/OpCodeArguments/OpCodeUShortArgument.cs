@@ -21,7 +21,7 @@ namespace SCReverser.Core.OpCodeArguments
         /// </summary>
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString("X4");
         }
     }
 }

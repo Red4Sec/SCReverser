@@ -123,12 +123,14 @@ namespace SCReverser.Core.Interfaces
                     {
                         RawValue = opCode,
                         Name = read.OpCode,
-                        Description = read.Description
+                        Description = read.Description,
+                        IsSysCall = read.IsSysCall
                     },
                     Argument = arg,
+                    Comment = arg.ASCIIValue,
                 };
 
-                offset += rBytes + OpCodeSize;
+                offset += (uint)(rBytes + OpCodeSize);
                 insNumber++;
             }
 

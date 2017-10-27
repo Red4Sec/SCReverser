@@ -1,5 +1,4 @@
-﻿using SCReverser.Core.Types;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 
 namespace SCReverser.Core.OpCodeArguments
@@ -38,24 +37,17 @@ namespace SCReverser.Core.OpCodeArguments
         {
             StringBuilder sb = new StringBuilder();
 
-            bool allAsciiPrintables = true;
             foreach (byte b in RawValue)
-            {
-                if (char.IsControl((char)b) && !char.IsWhiteSpace((char)b))
-                {
-                    allAsciiPrintables = false;
-                }
+                sb.Append(b.ToString("X2"));
 
-                sb.Append(b.ToString("x2"));
-            }
+            //string asc = ASCIIValue;
+            //if (!string.IsNullOrEmpty(asc))
+            //{
+            //    sb.AppendLine();
+            //    sb.Append(asc);
+            //}
 
-            if (allAsciiPrintables)
-            {
-                sb.AppendLine();
-                sb.Append(Encoding.ASCII.GetString(RawValue).Trim());
-            }
-
-            return sb.ToString().Trim();
+            return sb.ToString();//.Trim();
         }
     }
 }
