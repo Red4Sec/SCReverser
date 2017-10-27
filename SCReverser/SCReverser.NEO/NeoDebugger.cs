@@ -119,8 +119,11 @@ namespace SCReverser.NEO
             base.Dispose();
 
             // Clean engine
-            Engine.Dispose();
-            Engine = null;
+            if (Engine != null)
+            {
+                Engine.Dispose();
+                Engine = null;
+            }
 
             // Free blockchain
             if (HaveBlockChain)
