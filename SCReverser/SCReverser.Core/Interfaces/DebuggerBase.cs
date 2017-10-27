@@ -109,7 +109,10 @@ namespace SCReverser.Core.Interfaces
                 // Search index of this instruction
                 for (uint x = 0, m = (uint)(Instructions == null ? 0 : Instructions.Length); x < m; x++)
                     if (Instructions[x] == value)
+                    {
                         CurrentInstructionIndex = x;
+                        break;
+                    }
             }
         }
         /// <summary>
