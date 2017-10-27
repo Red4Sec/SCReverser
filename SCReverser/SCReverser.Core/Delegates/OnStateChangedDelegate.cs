@@ -3,7 +3,7 @@
 namespace SCReverser.Core.Delegates
 {
     /// <summary>
-    /// Delegate for On instruction event
+    /// Delegate for on instruction event
     /// </summary>
     /// <param name="sender">Debugger</param>
     /// <param name="oldState">Old state</param>
