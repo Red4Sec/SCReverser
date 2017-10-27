@@ -22,15 +22,13 @@ namespace SCReverser.Core.OpCodeArguments
             {
                 if (RawValue != null)
                 {
-                    bool allAsciiPrintables = true;
                     foreach (byte b in RawValue)
                     {
                         if (char.IsControl((char)b) && !char.IsWhiteSpace((char)b))
-                            allAsciiPrintables = false;
+                            return "";
                     }
 
-                    if (allAsciiPrintables)
-                        return Encoding.ASCII.GetString(RawValue).Trim();
+                    return Encoding.ASCII.GetString(RawValue).Trim();
                 }
 
                 return "";
