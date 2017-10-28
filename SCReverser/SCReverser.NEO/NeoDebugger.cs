@@ -7,6 +7,7 @@ using SCReverser.Core.Types;
 using SCReverser.NEO.Internals;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 namespace SCReverser.NEO
@@ -19,6 +20,7 @@ namespace SCReverser.NEO
         /// <summary>
         /// Gas consumed
         /// </summary>
+        [Category("NEO")]
         public string GasConsumed { get; private set; }
 
         /// <summary>
