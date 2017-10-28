@@ -300,10 +300,12 @@ namespace SCReverser
         void Stack_OnChange(object sender, EventArgs e)
         {
             GridStack.DataSource = Debugger == null ? null : Debugger.Stack.ToArray();
+            GridStack.ClearSelection();
         }
         void StackAlt_OnChange(object sender, EventArgs e)
         {
             GridAltStack.DataSource = Debugger == null ? null : Debugger.AltStack.ToArray();
+            GridAltStack.ClearSelection();
             SplitStack.RowStyles[1].Height = Debugger == null || Debugger.AltStack.Count <= 0 ? 0F : 50F;
         }
         void CleanDebugger()
@@ -605,6 +607,26 @@ namespace SCReverser
                         break;
                     }
             }
+        }
+        void GridOpCode_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hti = GridOpCode.HitTest(e.X, e.Y);
+                GridOpCode.ClearSelection();
+                if (hti.RowIndex < 0) return;
+
+                GridOpCode.Rows[hti.RowIndex].Selected = true;
+            }
+        }
+        void goHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Debugger == null || GridOpCode.SelectedRows.Count != 1) return;
+
+            DataGridViewRow r = GridOpCode.SelectedRows[0];
+            if (r.DataBoundItem == null || !(r.DataBoundItem is Instruction i)) return;
+
+            Debugger.CurrentInstruction = i;
         }
     }
 }
