@@ -1,9 +1,9 @@
-﻿using SCReverser.Core.Delegates;
+﻿using SCReverser.Core.Collections;
+using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
@@ -14,7 +14,8 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Cache offset - instruction index
         /// </summary>
-        protected readonly Dictionary<uint, uint> Offsets = new Dictionary<uint, uint>();
+        protected readonly Dictionary<uint, uint> OffsetToIndex = new Dictionary<uint, uint>();
+        protected readonly Dictionary<uint, uint> IndexToOffset = new Dictionary<uint, uint>();
 
         DebuggerState _State;
         uint _CurrentInstructionIndex;
@@ -87,10 +88,15 @@ namespace SCReverser.Core.Interfaces
         }
         #region
         /// <summary>
+        /// Stack
+        /// </summary>
+        [Browsable(false)]
+        public StackCollection Stack { get; private set; } = new StackCollection();
+        /// <summary>
         /// Current Instruction
         /// </summary>
         [Category("Debug")]
-        public uint CurrentInstructionIndex
+        public virtual uint CurrentInstructionIndex
         {
             get { return _CurrentInstructionIndex; }
             set
@@ -101,7 +107,7 @@ namespace SCReverser.Core.Interfaces
                 _CurrentInstructionIndex = value;
                 OnInstructionChanged?.Invoke(this, value);
 
-                if (BreakPoints.Contains(value))
+                if (Instructions[CurrentInstructionIndex].HaveBreakPoint)
                 {
                     // Raise breakpoint
                     State |= DebuggerState.BreakPoint;
@@ -145,18 +151,6 @@ namespace SCReverser.Core.Interfaces
                 return Instructions[instructionIndex];
             }
         }
-        #region BreakPoints
-        /// <summary>
-        /// BreakPoints
-        /// </summary>
-        [Category("BreakPoints")]
-        public ObservableCollection<uint> BreakPoints { get; private set; } = new ObservableCollection<uint>();
-        /// <summary>
-        /// Have any breakpoint ?
-        /// </summary>
-        [Category("BreakPoints")]
-        public bool HaveBreakPoints { get { return BreakPoints.Count > 0; } }
-        #endregion
         /// <summary>
         /// Instructions
         /// </summary>
@@ -179,7 +173,8 @@ namespace SCReverser.Core.Interfaces
             uint ix = 0;
             foreach (Instruction i in Instructions)
             {
-                Offsets.Add(i.Offset, ix);
+                OffsetToIndex.Add(i.Offset, ix);
+                IndexToOffset.Add(ix, i.Offset);
                 ix++;
             }
         }

@@ -38,7 +38,7 @@ namespace SCReverser.NEO
         /// Create Engine from config
         /// </summary>
         /// <param name="db">Return if have blockchain</param>
-        public ApplicationEngine CreateEngine(out Blockchain db)
+        public NeoEngine CreateEngine(out Blockchain db)
         {
             IScriptContainer container = null;
 
@@ -89,7 +89,7 @@ namespace SCReverser.NEO
                 default: return null;
             }
 
-            return new ApplicationEngine(t, container, script_table, service, Fixed8.Zero, true);
+            return new NeoEngine(t, container, script_table, service, Fixed8.Zero, true);
         }
     }
 }

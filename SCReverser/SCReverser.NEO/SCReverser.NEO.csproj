@@ -274,6 +274,8 @@
   <ItemGroup>
     <Compile Include="Internals\CachedScriptTable.cs" />
     <Compile Include="Internals\ETriggerType.cs" />
+    <Compile Include="Internals\NeoEngine.cs" />
+    <Compile Include="Internals\NeoStackItem.cs" />
     <Compile Include="Internals\NullBlockChain.cs" />
     <Compile Include="NeoDebugger.cs" />
     <Compile Include="NeoConfig.cs" />

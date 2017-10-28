@@ -66,6 +66,7 @@
     <Compile Include="Collections\InstructionCollection.cs" />
     <Compile Include="Collections\KeyValueCollection.cs" />
     <Compile Include="Collections\OcurrenceCollection.cs" />
+    <Compile Include="Collections\StackCollection.cs" />
     <Compile Include="Delegates\OnProgressDelegate.cs" />
     <Compile Include="Delegates\OnCheckOcurrenceDelegate.cs" />
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Types\Instruction.cs" />
     <Compile Include="Interfaces\IReverser.cs" />
     <Compile Include="Types\ReverseResult.cs" />
+    <Compile Include="Types\StackItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

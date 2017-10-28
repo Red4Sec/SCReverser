@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Delegates;
+﻿using SCReverser.Core.Collections;
+using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
@@ -40,9 +41,9 @@ namespace SCReverser.Core.Interfaces
         bool IsBreakPoint { get; }
         #endregion
         /// <summary>
-        /// BreakPoints
+        /// Stack
         /// </summary>
-        ObservableCollection<uint> BreakPoints { get; }
+        StackCollection Stack { get; }
         /// <summary>
         /// Debugger state
         /// </summary>
@@ -68,10 +69,6 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         /// <param name="instructionIndex">Instruction index</param>
         Instruction this[uint instructionIndex] { get; }
-        /// <summary>
-        /// Have any breakpoint ?
-        /// </summary>
-        bool HaveBreakPoints { get; }
         /// <summary>
         /// Resume
         /// </summary>

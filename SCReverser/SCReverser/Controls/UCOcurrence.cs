@@ -22,6 +22,8 @@ namespace SCReverser.Controls
         {
             InitializeComponent();
 
+            Grid.AutoGenerateColumns = false;
+
             Text = name;
             Original = ocurrences;
             Source = new DataTable();

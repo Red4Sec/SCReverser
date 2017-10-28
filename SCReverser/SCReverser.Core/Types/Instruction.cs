@@ -30,6 +30,10 @@ namespace SCReverser.Core.Types
         /// Comment
         /// </summary>
         public string Comment { get; set; }
+        /// <summary>
+        /// Have BreakPoint
+        /// </summary>
+        public bool HaveBreakPoint { get; set; }
 
         /// <summary>
         /// Write instruction

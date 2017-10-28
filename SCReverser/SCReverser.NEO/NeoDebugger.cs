@@ -1,5 +1,4 @@
 ﻿using Neo.Core;
-using Neo.SmartContract;
 using Neo.VM;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
@@ -14,14 +13,41 @@ namespace SCReverser.NEO
 {
     public class NeoDebugger : DebuggerBase<NeoConfig>
     {
+        Decimal _GasConsumed;
         bool HaveBlockChain;
-        ApplicationEngine Engine;
+        NeoEngine Engine;
 
         /// <summary>
         /// Gas consumed
         /// </summary>
         [Category("NEO")]
-        public string GasConsumed { get; private set; }
+        public string GasConsumed
+        {
+            get
+            {
+                return _GasConsumed.ToString("#0.0#######");
+            }
+        }
+
+        public override uint CurrentInstructionIndex
+        {
+            get { return base.CurrentInstructionIndex; }
+            set
+            {
+                if (Engine == null) return;
+
+                // Set the engine instruction pointer
+
+                uint val;
+                if (IndexToOffset.TryGetValue(value, out val))
+                {
+                    if (Engine.CurrentContext.InstructionPointer != val)
+                        Engine.CurrentContext.InstructionPointer = (int)val;
+
+                    base.CurrentInstructionIndex = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Constructor
@@ -56,7 +82,7 @@ namespace SCReverser.NEO
             if (bc != null)
             {
                 HaveBlockChain = true;
-                
+
                 // Prevent double dispose errors
                 Blockchain.RegisterBlockchain(new NullBlockChain());
                 Blockchain.RegisterBlockchain(bc);
@@ -83,6 +109,8 @@ namespace SCReverser.NEO
             {
                 try
                 {
+                    _GasConsumed += Engine.GetPricePublic();
+
                     Engine.StepInto();
 
                     // Copy state
@@ -92,9 +120,16 @@ namespace SCReverser.NEO
                         State |= DebuggerState.Error;
 
                     // Copy registers
-                    GasConsumed = Engine.GasConsumed.ToString();
                     InvocationStackCount = (uint)Engine.InvocationStack.Count;
-                    CurrentInstructionIndex = Offsets[(uint)Engine.CurrentContext.InstructionPointer];
+                    CurrentInstructionIndex = OffsetToIndex[(uint)Engine.CurrentContext.InstructionPointer];
+
+                    // Copy stack
+                    NeoStackItem[] it = new NeoStackItem[Engine.EvaluationStack.Count];
+
+                    for (int x = 0, m = it.Length; x < m; x++)
+                        it[x] = new NeoStackItem(Engine.EvaluationStack.Peek(x));
+
+                    Stack.CopyFrom(it);
                 }
                 catch (Exception e)
                 {

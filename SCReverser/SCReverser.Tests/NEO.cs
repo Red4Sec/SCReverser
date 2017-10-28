@@ -27,16 +27,18 @@ namespace SCReverser.Tests
                 BlockChainPath = null,
             }))
             {
+                bool bp1 = false, bp2 = false;
                 // Check event
                 debugger.OnBreakPoint += (d, instructionIndex) =>
                 {
                     // Remove BP
-                    debugger.BreakPoints.Remove(instructionIndex);
+                    if (instructionIndex == 1) bp1 = true;
+                    else if (instructionIndex == 2) bp2 = true;
                 };
 
                 // Add two demo BP
-                debugger.BreakPoints.Add(1);
-                debugger.BreakPoints.Add(2);
+                debugger.Instructions[1].HaveBreakPoint = true;
+                debugger.Instructions[2].HaveBreakPoint = true;
 
                 // Run!
 
@@ -52,7 +54,7 @@ namespace SCReverser.Tests
 
                 // Check event
 
-                Assert.IsTrue(!debugger.HaveBreakPoints);
+                Assert.IsTrue(bp1 && bp2);
             }
         }
 

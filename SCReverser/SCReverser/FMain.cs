@@ -8,6 +8,7 @@ using SCReverser.Core.Types;
 using SCReverser.NEO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace SCReverser
             EnableDisableDebugger();
 
             GridOpCode.AutoGenerateColumns = false;
+            GridStack.AutoGenerateColumns = false;
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -57,7 +59,7 @@ namespace SCReverser
         {
             base.OnClosed(e);
 
-            if (Debugger != null) Debugger.Dispose();
+            CleanDebugger();
         }
         void Instructions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -160,11 +162,7 @@ namespace SCReverser
             if (tag == null) return;
 
             if (Reverser != null) Reverser = null;
-            if (Debugger != null)
-            {
-                Debugger.Dispose();
-                Debugger = null;
-            }
+            CleanDebugger();
 
             if (Result != null)
             {
@@ -233,15 +231,14 @@ namespace SCReverser
                 Error(ex);
             }
         }
-        void Debugger_OnStateChanged(object sender, DebuggerState oldState, DebuggerState newState)
-        {
-            EnableDisableDebugger();
-        }
         void stepIntoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                if (Debugger != null) Debugger.StepInto();
+                if (Debugger != null)
+                {
+                    Debugger.StepInto();
+                }
             }
             catch (Exception ex)
             {
@@ -252,7 +249,10 @@ namespace SCReverser
         {
             try
             {
-                if (Debugger != null) Debugger.StepOver();
+                if (Debugger != null)
+                {
+                    Debugger.StepOver();
+                }
             }
             catch (Exception ex)
             {
@@ -263,7 +263,10 @@ namespace SCReverser
         {
             try
             {
-                if (Debugger != null) Debugger.StepOut();
+                if (Debugger != null)
+                {
+                    Debugger.StepOut();
+                }
             }
             catch (Exception ex)
             {
@@ -274,16 +277,48 @@ namespace SCReverser
         {
             try
             {
-                if (Debugger != null) Debugger.Dispose();
+                CleanDebugger();
 
                 Debugger = Template.CreateDebugger(Result.Instructions, CurrentConfig);
                 Debugger.OnStateChanged += Debugger_OnStateChanged;
+                Debugger.OnInstructionChanged += Debugger_OnInstructionChanged;
+                Debugger.Stack.OnChange += Stack_OnChange;
+
                 EnableDisableDebugger();
+                Debugger_OnInstructionChanged(null, 0);
             }
             catch (Exception ex)
             {
                 Error(ex);
             }
+        }
+
+        void Stack_OnChange(object sender, EventArgs e)
+        {
+            GridStack.DataSource = Debugger.Stack.ToArray();
+        }
+
+        void CleanDebugger()
+        {
+            if (Debugger == null) return;
+
+            GridStack.DataSource = null;
+
+            Debugger.OnStateChanged -= Debugger_OnStateChanged;
+            Debugger.OnInstructionChanged -= Debugger_OnInstructionChanged;
+            Debugger.Dispose();
+
+            Debugger_OnInstructionChanged(null, 0);
+        }
+
+        void Debugger_OnStateChanged(object sender, DebuggerState oldState, DebuggerState newState)
+        {
+            EnableDisableDebugger();
+        }
+        void Debugger_OnInstructionChanged(object sender, uint instructionIndex)
+        {
+            GridOpCode.Invalidate();
+            Registers.Refresh();
         }
         void Error(Exception ex)
         {
@@ -440,6 +475,119 @@ namespace SCReverser
             {
                 // Focus Search Textbox
                 t.Controls[0].Focus();
+            }
+        }
+        /// <summary>
+        /// Create breakpoint
+        /// </summary>
+        void GridOpCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                foreach (DataGridViewRow r in GridOpCode.SelectedRows)
+                {
+                    if (r.IsNewRow || r.DataBoundItem == null) continue;
+
+                    if (r.DataBoundItem is Instruction i)
+                    {
+                        i.HaveBreakPoint = !i.HaveBreakPoint;
+                        GridOpCode.InvalidateRow(r.Index);
+                    }
+                }
+            }
+        }
+        void GridOpCode_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            DataGridViewRow r = GridOpCode.Rows[e.RowIndex];
+            if (r == null || r.IsNewRow || r.DataBoundItem == null) return;
+
+            if (!(r.DataBoundItem is Instruction i)) return;
+
+            e.PaintCells(e.RowBounds, DataGridViewPaintParts.All);
+            e.Handled = true;
+
+            if (Debugger != null && Debugger.CurrentInstructionIndex == i.Index)
+            {
+                bool error = Debugger.IsError;
+
+                using (Brush br = new SolidBrush(Color.FromArgb(30, error ? Color.DarkRed : Color.Lime)))
+                {
+                    e.Graphics.FillRectangle(br, e.RowBounds);
+                    e.Graphics.DrawRectangle(error ? Pens.Red : Pens.Green,
+                        e.RowBounds.X, e.RowBounds.Y, e.RowBounds.Width - 1, e.RowBounds.Height - 1);
+                }
+            }
+
+            if (i.HaveBreakPoint)
+            {
+                using (Brush br = new SolidBrush(Color.FromArgb(50, Color.Red)))
+                {
+                    e.Graphics.FillRectangle(br, e.RowBounds);
+                }
+            }
+        }
+        void GridOpCode_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex != 1) return;
+
+            DataGridViewRow r = GridOpCode.Rows[e.RowIndex];
+            if (r == null || r.IsNewRow || r.DataBoundItem == null) return;
+
+            if (!(r.DataBoundItem is Instruction i)) return;
+
+            DataGridViewCell cell = r.Cells[e.ColumnIndex];
+
+            cell.ToolTipText = i.OpCode.Description;
+        }
+        void FMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F5:
+                    {
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+
+                        if (toolStripButton3.Enabled && toolStripButton3.Visible)
+                            executeToolStripMenuItem_Click(sender, e);
+                        else
+                        if (toolStripButton7.Enabled && toolStripButton7.Visible)
+                            stopToolStripMenuItem_Click(sender, e);
+
+                        break;
+                    }
+                case Keys.F6:
+                    {
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+
+                        if (toolStripButton4.Enabled && toolStripButton4.Visible)
+                            stepIntoToolStripMenuItem_Click(sender, e);
+                        break;
+                    }
+                case Keys.F7:
+                    {
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+
+                        if (toolStripButton5.Enabled && toolStripButton5.Visible)
+                            stepOverToolStripMenuItem_Click(sender, e);
+                        break;
+                    }
+                case Keys.F8:
+                    {
+                        e.Handled = true;
+                        e.SuppressKeyPress = true;
+
+                        if (toolStripButton6.Enabled && toolStripButton6.Visible)
+                            stepOutToolStripMenuItem_Click(sender, e);
+                        break;
+                    }
             }
         }
     }
