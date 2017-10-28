@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Types;
+﻿using SCReverser.Core.Enums;
+using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,7 +32,10 @@ namespace SCReverser.Core.Interfaces
         /// Config Type
         /// </summary>
         public Type ConfigType { get { return typeof(CfgType); } }
-
+        /// <summary>
+        /// Flags
+        /// </summary>
+        public virtual ETemplateFlags Flags { get { return ETemplateFlags.None; } }
         /// <summary>
         /// Constructor
         /// </summary>

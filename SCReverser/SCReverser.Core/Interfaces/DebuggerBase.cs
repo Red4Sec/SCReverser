@@ -93,6 +93,11 @@ namespace SCReverser.Core.Interfaces
         [Browsable(false)]
         public StackCollection Stack { get; private set; } = new StackCollection();
         /// <summary>
+        /// AltStack
+        /// </summary>
+        [Browsable(false)]
+        public StackCollection AltStack { get; private set; } = new StackCollection();
+        /// <summary>
         /// Current Instruction
         /// </summary>
         [Category("Debug")]

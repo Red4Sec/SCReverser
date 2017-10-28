@@ -89,6 +89,7 @@ namespace SCReverser.NEO
             }
             // Load script
             Engine.LoadScript(script, false);
+            //Engine.LoadScript(verifiable.Scripts[i].InvocationScript, true); // VerifyScripts
 
             if (Config == null || Engine == null)
             {
@@ -113,23 +114,39 @@ namespace SCReverser.NEO
 
                     Engine.StepInto();
 
-                    // Copy state
-                    if (Engine.State.HasFlag(VMState.HALT))
-                        State |= DebuggerState.Halt;
-                    if (Engine.State.HasFlag(VMState.FAULT))
-                        State |= DebuggerState.Error;
-
                     // Copy registers
                     InvocationStackCount = (uint)Engine.InvocationStack.Count;
-                    CurrentInstructionIndex = OffsetToIndex[(uint)Engine.CurrentContext.InstructionPointer];
 
                     // Copy stack
-                    NeoStackItem[] it = new NeoStackItem[Engine.EvaluationStack.Count];
+                    int evc = Engine.EvaluationStack.Count;
+                    NeoStackItem[] it = new NeoStackItem[evc];
 
-                    for (int x = 0, m = it.Length; x < m; x++)
+                    for (int x = 0, m = evc; x < m; x++)
                         it[x] = new NeoStackItem(Engine.EvaluationStack.Peek(x));
 
                     Stack.CopyFrom(it);
+
+                    evc = Engine.AltStack.Count;
+                    it = new NeoStackItem[evc];
+
+                    for (int x = 0, m = evc; x < m; x++)
+                        it[x] = new NeoStackItem(Engine.AltStack.Peek(x));
+
+                    AltStack.CopyFrom(it);
+
+                    // Copy state
+                    if (Engine.State.HasFlag(VMState.HALT))
+                    {
+                        State |= DebuggerState.Halt;
+                    }
+                    else
+                    {
+                        // Only Copy when not halt
+                        CurrentInstructionIndex = OffsetToIndex[(uint)Engine.CurrentContext.InstructionPointer];
+                    }
+
+                    if (Engine.State.HasFlag(VMState.FAULT))
+                        State |= DebuggerState.Error;
                 }
                 catch (Exception e)
                 {

@@ -72,6 +72,7 @@
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
     <Compile Include="Delegates\OnInstructionDelegate.cs" />
     <Compile Include="Enums\DebuggerState.cs" />
+    <Compile Include="Enums\ETemplateFlags.cs" />
     <Compile Include="Exceptions\OpCodeNotFoundException.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="FEditConfig.cs">

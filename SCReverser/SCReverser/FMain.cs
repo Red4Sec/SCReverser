@@ -46,6 +46,9 @@ namespace SCReverser
 
             GridOpCode.AutoGenerateColumns = false;
             GridStack.AutoGenerateColumns = false;
+            GridAltStack.AutoGenerateColumns = false;
+
+            StackAlt_OnChange(null, null);
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -280,9 +283,11 @@ namespace SCReverser
                 CleanDebugger();
 
                 Debugger = Template.CreateDebugger(Result.Instructions, CurrentConfig);
+
                 Debugger.OnStateChanged += Debugger_OnStateChanged;
                 Debugger.OnInstructionChanged += Debugger_OnInstructionChanged;
                 Debugger.Stack.OnChange += Stack_OnChange;
+                Debugger.AltStack.OnChange += StackAlt_OnChange;
 
                 EnableDisableDebugger();
                 Debugger_OnInstructionChanged(null, 0);
@@ -292,22 +297,29 @@ namespace SCReverser
                 Error(ex);
             }
         }
-
         void Stack_OnChange(object sender, EventArgs e)
         {
-            GridStack.DataSource = Debugger.Stack.ToArray();
+            GridStack.DataSource = Debugger == null ? null : Debugger.Stack.ToArray();
         }
-
+        void StackAlt_OnChange(object sender, EventArgs e)
+        {
+            GridAltStack.DataSource = Debugger == null ? null : Debugger.AltStack.ToArray();
+            SplitStack.RowStyles[1].Height = Debugger == null || Debugger.AltStack.Count <= 0 ? 0F : 50F;
+        }
         void CleanDebugger()
         {
             if (Debugger == null) return;
 
-            GridStack.DataSource = null;
-
+            Debugger.Stack.OnChange -= Stack_OnChange;
+            Debugger.AltStack.OnChange -= StackAlt_OnChange;
             Debugger.OnStateChanged -= Debugger_OnStateChanged;
             Debugger.OnInstructionChanged -= Debugger_OnInstructionChanged;
-            Debugger.Dispose();
 
+            Debugger.Dispose();
+            Debugger = null;
+
+            Stack_OnChange(null, null);
+            StackAlt_OnChange(null, null);
             Debugger_OnInstructionChanged(null, 0);
         }
 
@@ -319,6 +331,10 @@ namespace SCReverser
         {
             GridOpCode.Invalidate();
             Registers.Refresh();
+
+            GridOpCode.ClearSelection();
+            GridOpCode.Rows[(int)instructionIndex].Selected = true;
+            GridOpCode.CurrentCell = GridOpCode.Rows[(int)instructionIndex].Cells[3];
         }
         void Error(Exception ex)
         {

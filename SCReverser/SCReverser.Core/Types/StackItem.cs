@@ -26,6 +26,7 @@ namespace SCReverser.Core.Types
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is StackItem i)) return false;
+
             return i.Value == Value;
         }
         /// <summary>

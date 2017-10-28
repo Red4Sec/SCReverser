@@ -45,6 +45,10 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         StackCollection Stack { get; }
         /// <summary>
+        /// AltStack
+        /// </summary>
+        StackCollection AltStack { get; }
+        /// <summary>
         /// Debugger state
         /// </summary>
         DebuggerState State { get; }

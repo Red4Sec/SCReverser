@@ -2,6 +2,7 @@
 using SCReverser.Core.Types;
 using System.Collections.Generic;
 using System.Drawing;
+using SCReverser.Core.Enums;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -27,6 +28,10 @@ namespace SCReverser.Core.Interfaces
         /// Config Type
         /// </summary>
         Type ConfigType { get; }
+        /// <summary>
+        /// Flags
+        /// </summary>
+        ETemplateFlags Flags { get; }
 
         /// <summary>
         /// Create reverser
