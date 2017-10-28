@@ -1,4 +1,5 @@
 ﻿using SCReverser.Core.Collections;
+using SCReverser.Core.Converters;
 using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
@@ -118,6 +119,19 @@ namespace SCReverser.Core.Interfaces
                     State |= DebuggerState.BreakPoint;
                     OnBreakPoint?.Invoke(this, value);
                 }
+            }
+        }
+        /// <summary>
+        /// Current instruction offset
+        /// </summary>
+        [Category("Debug"), TypeConverter(typeof(UInt32HexTypeConverter))]
+        public uint CurrentInstructionOffset
+        {
+            get { return CurrentInstruction.Offset; }
+            set
+            {
+                if (OffsetToIndex.TryGetValue(value, out uint v))
+                    CurrentInstructionIndex = v;
             }
         }
         /// <summary>

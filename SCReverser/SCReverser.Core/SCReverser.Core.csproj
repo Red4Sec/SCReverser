@@ -67,6 +67,7 @@
     <Compile Include="Collections\KeyValueCollection.cs" />
     <Compile Include="Collections\OcurrenceCollection.cs" />
     <Compile Include="Collections\StackCollection.cs" />
+    <Compile Include="Converters\UInt32HexTypeConverter.cs" />
     <Compile Include="Delegates\OnProgressDelegate.cs" />
     <Compile Include="Delegates\OnCheckOcurrenceDelegate.cs" />
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />

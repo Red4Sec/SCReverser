@@ -61,6 +61,10 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         uint CurrentInstructionIndex { get; set; }
         /// <summary>
+        /// Current Instruction offset
+        /// </summary>
+        uint CurrentInstructionOffset { get; set; }
+        /// <summary>
         /// Current Instruction
         /// </summary>
         Instruction CurrentInstruction { get; set; }
