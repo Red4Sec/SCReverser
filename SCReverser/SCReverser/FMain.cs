@@ -1,4 +1,6 @@
-﻿using SCReverser.Core;
+﻿using SCReverser.Controls;
+using SCReverser.Core;
+using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
 using SCReverser.Core.Interfaces;
@@ -6,23 +8,21 @@ using SCReverser.Core.Types;
 using SCReverser.NEO;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SCReverser
 {
-    public partial class FMain : Form
+    public partial class FMain : FRememberForm
     {
         IReverser Reverser;
         IDebugger Debugger;
         IReverseTemplate Template;
         object CurrentConfig;
-        ObservableCollection<Instruction> Instructions = new ObservableCollection<Instruction>();
+        ReverseResult Result;
 
         public FMain()
         {
@@ -49,16 +49,22 @@ namespace SCReverser
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // Load file for speed up the test
-                LoadFiles(new string[] { Path.Combine(".", "SmartContractSample.avm") });
+                //LoadFiles(new string[] { Path.Combine(".", "SmartContractSample.avm") });
             }
 #endif
+        }
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            if (Debugger != null) Debugger.Dispose();
         }
         void Instructions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             EnableDisableConfig();
             EnableDisableDebugger();
 
-            tabControl1.Visible = Instructions.Count > 0;
+            tabControl1.Visible = Result != null && Result.Instructions.Count > 0;
         }
         void AddTemplate(Type type)
         {
@@ -98,7 +104,7 @@ namespace SCReverser
                 return;
             }
 
-            bool enable = Debugger != null && Template != null && Instructions.Count > 0;
+            bool enable = Debugger != null && Template != null && Result != null && Result.Instructions.Count > 0;
             bool canplay = enable &&
                 Debugger.IsInitialized &&
                 !(Debugger.IsHalt || Debugger.IsError || Debugger.IsDisposed);
@@ -153,11 +159,16 @@ namespace SCReverser
                 Debugger = null;
             }
 
-            Instructions.Clear();
+            if (Result != null)
+            {
+                Result.Instructions.Clear();
+                Result = null;
+            }
 
             Template = tag;
 
             Reverser = Template.CreateReverser();
+            Reverser.OnParseProgress += OnReverseProgress;
 
             if (CurrentConfig == null || Template.ConfigType == null || CurrentConfig.GetType() != Template.ConfigType)
             {
@@ -197,7 +208,7 @@ namespace SCReverser
             {
                 if (Debugger == null)
                 {
-                    if (Template == null || Instructions == null)
+                    if (Template == null || Result == null || Result.Instructions == null)
                     {
                         EnableDisableConfig();
                         EnableDisableDebugger();
@@ -258,7 +269,7 @@ namespace SCReverser
             {
                 if (Debugger != null) Debugger.Dispose();
 
-                Debugger = Template.CreateDebugger(Instructions, CurrentConfig);
+                Debugger = Template.CreateDebugger(Result.Instructions, CurrentConfig);
                 Debugger.OnStateChanged += Debugger_OnStateChanged;
                 EnableDisableDebugger();
             }
@@ -305,13 +316,23 @@ namespace SCReverser
         {
             tsProgressBar.Visible = true;
 
+            Enabled = false;
             GridOpCode.DataSource = null;
-            GridStrings.DataSource = null;
-            GridOpCodes.DataSource = null;
-            GridSysCalls.DataSource = null;
 
-            Instructions.CollectionChanged -= Instructions_CollectionChanged;
-            Instructions.Clear();
+            // Delete tabs except Instructions
+            for (int x = tabControl1.TabCount - 1; x >= 2; x--)
+            {
+                TabPage t = tabControl1.TabPages[x];
+                tabControl1.TabPages.Remove(t);
+                t.Dispose();
+            }
+
+            if (Result != null)
+            {
+                Result.Instructions.CollectionChanged -= Instructions_CollectionChanged;
+                Result.Instructions.Clear();
+                Result = null;
+            }
 
             new Task(() =>
             {
@@ -321,106 +342,79 @@ namespace SCReverser
         }
         void ALoadFiles(params string[] files)
         {
+            ReverseResult rs = new ReverseResult();
+
             try
             {
-                // TODO Progress bar
-                // Make real debugger
-                // Filters
-                // Charts
-
-                Dictionary<string, uint> dicStrings = new Dictionary<string, uint>();
-                Dictionary<string, uint> dicOpCodes = new Dictionary<string, uint>();
-                Dictionary<string, uint> dicSysCalls = new Dictionary<string, uint>();
+                // TODO Make real debugger
 
                 foreach (string file in files)
+                {
                     using (FileStream fs = File.OpenRead(file))
-                        foreach (Instruction i in Reverser.GetInstructions(fs, true))
-                        {
-                            string arg = null;
-                            if (i.Argument != null)
-                            {
-                                arg = i.Argument.ASCIIValue;
-
-                                if (!string.IsNullOrEmpty(arg))
-                                {
-                                    if (dicStrings.ContainsKey(arg)) dicStrings[arg] += 1;
-                                    else dicStrings[arg] = 1;
-                                }
-                            }
-
-                            if (i.OpCode != null)
-                            {
-                                string asc = i.OpCode.Name;
-                                if (!string.IsNullOrEmpty(asc))
-                                {
-                                    if (dicOpCodes.ContainsKey(asc)) dicOpCodes[asc] += 1;
-                                    else dicOpCodes[asc] = 1;
-
-                                    if (!string.IsNullOrEmpty(arg) && i.OpCode.IsSysCall)
-                                    {
-                                        if (dicSysCalls.ContainsKey(arg)) dicSysCalls[arg] += 1;
-                                        else dicSysCalls[arg] = 1;
-                                    }
-                                }
-                            }
-
-                            Instructions.Add(i);
-                        }
-
-                EndLoad(
-
-                    dicStrings.Select(u => new Ocurrence()
                     {
-                        Value = u.Key,
-                        Count = u.Value
-                    })
-                    .OrderByDescending(u => u.Count)
-                    .ToArray(),
+                        if (!Reverser.TryParse(fs, true, ref rs))
+                            throw (new Exception("Error parsing the file"));
+                    }
 
-                    dicOpCodes.Select(u => new Ocurrence()
-                    {
-                        Value = u.Key,
-                        Count = u.Value
-                    })
-                    .OrderByDescending(u => u.Count)
-                    .ToArray(),
+                    Hex.SetFile(file);
+                }
 
-                    dicSysCalls.Select(u => new Ocurrence()
-                    {
-                        Value = u.Key,
-                        Count = u.Value
-                    })
-                    .OrderByDescending(u => u.Count)
-                    .ToArray());
+                EndLoad(rs);
             }
             catch (Exception ex)
             {
+                EndLoad(rs);
                 Error(ex);
             }
-
         }
-        void EndLoad(Ocurrence[] strings, Ocurrence[] opCodes, Ocurrence[] sysCalls)
+        void OnReverseProgress(object sender, int percent)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<Ocurrence[], Ocurrence[], Ocurrence[]>(EndLoad), strings, opCodes, sysCalls);
+                Invoke(new OnProgressDelegate(OnReverseProgress), sender, percent);
                 return;
             }
 
-            GridStrings.DataSource = strings;
-            GridOpCodes.DataSource = opCodes;
-            GridSysCalls.DataSource = sysCalls;
+            tsProgressBar.Value = percent;
+        }
+        void EndLoad(ReverseResult result)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<ReverseResult>(EndLoad), result);
+                return;
+            }
+
+            Result = result;
+
+            if (result != null)
+            {
+                foreach (string sk in result.Ocurrences.Keys)
+                {
+                    TabPage t = new TabPage(sk)
+                    {
+                        Tag = "Ocurrence"
+                    };
+                    t.Controls.Add(new UCOcurrence(result.Ocurrences[sk], sk) { Dock = DockStyle.Fill });
+
+                    tabControl1.TabPages.Add(t);
+                }
+            }
 
             // Create debugger
             stopToolStripMenuItem_Click(null, null);
 
-            Instructions.CollectionChanged += Instructions_CollectionChanged;
-            Instructions_CollectionChanged(Instructions, null);
-
-            GridOpCode.DataSource = Instructions;
+            if (result != null && result.Instructions != null)
+            {
+                result.Instructions.CollectionChanged += Instructions_CollectionChanged;
+                Instructions_CollectionChanged(result.Instructions, null);
+            }
+            GridOpCode.DataSource = result == null ? null : result.Instructions;
 
             tsProgressBar.Visible = false;
+            Enabled = true;
         }
+
         void tsInfo_Click(object sender, EventArgs e)
         {
             if (tsInfo.Text == "") return;
@@ -428,6 +422,17 @@ namespace SCReverser
             if (tsInfo.ForeColor == Color.Red)
             {
                 MessageBox.Show(tsInfo.ToolTipText, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage t = tabControl1.SelectedTab;
+            if (t == null || t.Tag == null) return;
+
+            if ((string)t.Tag == "Ocurrence")
+            {
+                // Focus Search Textbox
+                t.Controls[0].Focus();
             }
         }
     }

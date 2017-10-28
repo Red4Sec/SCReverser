@@ -22,10 +22,6 @@ namespace SCReverser.Core.Attributes
         /// Description
         /// </summary>
         public string Description { get; set; }
-        /// <summary>
-        /// Is sys call
-        /// </summary>
-        public bool IsSysCall { get; set; } = false;
 
         /// <summary>
         /// Constructor

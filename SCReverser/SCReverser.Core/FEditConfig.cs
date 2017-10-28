@@ -1,8 +1,9 @@
-﻿using System.Windows.Forms;
+﻿using SCReverser.Core.Interfaces;
+using System.Windows.Forms;
 
 namespace SCReverser.Core
 {
-    public partial class FEditConfig : Form
+    public partial class FEditConfig : FRememberForm
     {
         /// <summary>
         /// Configure

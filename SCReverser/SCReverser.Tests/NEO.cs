@@ -18,9 +18,10 @@ namespace SCReverser.Tests
             NeoTemplate n = new NeoTemplate();
 
             IReverser reverser = n.CreateReverser();
-            Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
+            ReverseResult rs = null;
+            Assert.IsTrue(reverser.TryParse(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length, ref rs));
 
-            using (IDebugger debugger = n.CreateDebugger(instructions, new NeoConfig()
+            using (IDebugger debugger = n.CreateDebugger(rs.Instructions, new NeoConfig()
             {
                 TriggerType = ETriggerType.Application,
                 BlockChainPath = null,
@@ -64,11 +65,12 @@ namespace SCReverser.Tests
 
             Assert.IsInstanceOfType(reverser, typeof(NeoReverser));
 
-            Instruction[] instructions = reverser.GetInstructions(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length).ToArray();
+            ReverseResult rs = null;
+            Assert.IsTrue(reverser.TryParse(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length, ref rs));
 
             // Parse test
-            Assert.IsTrue(instructions.Length == SmartContractSampleTxt.Length);
-            Assert.IsTrue(instructions.LastOrDefault().Offset == 0x0F1C);
+            Assert.IsTrue(rs.Instructions.Count == SmartContractSampleTxt.Length);
+            Assert.IsTrue(rs.Instructions.LastOrDefault().Offset == 0x0F1C);
 
             for (int x = 0; x < SmartContractSampleTxt.Length; x++)
             {
@@ -80,14 +82,14 @@ namespace SCReverser.Tests
                     sp[1] = "PUSHBYTES" + sp[1];
                 }
 
-                Assert.AreEqual(sp[0], instructions[x].Offset.ToString("x2").PadLeft(4, '0').ToUpperInvariant());
-                Assert.AreEqual(sp[1], instructions[x].OpCode.Name);
+                Assert.AreEqual(sp[0], rs.Instructions[x].Offset.ToString("x2").PadLeft(4, '0').ToUpperInvariant());
+                Assert.AreEqual(sp[1], rs.Instructions[x].OpCode.Name);
             }
 
             // Write test
             using (MemoryStream ms = new MemoryStream())
             {
-                foreach (Instruction i in instructions)
+                foreach (Instruction i in rs.Instructions)
                     i.Write(ms);
 
                 Assert.IsTrue(ms.ToArray().SequenceEqual(SmartContractSampleRaw));

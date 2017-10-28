@@ -17,10 +17,6 @@ namespace SCReverser.Core.Types
         /// OpCode Description
         /// </summary>
         public string Description { get; set; }
-        /// <summary>
-        /// Is syscall
-        /// </summary>
-        public bool IsSysCall { get; set; }
 
         /// <summary>
         /// Write OpCode

@@ -319,7 +319,7 @@ namespace SCReverser.NEO
         RET = 0x66,
         [OpCodeArgument(typeof(OpCodeByteArrayArgument), ConstructorArguments = new object[] { 20 })]
         APPCALL = 0x67,
-        [OpCodeArgument(typeof(OpCodeVarByteArrayArgument), ConstructorArguments = new object[] { 252 }, IsSysCall = true)]
+        [OpCodeArgument(typeof(OpCodeVarByteArrayArgument), ConstructorArguments = new object[] { 252 })]
         SYSCALL = 0x68,
         [OpCodeArgument(typeof(OpCodeByteArrayArgument), ConstructorArguments = new object[] { 20 })]
         TAILCALL = 0x69,

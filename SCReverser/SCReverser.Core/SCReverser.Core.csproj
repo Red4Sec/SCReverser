@@ -63,6 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\OpCodeArgumentAttribute.cs" />
+    <Compile Include="Collections\InstructionCollection.cs" />
+    <Compile Include="Collections\KeyValueCollection.cs" />
+    <Compile Include="Collections\OcurrenceCollection.cs" />
+    <Compile Include="Delegates\OnProgressDelegate.cs" />
+    <Compile Include="Delegates\OnCheckOcurrenceDelegate.cs" />
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
     <Compile Include="Delegates\OnInstructionDelegate.cs" />
     <Compile Include="Enums\DebuggerState.cs" />
@@ -76,7 +81,14 @@
     </Compile>
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Interfaces\DebuggerBase.cs" />
+    <Compile Include="Interfaces\FRememberForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interfaces\FRememberFormT.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Interfaces\IDebugger.cs" />
+    <Compile Include="Interfaces\IRemember.cs" />
     <Compile Include="Interfaces\IReverseTemplate.cs" />
     <Compile Include="Interfaces\IWritable.cs" />
     <Compile Include="Interfaces\ReverserBase.cs" />
@@ -87,11 +99,13 @@
     <Compile Include="OpCodeArguments\OpCodeByteArrayArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeByteArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Remembers\RememberForm.cs" />
     <Compile Include="Types\Ocurrence.cs" />
     <Compile Include="Types\OpCode.cs" />
     <Compile Include="OpCodeArguments\OpCodeEmptyArgument.cs" />
     <Compile Include="Types\Instruction.cs" />
     <Compile Include="Interfaces\IReverser.cs" />
+    <Compile Include="Types\ReverseResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

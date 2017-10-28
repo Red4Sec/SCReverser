@@ -1,4 +1,6 @@
 ﻿using SCReverser.Core.Attributes;
+using SCReverser.Core.Collections;
+using SCReverser.Core.Delegates;
 using SCReverser.Core.Exceptions;
 using SCReverser.Core.Extensions;
 using SCReverser.Core.OpCodeArguments;
@@ -15,6 +17,10 @@ namespace SCReverser.Core.Interfaces
     public class ReverserBase<T> : IReverser
         where T : struct, IConvertible
     {
+        /// <summary>
+        /// OnProgress
+        /// </summary>
+        public event OnProgressDelegate OnParseProgress;
         /// <summary>
         /// OpCode Size
         /// </summary>
@@ -76,24 +82,65 @@ namespace SCReverser.Core.Interfaces
             }
         }
         /// <summary>
+        /// Prepare result
+        /// </summary>
+        /// <param name="result">Result</param>
+        public virtual void PrapareResultForOcurrences(ReverseResult result)
+        {
+            if (result == null) return;
+
+            if (!result.Ocurrences.ContainsKey("Strings"))
+                result.Ocurrences["Strings"] = new OcurrenceCollection() { Checker = StringCheckOcurrence };
+            if (!result.Ocurrences.ContainsKey("OpCodes"))
+                result.Ocurrences["OpCodes"] = new OcurrenceCollection() { Checker = OpCodesCheckOcurrence };
+        }
+        /// <summary>
+        /// Check if instruction have OpCode
+        /// </summary>
+        /// <param name="i">Instruction</param>
+        /// <param name="name">OpCode name</param>
+        bool OpCodesCheckOcurrence(Instruction i, out string name)
+        {
+            name = i.OpCode.Name;
+            return !string.IsNullOrEmpty(name);
+        }
+        /// <summary>
+        /// Check if instruction have ASCII value
+        /// </summary>
+        /// <param name="i">Instruction</param>
+        /// <param name="name">ASCII value</param>
+        bool StringCheckOcurrence(Instruction i, out string name)
+        {
+            name = i.Argument == null ? "" : i.Argument.ASCIIValue;
+            return !string.IsNullOrEmpty(name);
+        }
+        /// <summary>
         /// Get instructions from byte array
         /// </summary>
         /// <param name="data">Data</param>
         /// <param name="index">Index</param>
         /// <param name="length">Length</param>
-        public IEnumerable<Instruction> GetInstructions(byte[] data, int index, int length)
+        /// <param name="result">Result</param> 
+        public bool TryParse(byte[] data, int index, int length, ref ReverseResult result)
         {
-            return GetInstructions(new MemoryStream(data, index, length), false);
+            return TryParse(new MemoryStream(data, index, length), false, ref result);
         }
         /// <summary>
         /// Get instructions from stream
         /// </summary>
         /// <param name="stream">Stream</param>
         /// <param name="leaveOpen">Leave open</param>
-        public virtual IEnumerable<Instruction> GetInstructions(Stream stream, bool leaveOpen)
+        /// <param name="result">Result</param> 
+        public virtual bool TryParse(Stream stream, bool leaveOpen, ref ReverseResult result)
         {
             uint insNumber = 0;
             uint offset = 0;
+
+            if (result == null) result = new ReverseResult() { };
+            PrapareResultForOcurrences(result);
+
+            long max = stream.Length;
+            int percent = 0, newPercent = 0;
 
             while (true)
             {
@@ -105,7 +152,7 @@ namespace SCReverser.Core.Interfaces
                 string key = opCode.ToHexString();
 
                 OpCodeArgumentAttribute read;
-                if (!OpCodeCache.TryGetValue(key, out read))
+                if (!OpCodeCache.TryGetValue(key, out read) || read == null)
                     throw (new OpCodeNotFoundException()
                     {
                         Offset = offset,
@@ -115,7 +162,7 @@ namespace SCReverser.Core.Interfaces
                 OpCodeEmptyArgument arg = read.Create();
                 uint rBytes = arg.Read(stream);
 
-                yield return new Instruction()
+                Instruction ins = new Instruction()
                 {
                     Index = insNumber,
                     Offset = offset,
@@ -124,14 +171,29 @@ namespace SCReverser.Core.Interfaces
                         RawValue = opCode,
                         Name = read.OpCode,
                         Description = read.Description,
-                        IsSysCall = read.IsSysCall
                     },
                     Argument = arg,
                     Comment = arg.ASCIIValue,
                 };
+                result.Instructions.Add(ins);
+
+                #region Fill ocurrences
+                foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
+                {
+                    if (ocur.Checker != null && ocur.Checker(ins, out string val))
+                        ocur.Append(val, 1);
+                }
+                #endregion
 
                 offset += (uint)(rBytes + OpCodeSize);
                 insNumber++;
+
+                newPercent = (int)((offset * 100) / max);
+                if (percent != newPercent)
+                {
+                    percent = newPercent;
+                    OnParseProgress?.Invoke(this, percent);
+                }
             }
 
             if (!leaveOpen)
@@ -139,6 +201,8 @@ namespace SCReverser.Core.Interfaces
                 stream.Close();
                 stream.Dispose();
             }
+
+            return result.Instructions.Count > 0;
         }
     }
 }
