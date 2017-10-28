@@ -49,7 +49,7 @@ namespace SCReverser
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // Load file for speed up the test
-                //LoadFiles(new string[] { Path.Combine(".", "SmartContractSample.avm") });
+                LoadFiles(new string[] { Path.Combine(".", "SmartContractSample.avm") });
             }
 #endif
         }
@@ -104,10 +104,17 @@ namespace SCReverser
                 return;
             }
 
+            if (Debugger != null)
+            {
+                Registers.SelectedObject = Debugger;
+            }
+            else
+            {
+                Registers.SelectedObject = null;
+            }
+
             bool enable = Debugger != null && Template != null && Result != null && Result.Instructions.Count > 0;
-            bool canplay = enable &&
-                Debugger.IsInitialized &&
-                !(Debugger.IsHalt || Debugger.IsError || Debugger.IsDisposed);
+            bool canplay = enable && !(Debugger.IsHalt || Debugger.IsError || Debugger.IsDisposed);
 
             // Play
             toolStripButton3.Enabled =

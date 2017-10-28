@@ -38,10 +38,6 @@ namespace SCReverser.Core.Interfaces
         /// Return true if have BreakPoint State
         /// </summary>
         bool IsBreakPoint { get; }
-        /// <summary>
-        /// Return true if have Initialized State
-        /// </summary>
-        bool IsInitialized { get; }
         #endregion
         /// <summary>
         /// BreakPoints

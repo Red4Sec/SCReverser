@@ -14,12 +14,5 @@
         /// Constructor
         /// </summary>
         public OpCodeByteArgument() : base(1) { }
-        /// <summary>
-        /// String representation
-        /// </summary>
-        public override string ToString()
-        {
-            return Value.ToString("X2");
-        }
     }
 }

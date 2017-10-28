@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle61 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle62 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle63 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle64 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -51,11 +51,14 @@
             this.tsInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabInstructions = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GridOpCode = new System.Windows.Forms.DataGridView();
             this.dcOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dcOpCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dcArgument = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.Registers = new System.Windows.Forms.PropertyGrid();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.Hex = new System.ComponentModel.Design.ByteViewer();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -79,6 +82,10 @@
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabInstructions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridOpCode)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -222,10 +229,24 @@
             // 
             // tabInstructions
             // 
-            this.tabInstructions.Controls.Add(this.GridOpCode);
+            this.tabInstructions.Controls.Add(this.splitContainer1);
             resources.ApplyResources(this.tabInstructions, "tabInstructions");
             this.tabInstructions.Name = "tabInstructions";
             this.tabInstructions.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.GridOpCode);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel1);
+            this.splitContainer1.Panel2.Controls.Add(this.Registers);
             // 
             // GridOpCode
             // 
@@ -251,11 +272,10 @@
             // dcOffset
             // 
             this.dcOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dcOffset.DataPropertyName = "Offset";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle5.Format = "X4";
-            this.dcOffset.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dcOffset.DataPropertyName = "OffsetHex";
+            dataGridViewCellStyle61.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle61.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dcOffset.DefaultCellStyle = dataGridViewCellStyle61;
             this.dcOffset.Frozen = true;
             resources.ApplyResources(this.dcOffset, "dcOffset");
             this.dcOffset.Name = "dcOffset";
@@ -266,8 +286,8 @@
             // 
             this.dcOpCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dcOpCode.DataPropertyName = "OpCode";
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Ivory;
-            this.dcOpCode.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle62.BackColor = System.Drawing.Color.Ivory;
+            this.dcOpCode.DefaultCellStyle = dataGridViewCellStyle62;
             this.dcOpCode.Frozen = true;
             resources.ApplyResources(this.dcOpCode, "dcOpCode");
             this.dcOpCode.Name = "dcOpCode";
@@ -278,8 +298,8 @@
             // 
             this.dcArgument.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dcArgument.DataPropertyName = "Argument";
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dcArgument.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle63.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dcArgument.DefaultCellStyle = dataGridViewCellStyle63;
             resources.ApplyResources(this.dcArgument, "dcArgument");
             this.dcArgument.Name = "dcArgument";
             this.dcArgument.ReadOnly = true;
@@ -289,13 +309,27 @@
             // 
             this.dcComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dcComment.DataPropertyName = "Comment";
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dcComment.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle64.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            dataGridViewCellStyle64.ForeColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle64.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dcComment.DefaultCellStyle = dataGridViewCellStyle64;
             resources.ApplyResources(this.dcComment, "dcComment");
             this.dcComment.Name = "dcComment";
             this.dcComment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Gray;
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // Registers
+            // 
+            resources.ApplyResources(this.Registers, "Registers");
+            this.Registers.Name = "Registers";
+            this.Registers.ToolbarVisible = false;
+            this.Registers.ViewBackColor = System.Drawing.Color.White;
+            this.Registers.ViewBorderColor = System.Drawing.Color.White;
             // 
             // tabPage1
             // 
@@ -450,6 +484,10 @@
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabInstructions.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridOpCode)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -495,14 +533,17 @@
         private System.Windows.Forms.ToolStripMenuItem fromFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton toolStripButton1;
         private System.Windows.Forms.ToolStripMenuItem fromFilesToolStripMenuItem1;
-        private System.Windows.Forms.DataGridView GridOpCode;
         private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.ComponentModel.Design.ByteViewer Hex;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.DataGridView GridOpCode;
+        private System.Windows.Forms.PropertyGrid Registers;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dcOffset;
         private System.Windows.Forms.DataGridViewTextBoxColumn dcOpCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn dcArgument;
         private System.Windows.Forms.DataGridViewTextBoxColumn dcComment;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.ComponentModel.Design.ByteViewer Hex;
     }
 }
 

@@ -62,12 +62,7 @@ namespace SCReverser.NEO
             // Load script
             Engine.LoadScript(script, false);
 
-            if (Config != null && Engine != null)
-            {
-                // Start
-                State |= DebuggerState.Initialized;
-            }
-            else
+            if (Config == null || Engine == null)
             {
                 State |= DebuggerState.Error;
             }

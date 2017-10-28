@@ -15,6 +15,10 @@ namespace SCReverser.Core.Types
         /// </summary>
         public uint Offset { get; set; }
         /// <summary>
+        /// Offset Hex
+        /// </summary>
+        public string OffsetHex { get { return "0x" + Offset.ToString("X4"); } }
+        /// <summary>
         /// OpCode
         /// </summary>
         public OpCode OpCode { get; set; }
@@ -56,7 +60,7 @@ namespace SCReverser.Core.Types
             if (!string.IsNullOrEmpty(Comment))
                 arg += " # " + Comment;
 
-            return "[" + Offset.ToString("x2").PadLeft(4) + "] " + arg;
+            return "[0x" + Offset.ToString("X4").PadLeft(4) + "] " + arg;
         }
     }
 }

@@ -16,12 +16,5 @@ namespace SCReverser.Core.OpCodeArguments
         /// Constructor
         /// </summary>
         public OpCodeIntArgument() : base(4) { }
-        /// <summary>
-        /// String representation
-        /// </summary>
-        public override string ToString()
-        {
-            return Value.ToString("X8");
-        }
     }
 }

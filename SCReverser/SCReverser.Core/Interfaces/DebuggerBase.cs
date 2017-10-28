@@ -4,6 +4,7 @@ using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace SCReverser.Core.Interfaces
@@ -22,23 +23,41 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Return true if have Disposed State
         /// </summary>
+        [Category("State")]
         public bool IsDisposed { get { return State.HasFlag(DebuggerState.Disposed); } }
         /// <summary>
         /// Return true if have Halt State
         /// </summary>
+        [Category("State")]
         public bool IsHalt { get { return State.HasFlag(DebuggerState.Halt); } }
         /// <summary>
         /// Return true if have Error State
         /// </summary>
+        [Category("State")]
         public bool IsError { get { return State.HasFlag(DebuggerState.Error); } }
         /// <summary>
         /// Return true if have BreakPoint State
         /// </summary>
+        [Category("State")]
         public bool IsBreakPoint { get { return State.HasFlag(DebuggerState.BreakPoint); } }
         /// <summary>
-        /// Return true if have Initialized State
+        /// Debugger state
         /// </summary>
-        public bool IsInitialized { get { return State.HasFlag(DebuggerState.Initialized); } }
+        [Category("State")]
+        public DebuggerState State
+        {
+            get { return _State; }
+            protected set
+            {
+                if (_State == value) return;
+
+                DebuggerState old = _State;
+                _State = value;
+
+                // Raise event
+                OnStateChanged?.Invoke(this, old, _State);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -56,17 +75,21 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Configuration
         /// </summary>
+        [Browsable(false)]
         public T Config { get; private set; }
         /// <summary>
         /// Get Type of ConfigType
         /// </summary>
+        [Browsable(false)]
         public Type InitializeConfigType
         {
             get { return typeof(T); }
         }
+        #region
         /// <summary>
         /// Current Instruction
         /// </summary>
+        [Category("Debug")]
         public uint CurrentInstructionIndex
         {
             get { return _CurrentInstructionIndex; }
@@ -87,20 +110,9 @@ namespace SCReverser.Core.Interfaces
             }
         }
         /// <summary>
-        /// Get instruction by index
-        /// </summary>
-        /// <param name="instructionIndex">Instruction index</param>
-        public Instruction this[uint instructionIndex]
-        {
-            get
-            {
-                if (Instructions.Length <= instructionIndex) return null;
-                return Instructions[instructionIndex];
-            }
-        }
-        /// <summary>
         /// Current Instruction
         /// </summary>
+        [Category("Debug")]
         public Instruction CurrentInstruction
         {
             get { return Instructions[CurrentInstructionIndex]; }
@@ -118,36 +130,38 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Invocation stack count
         /// </summary>
+        [Category("Debug")]
         public virtual uint InvocationStackCount { get; protected set; }
+        #endregion
+        /// <summary>
+        /// Get instruction by index
+        /// </summary>
+        /// <param name="instructionIndex">Instruction index</param>
+        public Instruction this[uint instructionIndex]
+        {
+            get
+            {
+                if (Instructions.Length <= instructionIndex) return null;
+                return Instructions[instructionIndex];
+            }
+        }
+        #region BreakPoints
         /// <summary>
         /// BreakPoints
         /// </summary>
-        public ObservableCollection<uint> BreakPoints { get; private set; }
+        [Category("BreakPoints")]
+        public ObservableCollection<uint> BreakPoints { get; private set; } = new ObservableCollection<uint>();
         /// <summary>
         /// Have any breakpoint ?
         /// </summary>
+        [Category("BreakPoints")]
         public bool HaveBreakPoints { get { return BreakPoints.Count > 0; } }
+        #endregion
         /// <summary>
         /// Instructions
         /// </summary>
+        [Browsable(false)]
         public Instruction[] Instructions { get; private set; }
-        /// <summary>
-        /// Debugger state
-        /// </summary>
-        public DebuggerState State
-        {
-            get { return _State; }
-            protected set
-            {
-                if (_State == value) return;
-
-                DebuggerState old = _State;
-                _State = value;
-
-                // Raise event
-                OnStateChanged?.Invoke(this, old, _State);
-            }
-        }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -157,7 +171,6 @@ namespace SCReverser.Core.Interfaces
         {
             Config = debugConfig;
             Instructions = instructions.ToArray();
-            BreakPoints = new ObservableCollection<uint>();
             State = DebuggerState.None;
             InvocationStackCount = 0;
             CurrentInstructionIndex = 0;

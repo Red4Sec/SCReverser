@@ -37,17 +37,15 @@ namespace SCReverser.Core.OpCodeArguments
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (byte b in RawValue)
-                sb.Append(b.ToString("X2"));
+            if (RawValue != null && RawValue.Length > 0)
+            {
+                sb.Append("0x");
 
-            //string asc = ASCIIValue;
-            //if (!string.IsNullOrEmpty(asc))
-            //{
-            //    sb.AppendLine();
-            //    sb.Append(asc);
-            //}
+                foreach (byte b in RawValue)
+                    sb.Append(b.ToString("X2"));
+            }
 
-            return sb.ToString();//.Trim();
+            return sb.ToString();
         }
     }
 }

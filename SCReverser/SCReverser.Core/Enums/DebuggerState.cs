@@ -8,13 +8,12 @@ namespace SCReverser.Core.Enums
         #region Object state
         None = 0,
         Disposed = 1,
-        Initialized = 2,
         #endregion
 
         #region Debug session State
-        BreakPoint = 4,
-        Error = 8,
-        Halt = 16,
+        BreakPoint = 2,
+        Error = 4,
+        Halt = 8,
         #endregion
     }
 }
