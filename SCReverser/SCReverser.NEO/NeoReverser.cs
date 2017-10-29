@@ -78,7 +78,6 @@ namespace SCReverser.NEO
                 case "CALL":
                 case "JMP":
                     {
-                        // TODO First will be 2307 and is 777 (Little Endian issues?)
                         if (ins.Argument is OpCodeShortArgument a)
                         {
                             uint offset = (uint)a.Value;
