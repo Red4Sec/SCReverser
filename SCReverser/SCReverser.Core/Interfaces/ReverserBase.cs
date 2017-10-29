@@ -1,6 +1,7 @@
 ﻿using SCReverser.Core.Attributes;
 using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Exceptions;
 using SCReverser.Core.Extensions;
 using SCReverser.Core.OpCodeArguments;
@@ -143,8 +144,8 @@ namespace SCReverser.Core.Interfaces
             long max = stream.Length;
             int percent = 0, newPercent = 0;
 
-            List<Instruction> RecallJump = new List<Instruction>();
-            Dictionary<uint, uint> OffsetToIndex = new Dictionary<uint, uint>();
+            List<Instruction> recallJump = new List<Instruction>();
+            OffsetRelationCache offsetCache = new OffsetRelationCache();
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -183,13 +184,13 @@ namespace SCReverser.Core.Interfaces
                         Comment = arg.ASCIIValue,
                     };
 
-                    OffsetToIndex.Add(ins.Offset, ins.Index);
+                    offsetCache.Add(ins);
 
-                    ProcessInstruction(ins, OffsetToIndex);
+                    ProcessInstruction(ins, offsetCache);
 
                     // Recall jumps
                     if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.Offset.HasValue && !ins.Jump.Index.HasValue)
-                        RecallJump.Add(ins);
+                        recallJump.Add(ins);
 
                     result.Instructions.Add(ins);
 
@@ -223,9 +224,9 @@ namespace SCReverser.Core.Interfaces
                 stream.Dispose();
             }
 
-            foreach (Instruction j in RecallJump)
+            foreach (Instruction j in recallJump)
             {
-                if (OffsetToIndex.TryGetValue(j.Jump.Offset.Value, out uint index))
+                if (offsetCache.TryGetValue(j.Jump.Offset.Value, out uint index, OffsetIndexRelation.OffsetToIndex))
                 {
                     j.Jump = new Jump(j.Jump.Offset.Value, index);
                 }
@@ -250,6 +251,6 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         /// <param name="ins">Instruction</param>
         /// <param name="offsetToIndexCache">Cache</param>
-        public virtual void ProcessInstruction(Instruction ins, Dictionary<uint, uint> offsetToIndexCache) { }
+        public virtual void ProcessInstruction(Instruction ins, OffsetRelationCache offsetToIndexCache) { }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Collections\InstructionCollection.cs" />
     <Compile Include="Collections\KeyValueCollection.cs" />
     <Compile Include="Collections\OcurrenceCollection.cs" />
+    <Compile Include="Collections\OffsetRelationCache.cs" />
     <Compile Include="Collections\StackCollection.cs" />
     <Compile Include="Converters\UInt32HexTypeConverter.cs" />
     <Compile Include="Delegates\OnJumpDelegate.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
     <Compile Include="Delegates\OnInstructionDelegate.cs" />
     <Compile Include="Enums\DebuggerState.cs" />
+    <Compile Include="Enums\OffsetIndexRelation.cs" />
     <Compile Include="Enums\OpCodeFlag.cs" />
     <Compile Include="Enums\TemplateFlags.cs" />
     <Compile Include="Exceptions\OpCodeNotFoundException.cs" />

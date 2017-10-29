@@ -1,9 +1,9 @@
 ﻿using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
 using SCReverser.Core.Types;
-using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 
 namespace SCReverser.NEO
@@ -47,7 +47,7 @@ namespace SCReverser.NEO
         /// </summary>
         /// <param name="ins">Instruction</param>
         /// <param name="offsetToIndexCache">Cache</param>
-        public override void ProcessInstruction(Instruction ins, Dictionary<uint, uint> offsetToIndexCache)
+        public override void ProcessInstruction(Instruction ins, OffsetRelationCache offsetToIndexCache)
         {
             if (ins.OpCode == null) return;
 
@@ -81,12 +81,13 @@ namespace SCReverser.NEO
                             offset = ins.Offset + offset;
 
                             uint? index = null;
-                            if (offsetToIndexCache.TryGetValue(offset, out uint ix))
+                            if (offsetToIndexCache.TryGetValue(offset, out uint ix, OffsetIndexRelation.OffsetToIndex))
                                 index = ix;
 
                             ins.Jump = new Jump(offset, index);
 
-                            ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
+                            if (string.IsNullOrEmpty(ins.Comment))
+                                ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
                         }
                         break;
                     }
@@ -100,8 +101,9 @@ namespace SCReverser.NEO
 
                         offset = ins.Offset + offset;
 
-                        ins.Comment = "Jump [" +
-                            ins.OpCode.Name.Substring(3).ToLower() + "] to 0x" + offset.ToString("X4");
+                        if (string.IsNullOrEmpty(ins.Comment))
+                            ins.Comment = "Jump [" +
+                                ins.OpCode.Name.Substring(3).ToLower() + "] to 0x" + offset.ToString("X4");
 
                         ins.Jump = new Jump(new OnJumpDelegate(
                             (d, i) =>

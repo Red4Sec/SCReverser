@@ -43,8 +43,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.fromFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -68,7 +66,6 @@
             this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Jumps = new SCReverser.Controls.UCPJump();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SplitStack = new System.Windows.Forms.TableLayoutPanel();
             this.GridAltStack = new System.Windows.Forms.DataGridView();
@@ -82,7 +79,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -98,6 +94,8 @@
             this.stepOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.Jumps = new SCReverser.Controls.UCPJump();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -142,22 +140,6 @@
             this.toolStripDropDownButton1.Image = global::SCReverser.Res.Format;
             resources.ApplyResources(this.toolStripDropDownButton1, "toolStripDropDownButton1");
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fromFilesToolStripMenuItem1});
-            this.toolStripButton1.Image = global::SCReverser.Res.OpenIcon;
-            resources.ApplyResources(this.toolStripButton1, "toolStripButton1");
-            this.toolStripButton1.Name = "toolStripButton1";
-            // 
-            // fromFilesToolStripMenuItem1
-            // 
-            this.fromFilesToolStripMenuItem1.Image = global::SCReverser.Res.AddFileIcon;
-            this.fromFilesToolStripMenuItem1.Name = "fromFilesToolStripMenuItem1";
-            resources.ApplyResources(this.fromFilesToolStripMenuItem1, "fromFilesToolStripMenuItem1");
-            this.fromFilesToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
             // 
             // toolStripButton8
             // 
@@ -377,12 +359,6 @@
             resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Click += new System.EventHandler(this.goHereToolStripMenuItem_Click);
             // 
-            // Jumps
-            // 
-            resources.ApplyResources(this.Jumps, "Jumps");
-            this.Jumps.Grid = this.GridOpCode;
-            this.Jumps.Name = "Jumps";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gray;
@@ -538,18 +514,10 @@
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fromFilesToolStripMenuItem});
             this.openToolStripMenuItem.Image = global::SCReverser.Res.OpenIcon;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
-            // 
-            // fromFilesToolStripMenuItem
-            // 
-            this.fromFilesToolStripMenuItem.Image = global::SCReverser.Res.AddFileIcon;
-            this.fromFilesToolStripMenuItem.Name = "fromFilesToolStripMenuItem";
-            resources.ApplyResources(this.fromFilesToolStripMenuItem, "fromFilesToolStripMenuItem");
-            this.fromFilesToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
             // 
             // saveToolStripMenuItem
             // 
@@ -653,6 +621,20 @@
             this.saveFileDialog1.DefaultExt = "*.json";
             resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
             // 
+            // Jumps
+            // 
+            resources.ApplyResources(this.Jumps, "Jumps");
+            this.Jumps.Grid = this.GridOpCode;
+            this.Jumps.Name = "Jumps";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::SCReverser.Res.OpenIcon;
+            resources.ApplyResources(this.toolStripButton1, "toolStripButton1");
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
+            // 
             // FMain
             // 
             resources.ApplyResources(this, "$this");
@@ -722,9 +704,6 @@
         private System.Windows.Forms.ToolStripStatusLabel tsInfo;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ToolStripMenuItem fromFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripButton1;
-        private System.Windows.Forms.ToolStripMenuItem fromFilesToolStripMenuItem1;
         private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
         private System.Windows.Forms.TabPage tabPage1;
         private System.ComponentModel.Design.ByteViewer Hex;
@@ -748,6 +727,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton8;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

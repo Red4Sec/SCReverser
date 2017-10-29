@@ -15,8 +15,7 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Cache offset - instruction index
         /// </summary>
-        readonly Dictionary<uint, uint> _OffsetToIndex = new Dictionary<uint, uint>();
-        readonly Dictionary<uint, uint> _IndexToOffset = new Dictionary<uint, uint>();
+        readonly OffsetRelationCache OffsetCache = new OffsetRelationCache();
 
         DebuggerState _State;
         uint _CurrentInstructionIndex;
@@ -130,7 +129,7 @@ namespace SCReverser.Core.Interfaces
             get { return CurrentInstruction.Offset; }
             set
             {
-                if (_OffsetToIndex.TryGetValue(value, out uint v))
+                if (OffsetToIndex(value, out uint v))
                     CurrentInstructionIndex = v;
             }
         }
@@ -189,13 +188,7 @@ namespace SCReverser.Core.Interfaces
             CurrentInstructionIndex = 0;
 
             // Cache offsets
-            uint ix = 0;
-            foreach (Instruction i in Instructions)
-            {
-                _OffsetToIndex.Add(i.Offset, ix);
-                _IndexToOffset.Add(ix, i.Offset);
-                ix++;
-            }
+            OffsetCache.FillWith(Instructions);
         }
         /// <summary>
         /// Index to Offset
@@ -204,7 +197,7 @@ namespace SCReverser.Core.Interfaces
         /// <param name="offset">Offset</param>
         public bool IndexToOffset(uint index, out uint offset)
         {
-            return _IndexToOffset.TryGetValue(index, out offset);
+            return OffsetCache.TryGetValue(index, out offset, OffsetIndexRelation.IndexToOffset);
         }
         /// <summary>
         /// Offset to Index
@@ -213,7 +206,7 @@ namespace SCReverser.Core.Interfaces
         /// <param name="index">Index</param>
         public bool OffsetToIndex(uint offset, out uint index)
         {
-            return _OffsetToIndex.TryGetValue(offset, out index);
+            return OffsetCache.TryGetValue(offset, out index, OffsetIndexRelation.OffsetToIndex);
         }
         /// <summary>
         /// Free resources

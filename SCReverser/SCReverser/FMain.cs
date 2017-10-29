@@ -1,5 +1,6 @@
 ﻿using SCReverser.Controls;
 using SCReverser.Core;
+using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
@@ -438,9 +439,7 @@ namespace SCReverser
                             if (rs != null)
                             {
                                 // Fill cache
-                                Dictionary<uint, uint> offsetToIndexCache = new Dictionary<uint, uint>();
-                                foreach (Instruction i in rs.Instructions)
-                                    offsetToIndexCache.Add(i.Offset, i.Index);
+                                OffsetRelationCache offsetToIndexCache = new OffsetRelationCache(rs.Instructions);
 
                                 // Process instructions (Jumps)
                                 using (MemoryStream ms = new MemoryStream())
