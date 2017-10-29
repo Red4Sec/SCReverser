@@ -222,16 +222,19 @@ namespace SCReverser.Core.Interfaces
         {
             throw new NotImplementedException();
         }
-        protected bool ShouldStep()
-        {
-            return !AreEnded() && !State.HasFlag(DebuggerState.BreakPoint);
-        }
         protected bool AreEnded()
         {
             return
                 (
                 State.HasFlag(DebuggerState.Disposed) || State.HasFlag(DebuggerState.Error) || State.HasFlag(DebuggerState.Halt)
                 );
+        }
+        bool ShouldStep(DateTime startTime)
+        {
+            if ((DateTime.UtcNow - startTime).TotalSeconds > 5)
+                throw (new Exception("Possible infinite loop detected!"));
+
+            return !AreEnded() && !State.HasFlag(DebuggerState.BreakPoint);
         }
         /// <summary>
         /// Resume
@@ -242,7 +245,9 @@ namespace SCReverser.Core.Interfaces
 
             State &= ~DebuggerState.BreakPoint;
 
-            while (ShouldStep())
+            DateTime now = DateTime.UtcNow;
+
+            while (ShouldStep(now))
                 StepInto();
         }
         /// <summary>
@@ -254,8 +259,9 @@ namespace SCReverser.Core.Interfaces
 
             State &= ~DebuggerState.BreakPoint;
 
+            DateTime now = DateTime.UtcNow;
             uint c = InvocationStackCount;
-            while (ShouldStep() && InvocationStackCount >= c)
+            while (ShouldStep(now) && InvocationStackCount >= c)
                 StepInto();
         }
         /// <summary>
@@ -267,12 +273,13 @@ namespace SCReverser.Core.Interfaces
 
             State &= ~DebuggerState.BreakPoint;
 
+            DateTime now = DateTime.UtcNow;
             uint c = InvocationStackCount;
             do
             {
                 StepInto();
             }
-            while (ShouldStep() && InvocationStackCount > c);
+            while (ShouldStep(now) && InvocationStackCount > c);
         }
     }
 }

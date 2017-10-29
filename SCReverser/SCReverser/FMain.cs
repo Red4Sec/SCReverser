@@ -50,6 +50,8 @@ namespace SCReverser
         {
             InitializeComponent();
 
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
             // Load available templates
             AddTemplate(typeof(NeoTemplate));
 
@@ -235,6 +237,7 @@ namespace SCReverser
         {
             try
             {
+                Error(null);
                 if (Debugger == null)
                 {
                     if (Template == null || Result == null || Result.Instructions == null)
@@ -261,6 +264,7 @@ namespace SCReverser
             {
                 if (Debugger != null)
                 {
+                    Error(null);
                     Debugger.StepInto();
                 }
             }
@@ -275,6 +279,7 @@ namespace SCReverser
             {
                 if (Debugger != null)
                 {
+                    Error(null);
                     Debugger.StepOver();
                 }
             }
@@ -289,6 +294,7 @@ namespace SCReverser
             {
                 if (Debugger != null)
                 {
+                    Error(null);
                     Debugger.StepOut();
                 }
             }
@@ -355,11 +361,12 @@ namespace SCReverser
             GridOpCode.Invalidate();
             Registers.Refresh();
 
-            GridOpCode.ClearSelection();
-            GridOpCode.Rows[(int)instructionIndex].Selected = true;
+            //GridOpCode.ClearSelection();
+            //GridOpCode.Rows[(int)instructionIndex].Selected = true;
             GridOpCode.CurrentCell = GridOpCode.Rows[(int)instructionIndex].Cells[3];
 
             Jumps.RefreshDynJumps(Debugger);
+            //Application.DoEvents();
         }
         void Error(Exception ex)
         {
@@ -689,6 +696,7 @@ namespace SCReverser
             if (r.DataBoundItem == null || !(r.DataBoundItem is Instruction i)) return;
 
             Debugger.CurrentInstruction = i;
+            Error(null);
         }
 
         void GridOpCode_CurrentCellChanged(object sender, EventArgs e) { Jumps.Invalidate(); }

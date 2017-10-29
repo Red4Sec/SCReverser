@@ -43,6 +43,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
@@ -66,6 +67,7 @@
             this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Jumps = new SCReverser.Controls.UCPJump();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SplitStack = new System.Windows.Forms.TableLayoutPanel();
             this.GridAltStack = new System.Windows.Forms.DataGridView();
@@ -94,8 +96,6 @@
             this.stepOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.Jumps = new SCReverser.Controls.UCPJump();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -140,6 +140,14 @@
             this.toolStripDropDownButton1.Image = global::SCReverser.Res.Format;
             resources.ApplyResources(this.toolStripDropDownButton1, "toolStripDropDownButton1");
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::SCReverser.Res.OpenIcon;
+            resources.ApplyResources(this.toolStripButton1, "toolStripButton1");
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
             // 
             // toolStripButton8
             // 
@@ -358,6 +366,12 @@
             this.goHereToolStripMenuItem.Name = "goHereToolStripMenuItem";
             resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Click += new System.EventHandler(this.goHereToolStripMenuItem_Click);
+            // 
+            // Jumps
+            // 
+            resources.ApplyResources(this.Jumps, "Jumps");
+            this.Jumps.Grid = this.GridOpCode;
+            this.Jumps.Name = "Jumps";
             // 
             // panel1
             // 
@@ -621,20 +635,6 @@
             this.saveFileDialog1.DefaultExt = "*.json";
             resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
             // 
-            // Jumps
-            // 
-            resources.ApplyResources(this.Jumps, "Jumps");
-            this.Jumps.Grid = this.GridOpCode;
-            this.Jumps.Name = "Jumps";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::SCReverser.Res.OpenIcon;
-            resources.ApplyResources(this.toolStripButton1, "toolStripButton1");
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
-            // 
             // FMain
             // 
             resources.ApplyResources(this, "$this");
@@ -643,6 +643,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FMain";
             this.ShowIcon = false;
