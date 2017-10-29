@@ -3,7 +3,6 @@ using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
-using System.Collections.ObjectModel;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -93,5 +92,17 @@ namespace SCReverser.Core.Interfaces
         /// Step out
         /// </summary>
         void StepOut();
+        /// <summary>
+        /// Index to Offset
+        /// </summary>
+        /// <param name="index">Index</param>
+        /// <param name="offset">Offset</param>
+        bool IndexToOffset(uint index, out uint offset);
+        /// <summary>
+        /// Offset to Index
+        /// </summary>
+        /// <param name="offset">Offset</param>
+        /// <param name="index">Index</param>
+        bool OffsetToIndex(uint offset, out uint index);
     }
 }

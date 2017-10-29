@@ -25,5 +25,10 @@ namespace SCReverser.Core.Interfaces
         /// <param name="leaveOpen">Leave open</param>
         /// <param name="result">Result</param>
         bool TryParse(Stream stream, bool leaveOpen, ref ReverseResult result);
+        /// <summary>
+        /// Process instruction
+        /// </summary>
+        /// <param name="ins">Instruction</param>
+        void ProcessInstruction(Instruction ins);
     }
 }

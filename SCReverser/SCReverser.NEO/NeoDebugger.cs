@@ -15,7 +15,7 @@ namespace SCReverser.NEO
     {
         Decimal _GasConsumed;
         bool HaveBlockChain;
-        NeoEngine Engine;
+        internal NeoEngine Engine;
 
         /// <summary>
         /// Gas consumed
@@ -28,7 +28,9 @@ namespace SCReverser.NEO
                 return _GasConsumed.ToString("#0.0#######");
             }
         }
-
+        /// <summary>
+        /// Current Instruction Index
+        /// </summary>
         public override uint CurrentInstructionIndex
         {
             get { return base.CurrentInstructionIndex; }
@@ -39,7 +41,7 @@ namespace SCReverser.NEO
                 // Set the engine instruction pointer
 
                 uint val;
-                if (IndexToOffset.TryGetValue(value, out val))
+                if (IndexToOffset(value, out val))
                 {
                     if (Engine.CurrentContext.InstructionPointer != val)
                         Engine.CurrentContext.InstructionPointer = (int)val;
@@ -142,7 +144,8 @@ namespace SCReverser.NEO
                     else
                     {
                         // Only Copy when not halt
-                        CurrentInstructionIndex = OffsetToIndex[(uint)Engine.CurrentContext.InstructionPointer];
+                        if (OffsetToIndex((uint)Engine.CurrentContext.InstructionPointer, out uint index))
+                            CurrentInstructionIndex = index;
                     }
 
                     if (Engine.State.HasFlag(VMState.FAULT))

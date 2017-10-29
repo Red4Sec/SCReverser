@@ -39,7 +39,7 @@ namespace SCReverser.Core.Extensions
 
         public static byte[] ToByteArray(this int value)
         {
-            return new byte[] 
+            return new byte[]
             {
                 (byte)value,
                 (byte)(value >> 8),
@@ -114,6 +114,14 @@ namespace SCReverser.Core.Extensions
         public static ushort ToUInt16(this byte[] buffer, int index = 0)
         {
             return (ushort)((int)buffer[index] | (int)buffer[index + 1] << 8);
+        }
+        public static short ToInt16BigEndian(this byte[] buffer, int index = 0)
+        {
+            return (short)((int)buffer[index + 1] | (int)buffer[index] << 8);
+        }
+        public static ushort ToUInt16BigEndian(this byte[] buffer, int index = 0)
+        {
+            return (ushort)((int)buffer[index + 1] | (int)buffer[index] << 8);
         }
 
         public static int ToInt32(this byte[] buffer, int index = 0)

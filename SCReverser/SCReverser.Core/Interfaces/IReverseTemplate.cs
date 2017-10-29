@@ -31,7 +31,7 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Flags
         /// </summary>
-        ETemplateFlags Flags { get; }
+        TemplateFlags Flags { get; }
 
         /// <summary>
         /// Create reverser

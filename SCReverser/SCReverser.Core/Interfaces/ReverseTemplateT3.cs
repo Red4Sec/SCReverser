@@ -35,7 +35,7 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Flags
         /// </summary>
-        public virtual ETemplateFlags Flags { get { return ETemplateFlags.None; } }
+        public virtual TemplateFlags Flags { get { return TemplateFlags.None; } }
         /// <summary>
         /// Constructor
         /// </summary>

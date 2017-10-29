@@ -1,6 +1,9 @@
 ﻿using SCReverser.Core.Collections;
+using SCReverser.Core.Delegates;
 using SCReverser.Core.Interfaces;
+using SCReverser.Core.OpCodeArguments;
 using SCReverser.Core.Types;
+using System.Drawing.Drawing2D;
 
 namespace SCReverser.NEO
 {
@@ -33,7 +36,7 @@ namespace SCReverser.NEO
         bool SysCallCheckOcurrence(Instruction instruction, out string name)
         {
             if (instruction.Argument != null &&
-                instruction.OpCode != null && 
+                instruction.OpCode != null &&
                 instruction.OpCode.Name == "SYSCALL")
             {
                 name = instruction.Argument.ASCIIValue;
@@ -42,6 +45,91 @@ namespace SCReverser.NEO
 
             name = null;
             return false;
+        }
+        /// <summary>
+        /// Fill jumps
+        /// </summary>
+        /// <param name="ins">Instruction</param>
+        public override void ProcessInstruction(Instruction ins)
+        {
+            if (ins.OpCode == null) return;
+
+            switch (ins.OpCode.Name)
+            {
+                case "RET":
+                    {
+                        ins.Jump = new Jump(new OnJumpDelegate(
+                            (d, i) =>
+                            {
+                                if (d == null || d.CurrentInstructionIndex != i.Index || !(d is NeoDebugger neodebug))
+                                    return null;
+
+                                try
+                                {
+                                    return (uint)neodebug.Engine.InvocationStack.Peek().InstructionPointer;
+                                }
+                                catch { }
+
+                                return null;
+                            })
+                        );
+                        break;
+                    }
+                case "CALL":
+                case "JMP":
+                    {
+                        // TODO First will be 2307 and is 777 (Little Endian issues?)
+                        if (ins.Argument is OpCodeShortArgument a)
+                        {
+                            uint offset = (uint)a.Value;
+                            offset = ins.Offset + offset;
+
+                            ins.Jump = new Jump(offset, null);
+
+                            ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
+                        }
+                        break;
+                    }
+                case "JMPIF":
+                case "JMPIFNOT":
+                    {
+                        if (!(ins.Argument is OpCodeShortArgument a)) return;
+
+                        bool check = ins.OpCode.Name == "JMPIF";
+                        uint offset = (uint)a.Value;
+
+                        offset = ins.Offset + offset;
+
+                        ins.Comment = "Jump ["+ 
+                            ins.OpCode.Name.Substring(3).ToLower() + "] to 0x" + offset.ToString("X4");
+
+                        ins.Jump = new Jump(new OnJumpDelegate(
+                            (d, i) =>
+                            {
+                                if (d == null || !(d is NeoDebugger neodebug))
+                                    return null;
+
+                                try
+                                {
+                                    // If not is the current (dot)
+                                    if (d.CurrentInstructionIndex != i.Index)
+                                        i.Jump.Style = DashStyle.Dot;
+                                    else
+                                    {
+                                        // If condition are ok (no dot)
+                                        if (neodebug.Engine.EvaluationStack.Peek().GetBoolean() == check)
+                                            i.Jump.Style = DashStyle.Solid;
+                                    }
+                                    return offset;
+                                }
+                                catch { }
+
+                                return null;
+                            })
+                        );
+                        break;
+                    }
+            }
         }
     }
 }

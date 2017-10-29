@@ -34,6 +34,10 @@ namespace SCReverser.Core.Types
         /// Have BreakPoint
         /// </summary>
         public bool HaveBreakPoint { get; set; }
+        /// <summary>
+        /// Jump
+        /// </summary>
+        public Jump Jump { get; set; }
 
         /// <summary>
         /// Write instruction

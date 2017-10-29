@@ -2,19 +2,19 @@
 
 namespace SCReverser.Core.OpCodeArguments
 {
-    public class OpCodeUShortArgument : OpCodeByteArrayArgument
+    public class OpCodeShortArgument : OpCodeByteArrayArgument
     {
         /// <summary>
         /// Value
         /// </summary>
-        public virtual ushort Value
+        public virtual short Value
         {
-            get { return RawValue.ToUInt16(); }
+            get { return RawValue.ToInt16(); }
             set { RawValue = value.ToByteArray(); }
         }
         /// <summary>
         /// Constructor
         /// </summary>
-        public OpCodeUShortArgument() : base(2) { }
+        public OpCodeShortArgument() : base(2) { }
     }
 }

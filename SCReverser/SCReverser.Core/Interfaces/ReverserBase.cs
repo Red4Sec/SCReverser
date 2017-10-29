@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -142,58 +143,77 @@ namespace SCReverser.Core.Interfaces
             long max = stream.Length;
             int percent = 0, newPercent = 0;
 
-            while (true)
+            List<Instruction> RecallJump = new List<Instruction>();
+            Dictionary<uint, uint> OffsetToIndex = new Dictionary<uint, uint>();
+
+            using (MemoryStream ms = new MemoryStream())
             {
-                byte[] opCode = new byte[OpCodeSize];
+                while (true)
+                {
+                    byte[] opCode = new byte[OpCodeSize];
 
-                if (stream.Read(opCode, 0, OpCodeSize) != OpCodeSize)
-                    break;
+                    if (stream.Read(opCode, 0, OpCodeSize) != OpCodeSize)
+                        break;
 
-                string key = opCode.ToHexString();
+                    string key = opCode.ToHexString();
 
-                OpCodeArgumentAttribute read;
-                if (!OpCodeCache.TryGetValue(key, out read) || read == null)
-                    throw (new OpCodeNotFoundException()
+                    OpCodeArgumentAttribute read;
+                    if (!OpCodeCache.TryGetValue(key, out read) || read == null)
+                        throw (new OpCodeNotFoundException()
+                        {
+                            Offset = offset,
+                            OpCode = opCode,
+                        });
+
+                    OpCodeEmptyArgument arg = read.Create();
+                    uint rBytes = arg.Read(stream);
+
+                    Instruction ins = new Instruction()
                     {
+                        Index = insNumber,
                         Offset = offset,
-                        OpCode = opCode,
-                    });
+                        OpCode = new OpCode()
+                        {
+                            RawValue = opCode,
+                            Name = read.OpCode,
+                            Description = read.Description,
+                        },
+                        Argument = arg,
+                        Comment = arg.ASCIIValue,
+                    };
 
-                OpCodeEmptyArgument arg = read.Create();
-                uint rBytes = arg.Read(stream);
+                    OffsetToIndex.Add(ins.Offset, ins.Index);
 
-                Instruction ins = new Instruction()
-                {
-                    Index = insNumber,
-                    Offset = offset,
-                    OpCode = new OpCode()
+                    ProcessInstruction(ins);
+
+                    // Recall jumps
+                    if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.Offset.HasValue && !ins.Jump.Index.HasValue)
+                        RecallJump.Add(ins);
+
+                    result.Instructions.Add(ins);
+
+                    #region Fill ocurrences
+                    foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
                     {
-                        RawValue = opCode,
-                        Name = read.OpCode,
-                        Description = read.Description,
-                    },
-                    Argument = arg,
-                    Comment = arg.ASCIIValue,
-                };
-                result.Instructions.Add(ins);
+                        if (ocur.Checker != null && ocur.Checker(ins, out string val))
+                            ocur.Append(val, 1);
+                    }
+                    #endregion
 
-                #region Fill ocurrences
-                foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
-                {
-                    if (ocur.Checker != null && ocur.Checker(ins, out string val))
-                        ocur.Append(val, 1);
+                    offset += (uint)(rBytes + OpCodeSize);
+                    insNumber++;
+
+                    newPercent = (int)((offset * 100) / max);
+                    if (percent != newPercent)
+                    {
+                        percent = newPercent;
+                        OnParseProgress?.Invoke(this, percent);
+                    }
+
+                    ins.Write(ms);
                 }
-                #endregion
 
-                offset += (uint)(rBytes + OpCodeSize);
-                insNumber++;
-
-                newPercent = (int)((offset * 100) / max);
-                if (percent != newPercent)
-                {
-                    percent = newPercent;
-                    OnParseProgress?.Invoke(this, percent);
-                }
+                result.Bytes = ms.ToArray();
             }
 
             if (!leaveOpen)
@@ -202,7 +222,32 @@ namespace SCReverser.Core.Interfaces
                 stream.Dispose();
             }
 
+            foreach (Instruction j in RecallJump)
+            {
+                if (OffsetToIndex.TryGetValue(j.Jump.Offset.Value, out uint index))
+                {
+                    j.Jump = new Jump(j.Jump.Offset.Value, index);
+                }
+                else
+                {
+                    // If enter here, there will be an error
+                    j.Jump = null;
+                }
+            }
+
+            // Remove empty ocurrences
+            foreach (string key in result.Ocurrences.Keys.ToArray())
+            {
+                if (result.Ocurrences[key].Count <= 0)
+                    result.Ocurrences.Remove(key);
+            }
+
             return result.Instructions.Count > 0;
         }
+        /// <summary>
+        /// Process instruction
+        /// </summary>
+        /// <param name="ins">Instruction</param>
+        public virtual void ProcessInstruction(Instruction ins) { }
     }
 }

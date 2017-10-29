@@ -337,6 +337,8 @@ namespace SCReverser
             GridOpCode.ClearSelection();
             GridOpCode.Rows[(int)instructionIndex].Selected = true;
             GridOpCode.CurrentCell = GridOpCode.Rows[(int)instructionIndex].Cells[3];
+
+            Jumps.RefreshDynJumps(Debugger);
         }
         void Error(Exception ex)
         {
@@ -406,17 +408,16 @@ namespace SCReverser
 
             try
             {
-                // TODO Make real debugger
-
-                foreach (string file in files)
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    using (FileStream fs = File.OpenRead(file))
-                    {
-                        if (!Reverser.TryParse(fs, true, ref rs))
-                            throw (new Exception("Error parsing the file"));
-                    }
+                    foreach (string file in files)
+                        using (FileStream fs = File.OpenRead(file))
+                            fs.CopyTo(ms);
 
-                    Hex.SetFile(file);
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    if (!Reverser.TryParse(ms, true, ref rs))
+                        throw (new Exception("Error parsing the file"));
                 }
 
                 EndLoad(rs);
@@ -449,6 +450,8 @@ namespace SCReverser
 
             if (result != null)
             {
+                Hex.SetBytes(result.Bytes);
+
                 foreach (string sk in result.Ocurrences.Keys)
                 {
                     TabPage t = new TabPage(sk)
@@ -460,6 +463,12 @@ namespace SCReverser
                     tabControl1.TabPages.Add(t);
                 }
             }
+            else
+            {
+                Hex.SetBytes(new byte[] { });
+            }
+
+            GridOpCode.DataSource = result == null ? null : result.Instructions;
 
             // Create debugger
             stopToolStripMenuItem_Click(null, null);
@@ -469,7 +478,6 @@ namespace SCReverser
                 result.Instructions.CollectionChanged += Instructions_CollectionChanged;
                 Instructions_CollectionChanged(result.Instructions, null);
             }
-            GridOpCode.DataSource = result == null ? null : result.Instructions;
 
             tsProgressBar.Visible = false;
             Enabled = true;
@@ -628,5 +636,8 @@ namespace SCReverser
 
             Debugger.CurrentInstruction = i;
         }
+
+        void GridOpCode_CurrentCellChanged(object sender, EventArgs e) { Jumps.Invalidate(); }
+        void GridOpCode_Scroll(object sender, ScrollEventArgs e) { Jumps.Invalidate(); }
     }
 }

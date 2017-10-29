@@ -13,7 +13,7 @@ namespace SCReverser.NEO
         /// <summary>
         /// Flags
         /// </summary>
-        public override ETemplateFlags Flags => ETemplateFlags.HaveAltStack;
+        public override TemplateFlags Flags => TemplateFlags.HaveAltStack;
         /// <summary>
         /// Get logo
         /// </summary>

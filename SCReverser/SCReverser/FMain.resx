@@ -319,7 +319,7 @@
     <value>Offset</value>
   </data>
   <data name="dcOffset.Width" type="System.Int32, mscorlib">
-    <value>80</value>
+    <value>50</value>
   </data>
   <metadata name="dcOpCode.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -364,10 +364,10 @@
     <value>Fill</value>
   </data>
   <data name="GridOpCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>34, 0</value>
   </data>
   <data name="GridOpCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>560, 428</value>
+    <value>526, 428</value>
   </data>
   <data name="GridOpCode.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -383,6 +383,33 @@
   </data>
   <data name="&gt;&gt;GridOpCode.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="Jumps.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="Jumps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="Jumps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 428</value>
+  </data>
+  <data name="Jumps.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Jumps.Text" xml:space="preserve">
+    <value>ucpJump1</value>
+  </data>
+  <data name="&gt;&gt;Jumps.Name" xml:space="preserve">
+    <value>Jumps</value>
+  </data>
+  <data name="&gt;&gt;Jumps.Type" xml:space="preserve">
+    <value>SCReverser.Controls.UCPJump, SCReverser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Jumps.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;Jumps.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -843,6 +870,9 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>843, 545</value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>350, 440</value>
   </data>
@@ -935,30 +965,6 @@
   </data>
   <data name="&gt;&gt;tsInfo.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dcOffset.Name" xml:space="preserve">
-    <value>dcOffset</value>
-  </data>
-  <data name="&gt;&gt;dcOffset.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dcOpCode.Name" xml:space="preserve">
-    <value>dcOpCode</value>
-  </data>
-  <data name="&gt;&gt;dcOpCode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dcArgument.Name" xml:space="preserve">
-    <value>dcArgument</value>
-  </data>
-  <data name="&gt;&gt;dcArgument.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dcComment.Name" xml:space="preserve">
-    <value>dcComment</value>
-  </data>
-  <data name="&gt;&gt;dcComment.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;goHereToolStripMenuItem.Name" xml:space="preserve">
     <value>goHereToolStripMenuItem</value>
@@ -1073,6 +1079,30 @@
   </data>
   <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dcOffset.Name" xml:space="preserve">
+    <value>dcOffset</value>
+  </data>
+  <data name="&gt;&gt;dcOffset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dcOpCode.Name" xml:space="preserve">
+    <value>dcOpCode</value>
+  </data>
+  <data name="&gt;&gt;dcOpCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dcArgument.Name" xml:space="preserve">
+    <value>dcArgument</value>
+  </data>
+  <data name="&gt;&gt;dcArgument.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dcComment.Name" xml:space="preserve">
+    <value>dcComment</value>
+  </data>
+  <data name="&gt;&gt;dcComment.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FMain</value>

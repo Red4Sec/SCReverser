@@ -15,8 +15,8 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Cache offset - instruction index
         /// </summary>
-        protected readonly Dictionary<uint, uint> OffsetToIndex = new Dictionary<uint, uint>();
-        protected readonly Dictionary<uint, uint> IndexToOffset = new Dictionary<uint, uint>();
+        readonly Dictionary<uint, uint> _OffsetToIndex = new Dictionary<uint, uint>();
+        readonly Dictionary<uint, uint> _IndexToOffset = new Dictionary<uint, uint>();
 
         DebuggerState _State;
         uint _CurrentInstructionIndex;
@@ -130,7 +130,7 @@ namespace SCReverser.Core.Interfaces
             get { return CurrentInstruction.Offset; }
             set
             {
-                if (OffsetToIndex.TryGetValue(value, out uint v))
+                if (_OffsetToIndex.TryGetValue(value, out uint v))
                     CurrentInstructionIndex = v;
             }
         }
@@ -192,10 +192,28 @@ namespace SCReverser.Core.Interfaces
             uint ix = 0;
             foreach (Instruction i in Instructions)
             {
-                OffsetToIndex.Add(i.Offset, ix);
-                IndexToOffset.Add(ix, i.Offset);
+                _OffsetToIndex.Add(i.Offset, ix);
+                _IndexToOffset.Add(ix, i.Offset);
                 ix++;
             }
+        }
+        /// <summary>
+        /// Index to Offset
+        /// </summary>
+        /// <param name="index">Index</param>
+        /// <param name="offset">Offset</param>
+        public bool IndexToOffset(uint index, out uint offset)
+        {
+            return _IndexToOffset.TryGetValue(index, out offset);
+        }
+        /// <summary>
+        /// Offset to Index
+        /// </summary>
+        /// <param name="offset">Offset</param>
+        /// <param name="index">Index</param>
+        public bool OffsetToIndex(uint offset, out uint index)
+        {
+            return _OffsetToIndex.TryGetValue(offset, out index);
         }
         /// <summary>
         /// Free resources

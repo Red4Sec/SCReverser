@@ -307,13 +307,13 @@ namespace SCReverser.NEO
         [OpCodeArgument]
         [Description("Does nothing.")]
         NOP = 0x61,
-        [OpCodeArgument(typeof(OpCodeUShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument))]
         JMP = 0x62,
-        [OpCodeArgument(typeof(OpCodeUShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument))]
         JMPIF = 0x63,
-        [OpCodeArgument(typeof(OpCodeUShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument))]
         JMPIFNOT = 0x64,
-        [OpCodeArgument(typeof(OpCodeUShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument))]
         CALL = 0x65,
         [OpCodeArgument]
         RET = 0x66,

@@ -5,6 +5,10 @@ namespace SCReverser.Core.Types
     public class ReverseResult
     {
         /// <summary>
+        /// Bytes
+        /// </summary>
+        public byte[] Bytes { get; set; }
+        /// <summary>
         /// Instructions
         /// </summary>
         public InstructionCollection Instructions { get; private set; } = new InstructionCollection();

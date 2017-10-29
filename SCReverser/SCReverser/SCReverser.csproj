@@ -71,6 +71,9 @@
     <Compile Include="Controls\UCOcurrence.Designer.cs">
       <DependentUpon>UCOcurrence.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UCPJump.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FMain.cs">
       <SubType>Form</SubType>
     </Compile>
