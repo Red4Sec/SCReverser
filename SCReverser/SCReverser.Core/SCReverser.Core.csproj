@@ -74,6 +74,7 @@
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
     <Compile Include="Delegates\OnInstructionDelegate.cs" />
     <Compile Include="Enums\DebuggerState.cs" />
+    <Compile Include="Enums\OpCodeFlag.cs" />
     <Compile Include="Enums\TemplateFlags.cs" />
     <Compile Include="Exceptions\OpCodeNotFoundException.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />

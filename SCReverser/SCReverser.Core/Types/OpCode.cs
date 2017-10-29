@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Interfaces;
+﻿using SCReverser.Core.Enums;
+using SCReverser.Core.Interfaces;
 using System.IO;
 
 namespace SCReverser.Core.Types
@@ -17,6 +18,10 @@ namespace SCReverser.Core.Types
         /// OpCode Description
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Flag
+        /// </summary>
+        public OpCodeFlag Flags { get; set; }
 
         /// <summary>
         /// Write OpCode

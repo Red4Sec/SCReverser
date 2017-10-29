@@ -177,6 +177,7 @@ namespace SCReverser.Core.Interfaces
                             RawValue = opCode,
                             Name = read.OpCode,
                             Description = read.Description,
+                            Flags = read.Flags
                         },
                         Argument = arg,
                         Comment = arg.ASCIIValue,

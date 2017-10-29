@@ -10,11 +10,6 @@ namespace SCReverser.NEO
     public class NeoReverser : ReverserBase<NeoOpCode>
     {
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public NeoReverser() : base() { }
-
-        /// <summary>
         /// Prepare result
         /// </summary>
         /// <param name="result">Resut</param>
@@ -99,7 +94,7 @@ namespace SCReverser.NEO
 
                         offset = ins.Offset + offset;
 
-                        ins.Comment = "Jump ["+ 
+                        ins.Comment = "Jump [" +
                             ins.OpCode.Name.Substring(3).ToLower() + "] to 0x" + offset.ToString("X4");
 
                         ins.Jump = new Jump(new OnJumpDelegate(

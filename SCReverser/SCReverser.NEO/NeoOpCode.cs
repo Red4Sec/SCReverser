@@ -1,4 +1,5 @@
 ﻿using SCReverser.Core.Attributes;
+using SCReverser.Core.Enums;
 using SCReverser.Core.OpCodeArguments;
 using SCReverser.NEO.OpCodeArguments;
 using System.ComponentModel;
@@ -307,15 +308,15 @@ namespace SCReverser.NEO
         [OpCodeArgument]
         [Description("Does nothing.")]
         NOP = 0x61,
-        [OpCodeArgument(typeof(OpCodeShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsJump)]
         JMP = 0x62,
-        [OpCodeArgument(typeof(OpCodeShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsJump)]
         JMPIF = 0x63,
-        [OpCodeArgument(typeof(OpCodeShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsJump)]
         JMPIFNOT = 0x64,
-        [OpCodeArgument(typeof(OpCodeShortArgument))]
+        [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
         CALL = 0x65,
-        [OpCodeArgument]
+        [OpCodeArgument(Flags = OpCodeFlag.IsRet)]
         RET = 0x66,
         [OpCodeArgument(typeof(OpCodeByteArrayArgument), ConstructorArguments = new object[] { 20 })]
         APPCALL = 0x67,

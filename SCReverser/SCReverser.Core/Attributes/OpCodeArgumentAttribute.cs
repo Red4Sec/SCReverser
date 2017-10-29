@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.OpCodeArguments;
+﻿using SCReverser.Core.Enums;
+using SCReverser.Core.OpCodeArguments;
 using System;
 
 namespace SCReverser.Core.Attributes
@@ -22,6 +23,10 @@ namespace SCReverser.Core.Attributes
         /// Description
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Flags
+        /// </summary>
+        public OpCodeFlag Flags { get; set; }
 
         /// <summary>
         /// Constructor
