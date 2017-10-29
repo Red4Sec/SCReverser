@@ -24,9 +24,11 @@ namespace SCReverser.NEO
                 {
                     Script = f.txtScript.Text,
                     VerificationScript = f.txtVerification.Text,
-                    BlockChainPath = f.txtBlockChain.Text,
                     TriggerType = (ETriggerType)f.scriptType.SelectedItem,
+                    EnableBlockChain = true,
                 };
+
+                config.BlockChainPath = f.txtBlockChain.Text;
             }
 
             return true;
@@ -53,6 +55,12 @@ namespace SCReverser.NEO
         }
         void button3_Click(object sender, EventArgs e)
         {
+            try
+            {
+                folderBrowserDialog1.SelectedPath = txtBlockChain.Text;
+            }
+            catch { }
+
             if (folderBrowserDialog1.ShowDialog() != DialogResult.OK) return;
 
             txtBlockChain.Text = folderBrowserDialog1.SelectedPath;

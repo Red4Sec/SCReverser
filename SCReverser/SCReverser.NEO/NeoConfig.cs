@@ -5,6 +5,7 @@ using Neo.Implementations.Blockchains.LevelDB;
 using Neo.IO.Caching;
 using Neo.SmartContract;
 using Neo.VM;
+using Newtonsoft.Json;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Remembers;
 using SCReverser.NEO.Internals;
@@ -49,6 +50,8 @@ namespace SCReverser.NEO
 
                 _BlockChainPath = value;
 
+                if (!EnableBlockChain) return;
+
                 if (Blockchain.Default != null)
                     Blockchain.RegisterBlockchain(new NullBlockChain());
 
@@ -62,13 +65,13 @@ namespace SCReverser.NEO
             }
         }
 
+        [JsonIgnore]
+        public bool EnableBlockChain { get; set; } = false;
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public NeoConfig()
-        {
-            BlockChainPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "NeoBlockchain");
-        }
+        public NeoConfig() { }
 
         /// <summary>
         /// Constructor
@@ -144,6 +147,12 @@ namespace SCReverser.NEO
             }
             catch { }
 
+            if (UInt160.TryParse(Script, out UInt160 hash))
+            {
+                ContractState c = Blockchain.Default.GetContract(hash);
+                return new MemoryStream(c.Script);
+            }
+
             return File.OpenRead(Script);
         }
 
@@ -176,6 +185,7 @@ namespace SCReverser.NEO
         /// </summary>
         public void Dispose()
         {
+            if (!EnableBlockChain) return;
             Blockchain.RegisterBlockchain(new NullBlockChain());
         }
     }

@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Collections;
+﻿using Neo;
+using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
@@ -23,6 +24,64 @@ namespace SCReverser.NEO
             // Append syscall
             if (!result.Ocurrences.ContainsKey("SysCalls"))
                 result.Ocurrences["SysCalls"] = new OcurrenceCollection() { Checker = SysCallCheckOcurrence };
+
+            // Append UInt160
+            if (!result.Ocurrences.ContainsKey("UInt160-Addresses"))
+                result.Ocurrences["UInt160-Addresses"] = new OcurrenceCollection() { Checker = UInt160AddressesCheckOcurrence };
+
+            // Append UInt256
+            if (!result.Ocurrences.ContainsKey("UInt256-Addresses"))
+                result.Ocurrences["UInt256-Addresses"] = new OcurrenceCollection() { Checker = UInt256AddressesCheckOcurrence };
+        }
+        /// <summary>
+        /// Check if Instruction have any UInt256 Addresses
+        /// </summary>
+        /// <param name="instruction">Instruction</param>
+        /// <param name="name">Name</param>
+        bool UInt256AddressesCheckOcurrence(Instruction instruction, out string name)
+        {
+            if (instruction == null || instruction.Argument == null)
+            {
+                name = null;
+                return false;
+            }
+
+            byte[] d = instruction.Argument.RawValue;
+
+            if (d != null && d.Length == 32)
+            {
+                UInt256 r = new UInt256(d);
+                name = r.ToString();
+                return true;
+            }
+
+            name = null;
+            return false;
+        }
+        /// <summary>
+        /// Check if Instruction have any UInt160 Addresses
+        /// </summary>
+        /// <param name="instruction">Instruction</param>
+        /// <param name="name">Name</param>
+        bool UInt160AddressesCheckOcurrence(Instruction instruction, out string name)
+        {
+            if (instruction == null || instruction.Argument == null)
+            {
+                name = null;
+                return false;
+            }
+
+            byte[] d = instruction.Argument.RawValue;
+
+            if (d != null && d.Length == 20)
+            {
+                UInt160 r = new UInt160(d);
+                name = r.ToString();
+                return true;
+            }
+
+            name = null;
+            return false;
         }
         /// <summary>
         /// Check if Instruction are SysCall
