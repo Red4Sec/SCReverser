@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Interfaces;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
 using System.IO;
 
@@ -17,6 +18,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Offset Hex
         /// </summary>
+        [JsonIgnore]
         public string OffsetHex { get { return "0x" + Offset.ToString("X4"); } }
         /// <summary>
         /// OpCode
@@ -37,6 +39,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Jump
         /// </summary>
+        [JsonIgnore]
         public Jump Jump { get; set; }
 
         /// <summary>

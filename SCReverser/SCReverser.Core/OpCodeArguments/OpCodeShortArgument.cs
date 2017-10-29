@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Extensions;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Extensions;
 
 namespace SCReverser.Core.OpCodeArguments
 {
@@ -7,6 +8,7 @@ namespace SCReverser.Core.OpCodeArguments
         /// <summary>
         /// Value
         /// </summary>
+        [JsonIgnore]
         public virtual short Value
         {
             get { return RawValue.ToInt16(); }

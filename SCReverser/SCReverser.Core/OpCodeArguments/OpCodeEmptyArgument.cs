@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Interfaces;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Interfaces;
 using System.IO;
 using System.Text;
 
@@ -12,10 +13,11 @@ namespace SCReverser.Core.OpCodeArguments
         /// <summary>
         /// Raw value
         /// </summary>
-        public byte[] RawValue { get; protected set; }
+        public byte[] RawValue { get; set; }
         /// <summary>
         /// Ascii value
         /// </summary>
+        [JsonIgnore]
         public string ASCIIValue
         {
             get

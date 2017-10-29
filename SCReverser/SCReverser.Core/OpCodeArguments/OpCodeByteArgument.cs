@@ -1,10 +1,13 @@
-﻿namespace SCReverser.Core.OpCodeArguments
+﻿using Newtonsoft.Json;
+
+namespace SCReverser.Core.OpCodeArguments
 {
     public class OpCodeByteArgument : OpCodeByteArrayArgument
     {
         /// <summary>
         /// Value
         /// </summary>
+        [JsonIgnore]
         public byte Value
         {
             get { return RawValue[0]; }

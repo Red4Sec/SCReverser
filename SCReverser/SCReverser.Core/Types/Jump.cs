@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Delegates;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
 using SCReverser.Core.Interfaces;
@@ -22,6 +23,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Checker
         /// </summary>
+        [JsonIgnore]
         public OnJumpDelegate Checker
         {
             get { return _Checker; }
@@ -29,6 +31,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Is Dynamic
         /// </summary>
+        [JsonIgnore]
         public bool IsDynamic
         {
             get { return _Checker != null; }

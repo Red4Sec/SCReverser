@@ -1,5 +1,6 @@
 ﻿using SCReverser.Core.Delegates;
 using SCReverser.Core.Types;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SCReverser.Core.Interfaces
@@ -29,6 +30,7 @@ namespace SCReverser.Core.Interfaces
         /// Process instruction
         /// </summary>
         /// <param name="ins">Instruction</param>
-        void ProcessInstruction(Instruction ins);
+        /// <param name="offsetToIndexCache">Cache</param>
+        void ProcessInstruction(Instruction ins, Dictionary<uint, uint> offsetToIndexCache);
     }
 }

@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Collections;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Collections;
 
 namespace SCReverser.Core.Types
 {
@@ -7,6 +8,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Bytes
         /// </summary>
+        [JsonIgnore]
         public byte[] Bytes { get; set; }
         /// <summary>
         /// Instructions

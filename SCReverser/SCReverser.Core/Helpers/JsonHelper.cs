@@ -5,7 +5,30 @@ namespace SCReverser.Core.Helpers
 {
     public class JsonHelper
     {
-        //static JavaScriptSerializer JSON = new JavaScriptSerializer();
+        static JsonSerializerSettings SettingsTypesNull = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            NullValueHandling = NullValueHandling.Include,
+            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+            TypeNameHandling = TypeNameHandling.Auto,
+        };
+
+        static JsonSerializerSettings SettingsTypesNotNull = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore,
+            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+            TypeNameHandling = TypeNameHandling.Auto,
+        };
+
+        static JsonSerializerSettings SettingsNoTypesNotNull = new JsonSerializerSettings()
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore,
+            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+            TypeNameHandling = TypeNameHandling.Auto,
+        };
+
         /// <summary>
         /// Serialize
         /// </summary>
@@ -19,37 +42,24 @@ namespace SCReverser.Core.Helpers
         /// <param name="serializeNull">True for serialize null properties</param>
         public static string Serialize(object obj, bool indent, bool serializeNull)
         {
-            return JsonConvert.SerializeObject(obj, indent ? Formatting.Indented : Formatting.None, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                NullValueHandling = serializeNull ? NullValueHandling.Include : NullValueHandling.Ignore,
-                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
-
-                //PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            }
-                );
-        }
-        /// <summary>
-        /// Obtiene el objeto
-        /// </summary>
-        /// <param name="json">Json</param>
-        public static object Deserialize(string json)
-        {
-            if (!string.IsNullOrEmpty(json))
-                try { return JsonConvert.DeserializeObject(json); }
-                catch { }
-
-            return null;
+            return JsonConvert.SerializeObject(obj, indent ? Formatting.Indented : Formatting.None, serializeNull ? SettingsTypesNull : SettingsTypesNotNull);
         }
         /// <summary>
         /// Deserialize
         /// </summary>
         /// <param name="json">Json</param>
         /// <param name="tp">Type</param>
-        public static object Deserialize(string json, Type tp)
+        /// <param name="withTypes">With types</param>
+        public static object Deserialize(string json, Type tp, bool withTypes = false)
         {
             if (!string.IsNullOrEmpty(json))
-                try { return JsonConvert.DeserializeObject(json, tp); }
+                try
+                {
+                    if (!withTypes)
+                        return JsonConvert.DeserializeObject(json, tp, SettingsNoTypesNotNull);
+                    else
+                        return JsonConvert.DeserializeObject(json, tp, SettingsTypesNull);
+                }
                 catch { }
 
             return null;
@@ -59,13 +69,10 @@ namespace SCReverser.Core.Helpers
         /// </summary>
         /// <typeparam name="T">Object</typeparam>
         /// <param name="json">Json</param>
-        public static T Deserialize<T>(string json)
+        /// <param name="withTypes">With types</param>
+        public static T Deserialize<T>(string json, bool withTypes = false)
         {
-            if (!string.IsNullOrEmpty(json))
-                try { return JsonConvert.DeserializeObject<T>(json); }
-                catch { }
-
-            return default(T);
+            return (T)Deserialize(json, typeof(T), withTypes);
         }
         /// <summary>
         /// Clone object

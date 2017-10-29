@@ -8,10 +8,10 @@ using SCReverser.Core.Types;
 using SCReverser.NEO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,6 +19,26 @@ namespace SCReverser
 {
     public partial class FMain : FRememberForm
     {
+        string _LastSaveFile;
+
+        public string LastSaveFile
+        {
+            get { return _LastSaveFile; }
+            set
+            {
+                _LastSaveFile = value;
+                if (string.IsNullOrEmpty(_LastSaveFile))
+                {
+                    Text = "SCReverser";
+                    saveToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    Text = "SCReverser [" + _LastSaveFile + "]";
+                }
+            }
+        }
+
         IReverser Reverser;
         IDebugger Debugger;
         IReverseTemplate Template;
@@ -54,7 +74,7 @@ namespace SCReverser
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 // Load file for speed up the test
-                LoadFiles(new string[] { Path.Combine(".", "SmartContractSample.avm") });
+                LoadFiles(Path.Combine(".", "SmartContractSample.avm"));
             }
 #endif
         }
@@ -81,7 +101,6 @@ namespace SCReverser
             toolStripDropDownButton1.DropDownItems.Add(t.Template, t.GetLogo(), openToolStripMenuItem_Click).Tag = t;
             formatToolStripMenuItem.DropDownItems.Add(t.Template, t.GetLogo(), openToolStripMenuItem_Click).Tag = t;
         }
-
         void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -96,9 +115,10 @@ namespace SCReverser
 
             bool enable = Template != null;
 
-            openToolStripMenuItem.Enabled =
-            toolStripButton1.Enabled =
-            preferencesToolStripMenuItem.Enabled =
+            saveToolStripMenuItem.Enabled = enable && !string.IsNullOrEmpty(LastSaveFile);
+
+            toolStripButton8.Enabled = openToolStripMenuItem.Enabled =
+            toolStripButton1.Enabled = preferencesToolStripMenuItem.Enabled =
                 toolStripButton2.Enabled = enable;
         }
         void EnableDisableDebugger()
@@ -372,14 +392,15 @@ namespace SCReverser
 
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
 
-            LoadFiles(openFileDialog1.FileNames);
+            LoadFiles(openFileDialog1.FileName);
         }
-        void LoadFiles(IEnumerable<string> files)
+        void LoadFiles(string file)
         {
             tsProgressBar.Visible = true;
 
             Enabled = false;
             GridOpCode.DataSource = null;
+            LastSaveFile = null;
 
             // Delete tabs except Instructions
             for (int x = tabControl1.TabCount - 1; x >= 2; x--)
@@ -398,33 +419,66 @@ namespace SCReverser
 
             new Task(() =>
             {
-                ALoadFiles(files.ToArray());
+                ALoadFiles(file);
             })
             .Start();
         }
-        void ALoadFiles(params string[] files)
+        void ALoadFiles(string file)
         {
-            ReverseResult rs = new ReverseResult();
+            bool useLastFile = false;
+            ReverseResult rs = null;
 
             try
             {
-                using (MemoryStream ms = new MemoryStream())
+                switch (Path.GetExtension(file).ToLowerInvariant())
                 {
-                    foreach (string file in files)
-                        using (FileStream fs = File.OpenRead(file))
-                            fs.CopyTo(ms);
+                    case ".json":
+                        {
+                            rs = JsonHelper.Deserialize<ReverseResult>(File.ReadAllText(file, Encoding.UTF8), true);
+                            if (rs != null)
+                            {
+                                // Fill cache
+                                Dictionary<uint, uint> offsetToIndexCache = new Dictionary<uint, uint>();
+                                foreach (Instruction i in rs.Instructions)
+                                    offsetToIndexCache.Add(i.Offset, i.Index);
 
-                    ms.Seek(0, SeekOrigin.Begin);
+                                // Process instructions (Jumps)
+                                using (MemoryStream ms = new MemoryStream())
+                                {
+                                    foreach (Instruction i in rs.Instructions)
+                                    {
+                                        Reverser.ProcessInstruction(i, offsetToIndexCache);
+                                        i.Write(ms);
+                                    }
+                                    rs.Bytes = ms.ToArray();
+                                }
+                            }
+                            useLastFile = true;
+                            break;
+                        }
+                    default:
+                        {
+                            rs = new ReverseResult();
 
-                    if (!Reverser.TryParse(ms, true, ref rs))
-                        throw (new Exception("Error parsing the file"));
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                using (FileStream fs = File.OpenRead(file))
+                                    fs.CopyTo(ms);
+
+                                ms.Seek(0, SeekOrigin.Begin);
+
+                                if (!Reverser.TryParse(ms, true, ref rs))
+                                    throw (new Exception("Error parsing the file"));
+                            }
+                            break;
+                        }
                 }
 
-                EndLoad(rs);
+                EndLoad(useLastFile ? file : null, rs);
             }
             catch (Exception ex)
             {
-                EndLoad(rs);
+                EndLoad(useLastFile ? file : null, rs);
                 Error(ex);
             }
         }
@@ -438,11 +492,11 @@ namespace SCReverser
 
             tsProgressBar.Value = percent;
         }
-        void EndLoad(ReverseResult result)
+        void EndLoad(string file, ReverseResult result)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<ReverseResult>(EndLoad), result);
+                Invoke(new Action<string, ReverseResult>(EndLoad), file, result);
                 return;
             }
 
@@ -450,6 +504,7 @@ namespace SCReverser
 
             if (result != null)
             {
+                LastSaveFile = file;
                 Hex.SetBytes(result.Bytes);
 
                 foreach (string sk in result.Ocurrences.Keys)
@@ -639,5 +694,30 @@ namespace SCReverser
 
         void GridOpCode_CurrentCellChanged(object sender, EventArgs e) { Jumps.Invalidate(); }
         void GridOpCode_Scroll(object sender, ScrollEventArgs e) { Jumps.Invalidate(); }
+
+        void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Template == null || Result == null) return;
+
+            if (string.IsNullOrEmpty(LastSaveFile) || sender == saveAsToolStripMenuItem)
+            {
+                // Save as
+                if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
+
+                LastSaveFile = saveFileDialog1.FileName;
+            }
+
+            if (string.IsNullOrEmpty(LastSaveFile)) return;
+
+            try
+            {
+                File.WriteAllText(LastSaveFile, JsonHelper.Serialize(Result, true, false), Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                LastSaveFile = null;
+                Error(ex);
+            }
+        }
     }
 }

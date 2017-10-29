@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using System.IO;
 using System.Text;
 
 namespace SCReverser.Core.OpCodeArguments
@@ -8,7 +9,8 @@ namespace SCReverser.Core.OpCodeArguments
         /// <summary>
         /// Length
         /// </summary>
-        public int Length { get; protected set; }
+        [JsonIgnore]
+        public int Length { get { return RawValue == null ? 0 : RawValue.Length; } }
 
         /// <summary>
         /// Constructor
@@ -16,7 +18,6 @@ namespace SCReverser.Core.OpCodeArguments
         /// <param name="length">Length</param>
         public OpCodeByteArrayArgument(int length)
         {
-            Length = length;
             RawValue = new byte[length];
         }
         /// <summary>

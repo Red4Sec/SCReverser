@@ -185,7 +185,7 @@ namespace SCReverser.Core.Interfaces
 
                     OffsetToIndex.Add(ins.Offset, ins.Index);
 
-                    ProcessInstruction(ins);
+                    ProcessInstruction(ins, OffsetToIndex);
 
                     // Recall jumps
                     if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.Offset.HasValue && !ins.Jump.Index.HasValue)
@@ -249,6 +249,7 @@ namespace SCReverser.Core.Interfaces
         /// Process instruction
         /// </summary>
         /// <param name="ins">Instruction</param>
-        public virtual void ProcessInstruction(Instruction ins) { }
+        /// <param name="offsetToIndexCache">Cache</param>
+        public virtual void ProcessInstruction(Instruction ins, Dictionary<uint, uint> offsetToIndexCache) { }
     }
 }

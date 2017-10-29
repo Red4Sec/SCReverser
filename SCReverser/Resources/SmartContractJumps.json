@@ -1,0 +1,229 @@
+﻿{
+  "Instructions": [
+    {
+      "Index": 0,
+      "Offset": 0,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "Entry Point",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 1,
+      "Offset": 1,
+      "OpCode": {
+        "RawValue": "Yg==",
+        "Name": "JMP",
+        "Flags": 4
+      },
+      "Argument": {
+        "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
+        "RawValue": "BQA="
+      },
+      "Comment": "Jmp to 0x0006",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 2,
+      "Offset": 4,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 3,
+      "Offset": 5,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 4,
+      "Offset": 6,
+      "OpCode": {
+        "RawValue": "AA==",
+        "Name": "PUSH0",
+        "Description": "An empty array of bytes is pushed onto the stack.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 5,
+      "Offset": 7,
+      "OpCode": {
+        "RawValue": "ZA==",
+        "Name": "JMPIFNOT",
+        "Flags": 4
+      },
+      "Argument": {
+        "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
+        "RawValue": "+f8="
+      },
+      "Comment": "Jump [ifnot] to 0x0000",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 6,
+      "Offset": 10,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 7,
+      "Offset": 11,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 8,
+      "Offset": 12,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 9,
+      "Offset": 13,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 10,
+      "Offset": 14,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 11,
+      "Offset": 15,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 12,
+      "Offset": 16,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 13,
+      "Offset": 17,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    },
+    {
+      "Index": 14,
+      "Offset": 18,
+      "OpCode": {
+        "RawValue": "YQ==",
+        "Name": "NOP",
+        "Description": "Does nothing.",
+        "Flags": 0
+      },
+      "Argument": {},
+      "Comment": "",
+      "HaveBreakPoint": false
+    }
+  ],
+  "Ocurrences": {
+    "Strings": [
+      {
+        "Count": 1,
+        "Value": "??"
+      }
+    ],
+    "OpCodes": [
+      {
+        "Count": 12,
+        "Value": "NOP"
+      },
+      {
+        "Count": 1,
+        "Value": "JMP"
+      },
+      {
+        "Count": 1,
+        "Value": "PUSH0"
+      },
+      {
+        "Count": 1,
+        "Value": "JMPIFNOT"
+      }
+    ]
+  }
+}

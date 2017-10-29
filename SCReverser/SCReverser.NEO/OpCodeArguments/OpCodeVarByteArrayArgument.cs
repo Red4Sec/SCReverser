@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Extensions;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Extensions;
 using SCReverser.Core.OpCodeArguments;
 using System;
 using System.IO;
@@ -10,7 +11,15 @@ namespace SCReverser.NEO.OpCodeArguments
         /// <summary>
         /// Max Length
         /// </summary>
-        public ulong MaxLength { get; private set; }
+        [JsonIgnore]
+        public ulong MaxLength { get; set; }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public OpCodeVarByteArrayArgument() : base(0)
+        {
+            MaxLength = 0;
+        }
         /// <summary>
         /// Constructor
         /// </summary>

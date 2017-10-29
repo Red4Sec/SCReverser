@@ -31,20 +31,21 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.fromFilesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton8 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -61,8 +62,13 @@
             this.tabInstructions = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GridOpCode = new System.Windows.Forms.DataGridView();
+            this.dcOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dcOpCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dcArgument = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Jumps = new SCReverser.Controls.UCPJump();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SplitStack = new System.Windows.Forms.TableLayoutPanel();
             this.GridAltStack = new System.Windows.Forms.DataGridView();
@@ -77,6 +83,8 @@
             this.formatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,11 +97,7 @@
             this.stepOverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.Jumps = new SCReverser.Controls.UCPJump();
-            this.dcOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dcOpCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dcArgument = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -119,6 +123,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
             this.toolStripButton1,
+            this.toolStripButton8,
             this.toolStripSeparator1,
             this.toolStripButton2,
             this.toolStripSeparator2,
@@ -153,6 +158,14 @@
             this.fromFilesToolStripMenuItem1.Name = "fromFilesToolStripMenuItem1";
             resources.ApplyResources(this.fromFilesToolStripMenuItem1, "fromFilesToolStripMenuItem1");
             this.fromFilesToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
+            // 
+            // toolStripButton8
+            // 
+            this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.toolStripButton8, "toolStripButton8");
+            this.toolStripButton8.Image = global::SCReverser.Res.SaveIcon;
+            this.toolStripButton8.Name = "toolStripButton8";
+            this.toolStripButton8.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -301,6 +314,56 @@
             this.GridOpCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GridOpCode_KeyDown);
             this.GridOpCode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GridOpCode_MouseDown);
             // 
+            // dcOffset
+            // 
+            this.dcOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dcOffset.DataPropertyName = "OffsetHex";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dcOffset.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dcOffset.Frozen = true;
+            resources.ApplyResources(this.dcOffset, "dcOffset");
+            this.dcOffset.Name = "dcOffset";
+            this.dcOffset.ReadOnly = true;
+            this.dcOffset.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dcOffset.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dcOpCode
+            // 
+            this.dcOpCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dcOpCode.DataPropertyName = "OpCode";
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Ivory;
+            this.dcOpCode.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dcOpCode.Frozen = true;
+            resources.ApplyResources(this.dcOpCode, "dcOpCode");
+            this.dcOpCode.Name = "dcOpCode";
+            this.dcOpCode.ReadOnly = true;
+            this.dcOpCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dcOpCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dcArgument
+            // 
+            this.dcArgument.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dcArgument.DataPropertyName = "Argument";
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dcArgument.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.dcArgument, "dcArgument");
+            this.dcArgument.Name = "dcArgument";
+            this.dcArgument.ReadOnly = true;
+            this.dcArgument.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // dcComment
+            // 
+            this.dcComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dcComment.DataPropertyName = "Comment";
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dcComment.DefaultCellStyle = dataGridViewCellStyle4;
+            resources.ApplyResources(this.dcComment, "dcComment");
+            this.dcComment.Name = "dcComment";
+            this.dcComment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -313,6 +376,12 @@
             this.goHereToolStripMenuItem.Name = "goHereToolStripMenuItem";
             resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Click += new System.EventHandler(this.goHereToolStripMenuItem_Click);
+            // 
+            // Jumps
+            // 
+            resources.ApplyResources(this.Jumps, "Jumps");
+            this.Jumps.Grid = this.GridOpCode;
+            this.Jumps.Name = "Jumps";
             // 
             // panel1
             // 
@@ -454,6 +523,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.formatToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -479,6 +550,20 @@
             this.fromFilesToolStripMenuItem.Name = "fromFilesToolStripMenuItem";
             resources.ApplyResources(this.fromFilesToolStripMenuItem, "fromFilesToolStripMenuItem");
             this.fromFilesToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = global::SCReverser.Res.SaveIcon;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Image = global::SCReverser.Res.SaveIcon;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            resources.ApplyResources(this.saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -562,63 +647,11 @@
             // 
             this.openFileDialog1.DefaultExt = "*";
             resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
-            this.openFileDialog1.Multiselect = true;
             // 
-            // Jumps
+            // saveFileDialog1
             // 
-            resources.ApplyResources(this.Jumps, "Jumps");
-            this.Jumps.Grid = this.GridOpCode;
-            this.Jumps.Name = "Jumps";
-            // 
-            // dcOffset
-            // 
-            this.dcOffset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dcOffset.DataPropertyName = "OffsetHex";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.dcOffset.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dcOffset.Frozen = true;
-            resources.ApplyResources(this.dcOffset, "dcOffset");
-            this.dcOffset.Name = "dcOffset";
-            this.dcOffset.ReadOnly = true;
-            this.dcOffset.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dcOffset.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dcOpCode
-            // 
-            this.dcOpCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dcOpCode.DataPropertyName = "OpCode";
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Ivory;
-            this.dcOpCode.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dcOpCode.Frozen = true;
-            resources.ApplyResources(this.dcOpCode, "dcOpCode");
-            this.dcOpCode.Name = "dcOpCode";
-            this.dcOpCode.ReadOnly = true;
-            this.dcOpCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dcOpCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dcArgument
-            // 
-            this.dcArgument.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dcArgument.DataPropertyName = "Argument";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dcArgument.DefaultCellStyle = dataGridViewCellStyle3;
-            resources.ApplyResources(this.dcArgument, "dcArgument");
-            this.dcArgument.Name = "dcArgument";
-            this.dcArgument.ReadOnly = true;
-            this.dcArgument.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // dcComment
-            // 
-            this.dcComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dcComment.DataPropertyName = "Comment";
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dcComment.DefaultCellStyle = dataGridViewCellStyle4;
-            resources.ApplyResources(this.dcComment, "dcComment");
-            this.dcComment.Name = "dcComment";
-            this.dcComment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.saveFileDialog1.DefaultExt = "*.json";
+            resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
             // 
             // FMain
             // 
@@ -711,6 +744,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dcOpCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn dcArgument;
         private System.Windows.Forms.DataGridViewTextBoxColumn dcComment;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButton8;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

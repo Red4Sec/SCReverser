@@ -3,6 +3,7 @@ using SCReverser.Core.Delegates;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
 using SCReverser.Core.Types;
+using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 
 namespace SCReverser.NEO
@@ -45,7 +46,8 @@ namespace SCReverser.NEO
         /// Fill jumps
         /// </summary>
         /// <param name="ins">Instruction</param>
-        public override void ProcessInstruction(Instruction ins)
+        /// <param name="offsetToIndexCache">Cache</param>
+        public override void ProcessInstruction(Instruction ins, Dictionary<uint, uint> offsetToIndexCache)
         {
             if (ins.OpCode == null) return;
 
@@ -78,7 +80,11 @@ namespace SCReverser.NEO
                             uint offset = (uint)a.Value;
                             offset = ins.Offset + offset;
 
-                            ins.Jump = new Jump(offset, null);
+                            uint? index = null;
+                            if (offsetToIndexCache.TryGetValue(offset, out uint ix))
+                                index = ix;
+
+                            ins.Jump = new Jump(offset, index);
 
                             ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
                         }

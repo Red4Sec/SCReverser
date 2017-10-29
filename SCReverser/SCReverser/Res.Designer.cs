@@ -143,6 +143,16 @@ namespace SCReverser {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SaveIcon {
+            get {
+                object obj = ResourceManager.GetObject("SaveIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Stop {
             get {
                 object obj = ResourceManager.GetObject("Stop", resourceCulture);
