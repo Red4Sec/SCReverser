@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using SCReverser.Core.Enums;
 
 namespace SCReverser.Core.Interfaces
 {

@@ -17,15 +17,17 @@ namespace SCReverser.Tests
         {
             NeoTemplate n = new NeoTemplate();
 
-            IReverser reverser = n.CreateReverser();
-            ReverseResult rs = null;
-            Assert.IsTrue(reverser.TryParse(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length, ref rs));
-
-            using (IDebugger debugger = n.CreateDebugger(rs.Instructions, new NeoConfig()
+            NeoConfig ini = new NeoConfig(SmartContractSampleRaw)
             {
                 TriggerType = ETriggerType.Application,
                 BlockChainPath = null,
-            }))
+            };
+
+            IReverser reverser = n.CreateReverser();
+            ReverseResult rs = null;
+            Assert.IsTrue(reverser.TryParse(ini, ref rs));
+
+            using (IDebugger debugger = n.CreateDebugger(rs.Instructions, ini))
             {
                 bool bp1 = false, bp2 = false;
                 // Check event
@@ -67,8 +69,14 @@ namespace SCReverser.Tests
 
             Assert.IsInstanceOfType(reverser, typeof(NeoReverser));
 
+            NeoConfig ini = new NeoConfig(SmartContractSampleRaw)
+            {
+                TriggerType = ETriggerType.Application,
+                BlockChainPath = null,
+            };
+
             ReverseResult rs = null;
-            Assert.IsTrue(reverser.TryParse(SmartContractSampleRaw, 0, SmartContractSampleRaw.Length, ref rs));
+            Assert.IsTrue(reverser.TryParse(ini, ref rs));
 
             // Parse test
             Assert.IsTrue(rs.Instructions.Count == SmartContractSampleTxt.Length);

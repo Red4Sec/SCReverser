@@ -44,24 +44,23 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Create reverser
         /// </summary>
-        public ReverserT CreateReverser()
+        public virtual ReverserT CreateReverser()
         {
             return Activator.CreateInstance<ReverserT>();
         }
-
         IReverser IReverseTemplate.CreateReverser()
         {
-            return Activator.CreateInstance<ReverserT>();
+            ReverserT r = CreateReverser();
+            return r;
         }
-
-        public IDebugger CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        public virtual IDebugger CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
         {
             throw new NotImplementedException();
         }
         /// <summary>
         /// Get new config Type
         /// </summary>
-        public object CreateNewConfig()
+        public virtual object CreateNewConfig()
         {
             return Activator.CreateInstance<CfgType>();
         }

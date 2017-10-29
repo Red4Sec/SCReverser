@@ -95,6 +95,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interfaces\IDebugger.cs" />
+    <Compile Include="Interfaces\IInitClassStream.cs" />
     <Compile Include="Interfaces\IRemember.cs" />
     <Compile Include="Interfaces\IReverseTemplate.cs" />
     <Compile Include="Interfaces\IWritable.cs" />

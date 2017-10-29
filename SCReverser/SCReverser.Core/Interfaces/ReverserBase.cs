@@ -4,6 +4,7 @@ using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Exceptions;
 using SCReverser.Core.Extensions;
+using SCReverser.Core.Helpers;
 using SCReverser.Core.OpCodeArguments;
 using SCReverser.Core.Types;
 using System;
@@ -13,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -26,15 +28,15 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// OpCode Size
         /// </summary>
-        public readonly int OpCodeSize;
+        static public readonly int OpCodeSize;
         /// <summary>
         /// OpCache
         /// </summary>
-        Dictionary<string, OpCodeArgumentAttribute> OpCodeCache;
+        static Dictionary<string, OpCodeArgumentAttribute> OpCodeCache;
         /// <summary>
         /// Constructor
         /// </summary>
-        protected ReverserBase()
+        static ReverserBase()
         {
             Type enumType = typeof(T);
             if (!enumType.IsEnum) throw (new ArgumentException("T"));
@@ -117,134 +119,172 @@ namespace SCReverser.Core.Interfaces
             return !string.IsNullOrEmpty(name);
         }
         /// <summary>
-        /// Get instructions from byte array
-        /// </summary>
-        /// <param name="data">Data</param>
-        /// <param name="index">Index</param>
-        /// <param name="length">Length</param>
-        /// <param name="result">Result</param> 
-        public bool TryParse(byte[] data, int index, int length, ref ReverseResult result)
-        {
-            return TryParse(new MemoryStream(data, index, length), false, ref result);
-        }
-        /// <summary>
         /// Get instructions from stream
         /// </summary>
-        /// <param name="stream">Stream</param>
-        /// <param name="leaveOpen">Leave open</param>
-        /// <param name="result">Result</param> 
-        public virtual bool TryParse(Stream stream, bool leaveOpen, ref ReverseResult result)
+        /// <param name="initClass">Init class</param>
+        /// <param name="result">Result</param>
+        public virtual bool TryParse(object initClass, ref ReverseResult result)
         {
             uint insNumber = 0;
             uint offset = 0;
 
             if (result == null) result = new ReverseResult() { };
-            PrapareResultForOcurrences(result);
 
-            long max = stream.Length;
-            int percent = 0, newPercent = 0;
+            if (initClass == null || !(initClass is IInitClassStream ics))
+                return false;
 
-            List<Instruction> recallJump = new List<Instruction>();
+            bool leaveOpen;
+            Stream stream = ics.GetStream(out leaveOpen);
+
             OffsetRelationCache offsetCache = new OffsetRelationCache();
 
-            using (MemoryStream ms = new MemoryStream())
+            try
             {
-                while (true)
+                #region load file if are json FileStream
+                if (stream is FileStream fi && Path.GetExtension(fi.Name).ToLowerInvariant() == ".json")
                 {
-                    byte[] opCode = new byte[OpCodeSize];
+                    long originalPos = stream.Position;
+                    byte[] all = new byte[stream.Length - originalPos];
+                    stream.Read(all, 0, all.Length);
 
-                    if (stream.Read(opCode, 0, OpCodeSize) != OpCodeSize)
-                        break;
+                    string json = Encoding.UTF8.GetString(all, 0, all.Length);
 
-                    string key = opCode.ToHexString();
+                    result = JsonHelper.Deserialize<ReverseResult>(json, true);
+                    if (result != null)
+                    {
+                        // Fill cache
+                        offsetCache.FillWith(result.Instructions);
 
-                    OpCodeArgumentAttribute read;
-                    if (!OpCodeCache.TryGetValue(key, out read) || read == null)
-                        throw (new OpCodeNotFoundException()
+                        // Process instructions (Jumps)
+                        using (MemoryStream ms = new MemoryStream())
                         {
+                            foreach (Instruction i in result.Instructions)
+                            {
+                                ProcessInstruction(i, offsetCache);
+                                i.Write(ms);
+                            }
+                            result.Bytes = ms.ToArray();
+                        }
+
+                        return true;
+                    }
+
+                    stream.Seek(originalPos, SeekOrigin.Begin);
+                }
+                #endregion
+
+                PrapareResultForOcurrences(result);
+
+                long max = stream.Length;
+                int percent = 0, newPercent = 0;
+
+                List<Instruction> recallJump = new List<Instruction>();
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    while (true)
+                    {
+                        byte[] opCode = new byte[OpCodeSize];
+
+                        if (stream.Read(opCode, 0, OpCodeSize) != OpCodeSize)
+                            break;
+
+                        string key = opCode.ToHexString();
+
+                        OpCodeArgumentAttribute read;
+                        if (!OpCodeCache.TryGetValue(key, out read) || read == null)
+                            throw (new OpCodeNotFoundException()
+                            {
+                                Offset = offset,
+                                OpCode = opCode,
+                            });
+
+                        OpCodeEmptyArgument arg = read.Create();
+                        uint rBytes = arg.Read(stream);
+
+                        Instruction ins = new Instruction()
+                        {
+                            Index = insNumber,
                             Offset = offset,
-                            OpCode = opCode,
-                        });
+                            OpCode = new OpCode()
+                            {
+                                RawValue = opCode,
+                                Name = read.OpCode,
+                                Description = read.Description,
+                                Flags = read.Flags
+                            },
+                            Argument = arg,
+                            Comment = arg.ASCIIValue,
+                        };
 
-                    OpCodeEmptyArgument arg = read.Create();
-                    uint rBytes = arg.Read(stream);
+                        offsetCache.Add(ins);
 
-                    Instruction ins = new Instruction()
-                    {
-                        Index = insNumber,
-                        Offset = offset,
-                        OpCode = new OpCode()
+                        ProcessInstruction(ins, offsetCache);
+
+                        // Recall jumps
+                        if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.Offset.HasValue && !ins.Jump.Index.HasValue)
+                            recallJump.Add(ins);
+
+                        result.Instructions.Add(ins);
+
+                        #region Fill ocurrences
+                        foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
                         {
-                            RawValue = opCode,
-                            Name = read.OpCode,
-                            Description = read.Description,
-                            Flags = read.Flags
-                        },
-                        Argument = arg,
-                        Comment = arg.ASCIIValue,
-                    };
+                            if (ocur.Checker != null && ocur.Checker(ins, out string val))
+                                ocur.Append(val, 1);
+                        }
+                        #endregion
 
-                    offsetCache.Add(ins);
+                        offset += (uint)(rBytes + OpCodeSize);
+                        insNumber++;
 
-                    ProcessInstruction(ins, offsetCache);
+                        newPercent = (int)((offset * 100) / max);
+                        if (percent != newPercent)
+                        {
+                            percent = newPercent;
+                            OnParseProgress?.Invoke(this, percent);
+                        }
 
-                    // Recall jumps
-                    if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.Offset.HasValue && !ins.Jump.Index.HasValue)
-                        recallJump.Add(ins);
-
-                    result.Instructions.Add(ins);
-
-                    #region Fill ocurrences
-                    foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
-                    {
-                        if (ocur.Checker != null && ocur.Checker(ins, out string val))
-                            ocur.Append(val, 1);
-                    }
-                    #endregion
-
-                    offset += (uint)(rBytes + OpCodeSize);
-                    insNumber++;
-
-                    newPercent = (int)((offset * 100) / max);
-                    if (percent != newPercent)
-                    {
-                        percent = newPercent;
-                        OnParseProgress?.Invoke(this, percent);
+                        ins.Write(ms);
                     }
 
-                    ins.Write(ms);
+                    result.Bytes = ms.ToArray();
                 }
 
-                result.Bytes = ms.ToArray();
-            }
-
-            if (!leaveOpen)
-            {
-                stream.Close();
-                stream.Dispose();
-            }
-
-            foreach (Instruction j in recallJump)
-            {
-                if (offsetCache.TryGetValue(j.Jump.Offset.Value, out uint index, OffsetIndexRelation.OffsetToIndex))
+                foreach (Instruction j in recallJump)
                 {
-                    j.Jump = new Jump(j.Jump.Offset.Value, index);
+                    if (offsetCache.TryGetValue(j.Jump.Offset.Value, out uint index, OffsetIndexRelation.OffsetToIndex))
+                    {
+                        j.Jump = new Jump(j.Jump.Offset.Value, index);
+                    }
+                    else
+                    {
+                        // If enter here, there will be an error
+                        j.Jump = null;
+                    }
                 }
-                else
+
+                // Remove empty ocurrences
+                foreach (string key in result.Ocurrences.Keys.ToArray())
                 {
-                    // If enter here, there will be an error
-                    j.Jump = null;
+                    if (result.Ocurrences[key].Count <= 0)
+                        result.Ocurrences.Remove(key);
+                }
+
+                return result.Instructions.Count > 0;
+            }
+            catch (Exception er)
+            {
+                throw (er);
+            }
+            finally
+            {
+                if (!leaveOpen && stream != null)
+                {
+                    stream.Close();
+                    stream.Dispose();
                 }
             }
-
-            // Remove empty ocurrences
-            foreach (string key in result.Ocurrences.Keys.ToArray())
-            {
-                if (result.Ocurrences[key].Count <= 0)
-                    result.Ocurrences.Remove(key);
-            }
-
-            return result.Instructions.Count > 0;
         }
         /// <summary>
         /// Process instruction

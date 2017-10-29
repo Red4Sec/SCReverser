@@ -1,6 +1,6 @@
-﻿using System.Drawing;
-using SCReverser.Core.Enums;
+﻿using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
+using System.Drawing;
 
 namespace SCReverser.NEO
 {
@@ -14,6 +14,16 @@ namespace SCReverser.NEO
         /// Flags
         /// </summary>
         public override TemplateFlags Flags => TemplateFlags.HaveAltStack;
+
+        /// <summary>
+        /// Open file
+        /// </summary>
+        public override object CreateNewConfig()
+        {
+            NeoConfig cfg;
+            if (!FOpen.ShowForm(out cfg)) return null;
+            return cfg;
+        }
         /// <summary>
         /// Get logo
         /// </summary>

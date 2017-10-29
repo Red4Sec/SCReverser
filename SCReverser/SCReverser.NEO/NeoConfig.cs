@@ -5,7 +5,10 @@ using Neo.Implementations.Blockchains.LevelDB;
 using Neo.IO.Caching;
 using Neo.SmartContract;
 using Neo.VM;
+using SCReverser.Core.Interfaces;
+using SCReverser.Core.Remembers;
 using SCReverser.NEO.Internals;
+using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.IO;
@@ -14,8 +17,18 @@ using System.Windows.Forms.Design;
 
 namespace SCReverser.NEO
 {
-    public class NeoConfig
+    public class NeoConfig : RememberForm, IInitClassStream, IDisposable
     {
+        string _BlockChainPath;
+
+        /// <summary>
+        /// Script
+        /// </summary>
+        public string Script { get; set; }
+        /// <summary>
+        /// Script
+        /// </summary>
+        public string VerificationScript { get; set; }
         /// <summary>
         /// Trigger type
         /// </summary>
@@ -23,8 +36,31 @@ namespace SCReverser.NEO
         /// <summary>
         /// Blockchain Path
         /// </summary>
-        [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
-        public string BlockChainPath { get; set; } = null;
+        [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
+        public string BlockChainPath
+        {
+            get
+            {
+                return _BlockChainPath;
+            }
+            set
+            {
+                if (_BlockChainPath == value) return;
+
+                _BlockChainPath = value;
+
+                if (Blockchain.Default != null)
+                    Blockchain.RegisterBlockchain(new NullBlockChain());
+
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (!Directory.Exists(BlockChainPath))
+                        Directory.CreateDirectory(BlockChainPath);
+
+                    Blockchain.RegisterBlockchain(new LevelDBBlockchain(value));
+                }
+            }
+        }
 
         /// <summary>
         /// Constructor
@@ -35,10 +71,18 @@ namespace SCReverser.NEO
         }
 
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="script">Script</param>
+        public NeoConfig(byte[] script) : this()
+        {
+            Script = Convert.ToBase64String(script);
+        }
+
+        /// <summary>
         /// Create Engine from config
         /// </summary>
-        /// <param name="db">Return if have blockchain</param>
-        public NeoEngine CreateEngine(out Blockchain db)
+        public NeoEngine CreateEngine()
         {
             IScriptContainer container = null;
 
@@ -48,25 +92,18 @@ namespace SCReverser.NEO
             DataCache<UInt160, ContractState> contracts;
             DataCache<StorageKey, StorageItem> storages;
 
-            if (!string.IsNullOrEmpty(BlockChainPath))
+            if (Blockchain.Default != null && !(Blockchain.Default is NullBlockChain))
             {
-                if (!Directory.Exists(BlockChainPath))
-                    Directory.CreateDirectory(BlockChainPath);
-
-                db = new LevelDBBlockchain(BlockChainPath);
-
                 // Real Blockchain
 
-                accounts = db.CreateCache<UInt160, AccountState>();
-                validators = db.CreateCache<ECPoint, ValidatorState>();
-                assets = db.CreateCache<UInt256, AssetState>();
-                contracts = db.CreateCache<UInt160, ContractState>();
-                storages = db.CreateCache<StorageKey, StorageItem>();
+                accounts = Blockchain.Default.CreateCache<UInt160, AccountState>();
+                validators = Blockchain.Default.CreateCache<ECPoint, ValidatorState>();
+                assets = Blockchain.Default.CreateCache<UInt256, AssetState>();
+                contracts = Blockchain.Default.CreateCache<UInt160, ContractState>();
+                storages = Blockchain.Default.CreateCache<StorageKey, StorageItem>();
             }
             else
             {
-                db = null;
-
                 // Fake Blockchain
 
                 accounts = new NeoFakeDbCache<UInt160, AccountState>();
@@ -90,6 +127,56 @@ namespace SCReverser.NEO
             }
 
             return new NeoEngine(t, container, script_table, service, Fixed8.Zero, true);
+        }
+        /// <summary>
+        /// Get stream
+        /// </summary>
+        /// <param name="leaveOpen">Leave open</param>
+        public Stream GetStream(out bool leaveOpen)
+        {
+            leaveOpen = false;
+
+            try
+            {
+                // Convert from b64
+                byte[] sc = Convert.FromBase64String(Script);
+                if (sc != null) return new MemoryStream(sc);
+            }
+            catch { }
+
+            return File.OpenRead(Script);
+        }
+
+        #region Remember in form
+        public override void GetValues(Form f)
+        {
+            base.GetValues(f);
+
+            if (!(f is FOpen fo)) return;
+
+            fo.txtScript.Text = Script;
+            fo.txtVerification.Text = VerificationScript;
+            fo.txtBlockChain.Text = BlockChainPath;
+            fo.scriptType.SelectedItem = TriggerType;
+        }
+        public override void SaveValues(Form f)
+        {
+            base.SaveValues(f);
+
+            if (!(f is FOpen fo)) return;
+
+            Script = fo.txtScript.Text;
+            VerificationScript = fo.txtVerification.Text;
+            BlockChainPath = fo.txtBlockChain.Text;
+            TriggerType = (ETriggerType)fo.scriptType.SelectedItem;
+        }
+        #endregion
+        /// <summary>
+        /// Free resources
+        /// </summary>
+        public void Dispose()
+        {
+            Blockchain.RegisterBlockchain(new NullBlockChain());
         }
     }
 }

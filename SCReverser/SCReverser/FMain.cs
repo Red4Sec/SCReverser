@@ -8,7 +8,6 @@ using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using SCReverser.NEO;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -43,7 +42,7 @@ namespace SCReverser
         IReverser Reverser;
         IDebugger Debugger;
         IReverseTemplate Template;
-        object CurrentConfig;
+        object Config;
         ReverseResult Result;
 
         public FMain()
@@ -55,14 +54,6 @@ namespace SCReverser
             // Load available templates
             AddTemplate(typeof(NeoTemplate));
 
-            // Auto select if only one
-            if (formatToolStripMenuItem.DropDownItems.Count == 1)
-            {
-                openToolStripMenuItem_Click(formatToolStripMenuItem.DropDownItems[0], EventArgs.Empty);
-
-                formatToolStripMenuItem.Visible = false;
-                toolStripDropDownButton1.Visible = false;
-            }
 
             EnableDisableConfig();
             EnableDisableDebugger();
@@ -73,19 +64,25 @@ namespace SCReverser
 
             StackAlt_OnChange(null, null);
 
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+
+            // Auto select if only one
+            if (formatToolStripMenuItem.DropDownItems.Count == 1)
             {
-                // Load file for speed up the test
-                LoadFiles(Path.Combine(".", "SmartContractSample.avm"));
+                openToolStripMenuItem_Click(formatToolStripMenuItem.DropDownItems[0], EventArgs.Empty);
+
+                formatToolStripMenuItem.Visible = false;
+                toolStripDropDownButton1.Visible = false;
+                openToolStripMenuItem_Click_1(null, null);
             }
-#endif
         }
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
 
             CleanDebugger();
+
+            if (Config != null && Config is IDisposable d)
+                d.Dispose();
         }
         void Instructions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -121,8 +118,7 @@ namespace SCReverser
             saveToolStripMenuItem.Enabled = enable && !string.IsNullOrEmpty(LastSaveFile);
 
             toolStripButton8.Enabled = openToolStripMenuItem.Enabled =
-            toolStripButton1.Enabled = preferencesToolStripMenuItem.Enabled =
-                toolStripButton2.Enabled = enable;
+            toolStripButton1.Enabled = enable;
         }
         void EnableDisableDebugger()
         {
@@ -201,38 +197,20 @@ namespace SCReverser
             Reverser = Template.CreateReverser();
             Reverser.OnParseProgress += OnReverseProgress;
 
-            if (CurrentConfig == null || Template.ConfigType == null || CurrentConfig.GetType() != Template.ConfigType)
+            if (Config == null || Template.ConfigType == null || Config.GetType() != Template.ConfigType)
             {
+                if (Config != null && Config is IDisposable d)
+                    d.Dispose();
+
                 //preferencesToolStripMenuItem_Click(sender, e);
-                CurrentConfig = Template.CreateNewConfig();
+                Config = null;
             }
 
             EnableDisableConfig();
             EnableDisableDebugger();
         }
-        void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Template == null)
-            {
-                EnableDisableConfig();
-                return;
-            }
 
-            try
-            {
-                if (CurrentConfig == null)
-                    CurrentConfig = Template.CreateNewConfig();
-
-                object clone = JsonHelper.Clone(CurrentConfig);
-
-                if (FEditConfig.Configure(clone))
-                    CurrentConfig = clone;
-            }
-            catch (Exception ex)
-            {
-                Error(ex);
-            }
-        }
+        #region Debugger
         void executeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -309,7 +287,7 @@ namespace SCReverser
             {
                 CleanDebugger();
 
-                Debugger = Template.CreateDebugger(Result.Instructions, CurrentConfig);
+                Debugger = Template.CreateDebugger(Result.Instructions, Config);
 
                 Debugger.OnStateChanged += Debugger_OnStateChanged;
                 Debugger.OnInstructionChanged += Debugger_OnInstructionChanged;
@@ -324,6 +302,8 @@ namespace SCReverser
                 Error(ex);
             }
         }
+        #endregion
+
         void Stack_OnChange(object sender, EventArgs e)
         {
             GridStack.DataSource = Debugger == null ? null : Debugger.Stack.ToArray();
@@ -398,12 +378,17 @@ namespace SCReverser
                 return;
             }
 
-            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
+            if (Config != null && Config is IDisposable d)
+                d.Dispose();
 
-            LoadFiles(openFileDialog1.FileName);
+            Config = Template.CreateNewConfig();
+
+            LoadFiles();
         }
-        void LoadFiles(string file)
+        void LoadFiles()
         {
+            if (Config == null) return;
+
             tsProgressBar.Visible = true;
 
             Enabled = false;
@@ -425,66 +410,24 @@ namespace SCReverser
                 Result = null;
             }
 
-            new Task(() =>
-            {
-                ALoadFiles(file);
-            })
-            .Start();
+            new Task(() => { ALoadFiles(); }).Start();
         }
-        void ALoadFiles(string file)
+        void ALoadFiles()
         {
-            bool useLastFile = false;
             ReverseResult rs = null;
 
             try
             {
-                switch (Path.GetExtension(file).ToLowerInvariant())
-                {
-                    case ".json":
-                        {
-                            rs = JsonHelper.Deserialize<ReverseResult>(File.ReadAllText(file, Encoding.UTF8), true);
-                            if (rs != null)
-                            {
-                                // Fill cache
-                                OffsetRelationCache offsetToIndexCache = new OffsetRelationCache(rs.Instructions);
+                rs = new ReverseResult();
 
-                                // Process instructions (Jumps)
-                                using (MemoryStream ms = new MemoryStream())
-                                {
-                                    foreach (Instruction i in rs.Instructions)
-                                    {
-                                        Reverser.ProcessInstruction(i, offsetToIndexCache);
-                                        i.Write(ms);
-                                    }
-                                    rs.Bytes = ms.ToArray();
-                                }
-                            }
-                            useLastFile = true;
-                            break;
-                        }
-                    default:
-                        {
-                            rs = new ReverseResult();
+                if (Config != null && !Reverser.TryParse(Config, ref rs))
+                    throw (new Exception("Error parsing the file"));
 
-                            using (MemoryStream ms = new MemoryStream())
-                            {
-                                using (FileStream fs = File.OpenRead(file))
-                                    fs.CopyTo(ms);
-
-                                ms.Seek(0, SeekOrigin.Begin);
-
-                                if (!Reverser.TryParse(ms, true, ref rs))
-                                    throw (new Exception("Error parsing the file"));
-                            }
-                            break;
-                        }
-                }
-
-                EndLoad(useLastFile ? file : null, rs);
+                EndLoad(rs);
             }
             catch (Exception ex)
             {
-                EndLoad(useLastFile ? file : null, rs);
+                EndLoad(rs);
                 Error(ex);
             }
         }
@@ -498,11 +441,11 @@ namespace SCReverser
 
             tsProgressBar.Value = percent;
         }
-        void EndLoad(string file, ReverseResult result)
+        void EndLoad(ReverseResult result)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<string, ReverseResult>(EndLoad), file, result);
+                Invoke(new Action<ReverseResult>(EndLoad), result);
                 return;
             }
 
@@ -510,8 +453,7 @@ namespace SCReverser
 
             if (result != null)
             {
-                LastSaveFile = file;
-                Hex.SetBytes(result.Bytes);
+                Hex.SetBytes(result.Bytes == null ? new byte[] { } : result.Bytes);
 
                 foreach (string sk in result.Ocurrences.Keys)
                 {
@@ -718,7 +660,8 @@ namespace SCReverser
 
             try
             {
-                File.WriteAllText(LastSaveFile, JsonHelper.Serialize(Result, true, false), Encoding.UTF8);
+                // With Boom fail Json
+                File.WriteAllText(LastSaveFile, JsonHelper.Serialize(Result, true, false), new UTF8Encoding(false));
             }
             catch (Exception ex)
             {

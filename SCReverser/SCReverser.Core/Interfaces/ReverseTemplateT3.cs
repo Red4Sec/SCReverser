@@ -44,7 +44,7 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Create reverser
         /// </summary>
-        public ReverserT CreateReverser()
+        public virtual ReverserT CreateReverser()
         {
             return Activator.CreateInstance<ReverserT>();
         }
@@ -53,23 +53,24 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         /// <param name="instructions">Instructions</param>
         /// <param name="debugConfig">Debugger config</param>
-        public DebuggerT CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        public virtual DebuggerT CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
         {
             return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions, debugConfig });
         }
-
         IReverser IReverseTemplate.CreateReverser()
         {
-            return Activator.CreateInstance<ReverserT>();
+            ReverserT t = CreateReverser();
+            return t;
         }
         IDebugger IReverseTemplate.CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
         {
-            return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions, debugConfig });
+            DebuggerT t = CreateDebugger(instructions, debugConfig);
+            return t;
         }
         /// <summary>
         /// Get new config type
         /// </summary>
-        public object CreateNewConfig()
+        public virtual object CreateNewConfig()
         {
             return Activator.CreateInstance<CfgType>();
         }

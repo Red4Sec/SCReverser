@@ -1,4 +1,4 @@
-﻿{
+{
   "Instructions": [
     {
       "Index": 0,
@@ -10,7 +10,7 @@
         "Flags": 0
       },
       "Argument": {},
-      "Comment": "Entry Point",
+      "Comment": "",
       "HaveBreakPoint": false
     },
     {
@@ -79,7 +79,7 @@
         "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
         "RawValue": "+f8="
       },
-      "Comment": "Jump [ifnot] to 0x0000",
+      "Comment": "??",
       "HaveBreakPoint": false
     },
     {

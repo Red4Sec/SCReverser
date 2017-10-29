@@ -1,5 +1,4 @@
-﻿using Neo.Core;
-using Neo.VM;
+﻿using Neo.VM;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
@@ -14,7 +13,6 @@ namespace SCReverser.NEO
     public class NeoDebugger : DebuggerBase<NeoConfig>
     {
         Decimal _GasConsumed;
-        bool HaveBlockChain;
         internal NeoEngine Engine;
 
         /// <summary>
@@ -77,18 +75,8 @@ namespace SCReverser.NEO
 
             // Prepare engine
 
-            Blockchain bc;
-            Engine = config.CreateEngine(out bc);
+            Engine = config.CreateEngine();
 
-            // Register blockchain
-            if (bc != null)
-            {
-                HaveBlockChain = true;
-
-                // Prevent double dispose errors
-                Blockchain.RegisterBlockchain(new NullBlockChain());
-                Blockchain.RegisterBlockchain(bc);
-            }
             // Load script
             Engine.LoadScript(script, false);
             //Engine.LoadScript(verifiable.Scripts[i].InvocationScript, true); // VerifyScripts
@@ -175,12 +163,6 @@ namespace SCReverser.NEO
             {
                 Engine.Dispose();
                 Engine = null;
-            }
-
-            // Free blockchain
-            if (HaveBlockChain)
-            {
-                Blockchain.RegisterBlockchain(new NullBlockChain());
             }
         }
     }

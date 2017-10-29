@@ -272,6 +272,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FOpen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FOpen.Designer.cs">
+      <DependentUpon>FOpen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Internals\CachedScriptTable.cs" />
     <Compile Include="Internals\ETriggerType.cs" />
     <Compile Include="Internals\NeoEngine.cs" />
@@ -302,6 +308,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FOpen.resx">
+      <DependentUpon>FOpen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Res.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Res.Designer.cs</LastGenOutput>

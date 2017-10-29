@@ -1,4 +1,4 @@
-﻿{
+{
   "Instructions": [
     {
       "Index": 0,
@@ -13,7 +13,7 @@
         "$type": "SCReverser.Core.OpCodeArguments.OpCodeByteArrayArgument, SCReverser.Core",
         "RawValue": "GQ=="
       },
-      "Comment": "Entry point",
+      "Comment": "",
       "HaveBreakPoint": false
     },
     {
@@ -6923,7 +6923,7 @@
         "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
         "RawValue": "cQo="
       },
-      "Comment": "Jall to 0x0DAC",
+      "Comment": "q",
       "HaveBreakPoint": false
     },
     {
@@ -23876,7 +23876,7 @@
         "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
         "RawValue": "Wv8="
       },
-      "Comment": "Jump [if] to 0x0CA8",
+      "Comment": "Z?",
       "HaveBreakPoint": false
     },
     {
@@ -26554,7 +26554,7 @@
         "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
         "RawValue": "Kv8="
       },
-      "Comment": "Jump [if] to 0x0E2C",
+      "Comment": "*?",
       "HaveBreakPoint": false
     },
     {
