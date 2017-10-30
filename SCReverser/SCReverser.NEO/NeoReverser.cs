@@ -134,20 +134,19 @@ namespace SCReverser.NEO
                 case "CALL":
                 case "JMP":
                     {
-                        if (ins.Argument is OpCodeShortArgument a)
-                        {
-                            uint offset = (uint)a.Value;
-                            offset = ins.Location.Offset + offset;
+                        if (!(ins.Argument is OpCodeShortArgument a)) return;
 
-                            uint? index = null;
-                            if (offsetToIndexCache.TryGetValue(offset, out uint ix, OffsetIndexRelation.OffsetToIndex))
-                                index = ix;
+                        uint offset = (uint)a.Value;
+                        offset = ins.Location.Offset + offset;
 
-                            ins.Jump = new Jump(offset, index);
+                        uint? index = null;
+                        if (offsetToIndexCache.TryGetValue(offset, out uint ix, OffsetIndexRelation.OffsetToIndex))
+                            index = ix;
 
-                            if (string.IsNullOrEmpty(ins.Comment))
-                                ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
-                        }
+                        ins.Jump = new Jump(offset, index);
+
+                        if (string.IsNullOrEmpty(ins.Comment))
+                            ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
                         break;
                     }
                 case "JMPIF":

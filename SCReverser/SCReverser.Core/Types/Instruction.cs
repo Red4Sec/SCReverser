@@ -22,7 +22,7 @@ namespace SCReverser.Core.Types
         /// </summary>
         public OpCode OpCode { get; set; }
         /// <summary>
-        /// Argument
+        /// Argument (could be null)
         /// </summary>
         public OpCodeEmptyArgument Argument { get; set; }
         /// <summary>

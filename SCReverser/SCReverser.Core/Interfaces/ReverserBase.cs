@@ -222,7 +222,7 @@ namespace SCReverser.Core.Interfaces
                                     Description = read.Description,
                                     Flags = read.Flags
                                 },
-                                Argument = arg,
+                                Argument = arg.GetType() == typeof(OpCodeEmptyArgument) ? null : arg,
                                 Comment = arg.ASCIIValue,
                                 Color = module.Color,
                             };
