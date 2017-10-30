@@ -11,6 +11,10 @@ namespace SCReverser.Core.Types
         [JsonIgnore]
         public byte[] Bytes { get; set; }
         /// <summary>
+        /// Modules
+        /// </summary>
+        public ModuleCollection Modules { get; private set; } = new ModuleCollection();
+        /// <summary>
         /// Instructions
         /// </summary>
         public InstructionCollection Instructions { get; private set; } = new InstructionCollection();

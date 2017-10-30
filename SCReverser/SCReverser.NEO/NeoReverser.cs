@@ -117,7 +117,7 @@ namespace SCReverser.NEO
                         ins.Jump = new Jump(new OnJumpDelegate(
                             (d, i) =>
                             {
-                                if (d == null || d.CurrentInstructionIndex != i.Index || !(d is NeoDebugger neodebug))
+                                if (d == null || d.CurrentInstructionIndex != i.Location.Index || !(d is NeoDebugger neodebug))
                                     return null;
 
                                 try
@@ -137,7 +137,7 @@ namespace SCReverser.NEO
                         if (ins.Argument is OpCodeShortArgument a)
                         {
                             uint offset = (uint)a.Value;
-                            offset = ins.Offset + offset;
+                            offset = ins.Location.Offset + offset;
 
                             uint? index = null;
                             if (offsetToIndexCache.TryGetValue(offset, out uint ix, OffsetIndexRelation.OffsetToIndex))
@@ -158,7 +158,7 @@ namespace SCReverser.NEO
                         bool check = ins.OpCode.Name == "JMPIF";
                         uint offset = (uint)a.Value;
 
-                        offset = ins.Offset + offset;
+                        offset = ins.Location.Offset + offset;
 
                         if (string.IsNullOrEmpty(ins.Comment))
                             ins.Comment = "Jump [" +
@@ -173,7 +173,7 @@ namespace SCReverser.NEO
                                 try
                                 {
                                     // If not is the current (dot)
-                                    if (d.CurrentInstructionIndex != i.Index)
+                                    if (d.CurrentInstructionIndex != i.Location.Index)
                                         i.Jump.Style = DashStyle.Dot;
                                     else
                                     {

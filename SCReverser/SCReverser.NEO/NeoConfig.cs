@@ -8,9 +8,12 @@ using Neo.VM;
 using Newtonsoft.Json;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Remembers;
+using SCReverser.Core.Types;
 using SCReverser.NEO.Internals;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Design;
 using System.IO;
 using System.Windows.Forms;
@@ -25,11 +28,11 @@ namespace SCReverser.NEO
         /// <summary>
         /// Script
         /// </summary>
-        public string Script { get; set; }
+        public string VerificationScript { get; set; }
         /// <summary>
         /// Script
         /// </summary>
-        public string VerificationScript { get; set; }
+        public string InvocationScript { get; set; }
         /// <summary>
         /// Trigger type
         /// </summary>
@@ -79,7 +82,7 @@ namespace SCReverser.NEO
         /// <param name="script">Script</param>
         public NeoConfig(byte[] script) : this()
         {
-            Script = Convert.ToBase64String(script);
+            VerificationScript = Convert.ToBase64String(script);
         }
 
         /// <summary>
@@ -134,26 +137,60 @@ namespace SCReverser.NEO
         /// <summary>
         /// Get stream
         /// </summary>
-        /// <param name="leaveOpen">Leave open</param>
-        public Stream GetStream(out bool leaveOpen)
+        public IEnumerable<StreamModule> GetStream()
         {
-            leaveOpen = false;
+            List<StreamModule> ls = new List<StreamModule>();
 
-            try
+            int x = 0;
+            foreach (string s in new string[] { InvocationScript, VerificationScript })
             {
-                // Convert from b64
-                byte[] sc = Convert.FromBase64String(Script);
-                if (sc != null) return new MemoryStream(sc);
-            }
-            catch { }
+                x++;
+                string name = x == 1 ? "InvocationScript" : "VerificationScript";
 
-            if (UInt160.TryParse(Script, out UInt160 hash))
-            {
-                ContractState c = Blockchain.Default.GetContract(hash);
-                return new MemoryStream(c.Script);
+                if (string.IsNullOrEmpty(s)) continue;
+
+                Color cl = x == 1 ? Color.FromArgb(50, Color.Violet) : Color.Empty;
+
+                if (UInt160.TryParse(s, out UInt160 hash160))
+                {
+                    ContractState c = Blockchain.Default.GetContract(hash160);
+                    ls.Add(new StreamModule(name, new MemoryStream(c.Script), false) { Color = cl });
+                    continue;
+                }
+
+                try
+                {
+                    byte[] bhex = s.HexToBytes();
+                    ls.Add(new StreamModule(name, new MemoryStream(bhex), false) { Color = cl });
+                    continue;
+                }
+                catch { }
+
+                try
+                {
+                    if (File.Exists(s))
+                    {
+                        ls.Add(new StreamModule(name, File.OpenRead(s), false) { Color = cl });
+
+                        continue;
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    // Convert from b64
+                    byte[] sc = Convert.FromBase64String(s);
+                    if (sc != null)
+                    {
+                        ls.Add(new StreamModule(name, new MemoryStream(sc), false) { Color = cl });
+                        continue;
+                    }
+                }
+                catch { }
             }
 
-            return File.OpenRead(Script);
+            return ls.ToArray();
         }
 
         #region Remember in form
@@ -163,8 +200,8 @@ namespace SCReverser.NEO
 
             if (!(f is FOpen fo)) return;
 
-            fo.txtScript.Text = Script;
             fo.txtVerification.Text = VerificationScript;
+            fo.txtInvocation.Text = InvocationScript;
             fo.txtBlockChain.Text = BlockChainPath;
             fo.scriptType.SelectedItem = TriggerType;
         }
@@ -174,8 +211,8 @@ namespace SCReverser.NEO
 
             if (!(f is FOpen fo)) return;
 
-            Script = fo.txtScript.Text;
             VerificationScript = fo.txtVerification.Text;
+            InvocationScript = fo.txtInvocation.Text;
             BlockChainPath = fo.txtBlockChain.Text;
             TriggerType = (ETriggerType)fo.scriptType.SelectedItem;
         }

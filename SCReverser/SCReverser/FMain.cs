@@ -295,7 +295,7 @@ namespace SCReverser
                 Debugger.AltStack.OnChange += StackAlt_OnChange;
 
                 EnableDisableDebugger();
-                Debugger_OnInstructionChanged(null, 0);
+                Debugger_OnInstructionChanged(null, null);
             }
             catch (Exception ex)
             {
@@ -329,21 +329,21 @@ namespace SCReverser
 
             Stack_OnChange(null, null);
             StackAlt_OnChange(null, null);
-            Debugger_OnInstructionChanged(null, 0);
+            Debugger_OnInstructionChanged(null, null);
         }
 
         void Debugger_OnStateChanged(object sender, DebuggerState oldState, DebuggerState newState)
         {
             EnableDisableDebugger();
         }
-        void Debugger_OnInstructionChanged(object sender, uint instructionIndex)
+        void Debugger_OnInstructionChanged(object sender, Instruction instruction)
         {
             GridOpCode.Invalidate();
             Registers.Refresh();
 
             //GridOpCode.ClearSelection();
             //GridOpCode.Rows[(int)instructionIndex].Selected = true;
-            GridOpCode.CurrentCell = GridOpCode.Rows[(int)instructionIndex].Cells[3];
+            GridOpCode.CurrentCell = GridOpCode.Rows[instruction == null ? 0 : (int)instruction.Location.Index].Cells[3];
 
             Jumps.RefreshDynJumps(Debugger);
             //Application.DoEvents();
@@ -540,7 +540,15 @@ namespace SCReverser
             e.PaintCells(e.RowBounds, DataGridViewPaintParts.All);
             e.Handled = true;
 
-            if (Debugger != null && Debugger.CurrentInstructionIndex == i.Index)
+            if (i.Color != Color.Empty)
+            {
+                using (Brush br = new SolidBrush(i.Color))
+                {
+                    e.Graphics.FillRectangle(br, e.RowBounds);
+                }
+            }
+
+            if (Debugger != null && Debugger.CurrentInstructionIndex == i.Location.Index)
             {
                 bool error = Debugger.IsError;
 

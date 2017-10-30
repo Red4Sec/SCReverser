@@ -41,13 +41,13 @@ namespace SCReverser.Core.Collections
         /// <param name="instructions">Instruction</param>
         public void FillWith(IEnumerable<Instruction> instructions)
         {
-            foreach (Instruction i in instructions) Add(i);
+            foreach (Instruction i in instructions) Add(i.Location);
         }
         /// <summary>
-        /// Add instruction
+        /// Add index/offset
         /// </summary>
-        /// <param name="i">Instruction</param>
-        public void Add(Instruction i)
+        /// <param name="i">Index</param>
+        public void Add(IndexOffset i)
         {
             _OffsetToIndex.Add(i.Offset, i.Index);
             _IndexToOffset.Add(i.Index, i.Offset);

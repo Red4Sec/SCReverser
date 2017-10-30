@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using SCReverser.Core.Types;
+using System.Collections.Generic;
 
 namespace SCReverser.Core.Interfaces
 {
     public interface IInitClassStream
     {
-        Stream GetStream(out bool leaveOpen);
+        IEnumerable<StreamModule> GetStream();
     }
 }

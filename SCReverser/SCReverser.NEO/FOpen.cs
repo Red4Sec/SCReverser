@@ -22,8 +22,8 @@ namespace SCReverser.NEO
 
                 config = new NeoConfig()
                 {
-                    Script = f.txtScript.Text,
                     VerificationScript = f.txtVerification.Text,
+                    InvocationScript = f.txtInvocation.Text,
                     TriggerType = (ETriggerType)f.scriptType.SelectedItem,
                     EnableBlockChain = true,
                 };
@@ -50,8 +50,8 @@ namespace SCReverser.NEO
         {
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
 
-            if (sender == button1) txtScript.Text = openFileDialog1.FileName;
-            else if (sender == button2) txtVerification.Text = openFileDialog1.FileName;
+            if (sender == button1) txtVerification.Text = openFileDialog1.FileName;
+            else if (sender == button2) txtInvocation.Text = openFileDialog1.FileName;
         }
         void button3_Click(object sender, EventArgs e)
         {

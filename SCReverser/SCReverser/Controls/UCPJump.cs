@@ -107,14 +107,14 @@ namespace SCReverser.Controls
             {
                 if (!i.Jump.Offset.HasValue) continue;
                 if (!i.Jump.Index.HasValue) continue;
-                if (i.Index < indexFrom && i.Index > indexTo) continue;
+                if (!i.Location.IndexBetween(indexFrom, indexTo)) continue;
 
                 PaintState p = new PaintState()
                 {
-                    IndexFrom = i.Index,
+                    IndexFrom = i.Location.Index,
                     IndexTo = i.Jump.Index.Value,
                     Style = i.Jump.Style,
-                    RectFrom = _Grid.GetRowDisplayRectangle((int)i.Index, false),
+                    RectFrom = _Grid.GetRowDisplayRectangle((int)i.Location.Index, false),
                     RectTo = _Grid.GetRowDisplayRectangle((int)i.Jump.Index.Value, false)
                 };
 

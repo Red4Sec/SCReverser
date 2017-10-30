@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
+using System.Drawing;
 using System.IO;
 
 namespace SCReverser.Core.Types
@@ -10,16 +11,12 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Instruction index
         /// </summary>
-        public uint Index { get; set; }
-        /// <summary>
-        /// Offset
-        /// </summary>
-        public uint Offset { get; set; }
+        public IndexOffset Location { get; private set; } = new IndexOffset();
         /// <summary>
         /// Offset Hex
         /// </summary>
         [JsonIgnore]
-        public string OffsetHex { get { return "0x" + Offset.ToString("X4"); } }
+        public string OffsetHex { get { return "0x" + Location.Offset.ToString("X4"); } }
         /// <summary>
         /// OpCode
         /// </summary>
@@ -41,6 +38,10 @@ namespace SCReverser.Core.Types
         /// </summary>
         [JsonIgnore]
         public Jump Jump { get; set; }
+        /// <summary>
+        /// Color
+        /// </summary>
+        public Color Color { get; set; } = Color.Empty;
 
         /// <summary>
         /// Write instruction
@@ -71,7 +72,7 @@ namespace SCReverser.Core.Types
             if (!string.IsNullOrEmpty(Comment))
                 arg += " # " + Comment;
 
-            return "[0x" + Offset.ToString("X4").PadLeft(4) + "] " + arg;
+            return "[" + OffsetHex + "] " + arg;
         }
     }
 }

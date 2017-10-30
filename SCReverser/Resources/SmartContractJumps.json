@@ -1,8 +1,25 @@
 {
+  "Modules": [
+    {
+      "Name": "VerificationScript",
+      "Hash": "F46894573A9B2054DC7FC141FC06B96D034399E4",
+      "Start": {
+        "Index": 0,
+        "Offset": 0
+      },
+      "End": {
+        "Index": 15,
+        "Offset": 19
+      },
+      "Color": ""
+    }
+  ],
   "Instructions": [
     {
-      "Index": 0,
-      "Offset": 0,
+      "Location": {
+        "Index": 0,
+        "Offset": 0
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -11,11 +28,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 1,
-      "Offset": 1,
+      "Location": {
+        "Index": 1,
+        "Offset": 1
+      },
       "OpCode": {
         "RawValue": "Yg==",
         "Name": "JMP",
@@ -26,11 +46,14 @@
         "RawValue": "BQA="
       },
       "Comment": "Jmp to 0x0006",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 2,
-      "Offset": 4,
+      "Location": {
+        "Index": 2,
+        "Offset": 4
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -39,11 +62,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 3,
-      "Offset": 5,
+      "Location": {
+        "Index": 3,
+        "Offset": 5
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -52,11 +78,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 4,
-      "Offset": 6,
+      "Location": {
+        "Index": 4,
+        "Offset": 6
+      },
       "OpCode": {
         "RawValue": "AA==",
         "Name": "PUSH0",
@@ -65,11 +94,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 5,
-      "Offset": 7,
+      "Location": {
+        "Index": 5,
+        "Offset": 7
+      },
       "OpCode": {
         "RawValue": "ZA==",
         "Name": "JMPIFNOT",
@@ -80,11 +112,14 @@
         "RawValue": "+f8="
       },
       "Comment": "??",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 6,
-      "Offset": 10,
+      "Location": {
+        "Index": 6,
+        "Offset": 10
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -93,11 +128,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 7,
-      "Offset": 11,
+      "Location": {
+        "Index": 7,
+        "Offset": 11
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -106,11 +144,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 8,
-      "Offset": 12,
+      "Location": {
+        "Index": 8,
+        "Offset": 12
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -119,11 +160,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 9,
-      "Offset": 13,
+      "Location": {
+        "Index": 9,
+        "Offset": 13
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -132,11 +176,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 10,
-      "Offset": 14,
+      "Location": {
+        "Index": 10,
+        "Offset": 14
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -145,11 +192,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 11,
-      "Offset": 15,
+      "Location": {
+        "Index": 11,
+        "Offset": 15
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -158,11 +208,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 12,
-      "Offset": 16,
+      "Location": {
+        "Index": 12,
+        "Offset": 16
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -171,11 +224,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 13,
-      "Offset": 17,
+      "Location": {
+        "Index": 13,
+        "Offset": 17
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -184,11 +240,14 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     },
     {
-      "Index": 14,
-      "Offset": 18,
+      "Location": {
+        "Index": 14,
+        "Offset": 18
+      },
       "OpCode": {
         "RawValue": "YQ==",
         "Name": "NOP",
@@ -197,7 +256,8 @@
       },
       "Argument": {},
       "Comment": "",
-      "HaveBreakPoint": false
+      "HaveBreakPoint": false,
+      "Color": ""
     }
   ],
   "Ocurrences": {

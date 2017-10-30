@@ -31,11 +31,11 @@ namespace SCReverser.Tests
             {
                 bool bp1 = false, bp2 = false;
                 // Check event
-                debugger.OnBreakPoint += (d, instructionIndex) =>
+                debugger.OnBreakPoint += (d, instruction) =>
                 {
                     // Remove BP
-                    if (instructionIndex == 1) bp1 = true;
-                    else if (instructionIndex == 2) bp2 = true;
+                    if (instruction.Location.Index == 1) bp1 = true;
+                    else if (instruction.Location.Index == 2) bp2 = true;
                 };
 
                 // Add two demo BP
@@ -80,7 +80,7 @@ namespace SCReverser.Tests
 
             // Parse test
             Assert.IsTrue(rs.Instructions.Count == SmartContractSampleTxt.Length);
-            Assert.IsTrue(rs.Instructions.LastOrDefault().Offset == 0x0F1C);
+            Assert.IsTrue(rs.Instructions.LastOrDefault().Location.Offset == 0x0F1C);
 
             for (int x = 0; x < SmartContractSampleTxt.Length; x++)
             {
@@ -92,7 +92,7 @@ namespace SCReverser.Tests
                     sp[1] = "PUSHBYTES" + sp[1];
                 }
 
-                Assert.AreEqual(sp[0], rs.Instructions[x].Offset.ToString("x2").PadLeft(4, '0').ToUpperInvariant());
+                Assert.AreEqual(sp[0], rs.Instructions[x].Location.Offset.ToString("x2").PadLeft(4, '0').ToUpperInvariant());
                 Assert.AreEqual(sp[1], rs.Instructions[x].OpCode.Name);
             }
 

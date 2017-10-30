@@ -110,13 +110,16 @@ namespace SCReverser.Core.Interfaces
                     return;
 
                 _CurrentInstructionIndex = value;
-                OnInstructionChanged?.Invoke(this, value);
 
-                if (Instructions[CurrentInstructionIndex].HaveBreakPoint)
+                Instruction ins = Instructions[CurrentInstructionIndex];
+
+                OnInstructionChanged?.Invoke(this, ins);
+
+                if (ins.HaveBreakPoint)
                 {
                     // Raise breakpoint
                     State |= DebuggerState.BreakPoint;
-                    OnBreakPoint?.Invoke(this, value);
+                    OnBreakPoint?.Invoke(this, ins);
                 }
             }
         }
@@ -126,7 +129,7 @@ namespace SCReverser.Core.Interfaces
         [Category("Debug"), TypeConverter(typeof(UInt32HexTypeConverter))]
         public uint CurrentInstructionOffset
         {
-            get { return CurrentInstruction.Offset; }
+            get { return CurrentInstruction.Location.Offset; }
             set
             {
                 if (OffsetToIndex(value, out uint v))
