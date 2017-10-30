@@ -26,7 +26,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -60,7 +59,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -76,7 +74,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -92,7 +89,6 @@
         "Description": "An empty array of bytes is pushed onto the stack.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -126,7 +122,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -142,7 +137,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -158,7 +152,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -174,7 +167,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -190,7 +182,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -206,7 +197,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -222,7 +212,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -238,7 +227,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""
@@ -254,7 +242,6 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Argument": {},
       "Comment": "",
       "HaveBreakPoint": false,
       "Color": ""

@@ -143,10 +143,10 @@ namespace SCReverser.NEO
                         if (offsetToIndexCache.TryGetValue(offset, out uint ix, OffsetIndexRelation.OffsetToIndex))
                             index = ix;
 
-                        ins.Jump = new Jump(offset, index);
+                        ins.Jump = new Jump(offset, uint.MaxValue);
 
                         if (string.IsNullOrEmpty(ins.Comment))
-                            ins.Comment = "J" + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
+                            ins.Comment = ins.OpCode.Name.Substring(0, 1).ToUpper() + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
                         break;
                     }
                 case "JMPIF":

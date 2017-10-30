@@ -160,7 +160,7 @@ namespace SCReverser.NEO
 
                 try
                 {
-                    byte[] bhex = s.HexToBytes();
+                    byte[] bhex = s.Replace(" ", "").HexToBytes();
                     ls.Add(new StreamModule(name, new MemoryStream(bhex), false) { Color = cl });
                     continue;
                 }

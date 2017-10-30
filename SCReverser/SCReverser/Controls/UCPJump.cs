@@ -11,7 +11,7 @@ namespace SCReverser.Controls
 {
     public class UCPJump : Control
     {
-        const int MaxDrawJump = 5;
+        const int MaxDrawJump = 7;
         const int ArrowWidth = 5;
 
         /// <summary>
@@ -105,17 +105,16 @@ namespace SCReverser.Controls
             List<PaintState> ls = new List<PaintState>();
             foreach (Instruction i in Jumps)
             {
-                if (!i.Jump.Offset.HasValue) continue;
-                if (!i.Jump.Index.HasValue) continue;
-                if (!i.Location.IndexBetween(indexFrom, indexTo)) continue;
+                if (i.Jump.To == null || i.Jump.To.Index == i.Location.Index) continue;
+                if (!i.Jump.To.IndexBetween(indexFrom, indexTo)) continue;
 
                 PaintState p = new PaintState()
                 {
                     IndexFrom = i.Location.Index,
-                    IndexTo = i.Jump.Index.Value,
+                    IndexTo = i.Jump.To.Index,
                     Style = i.Jump.Style,
                     RectFrom = _Grid.GetRowDisplayRectangle((int)i.Location.Index, false),
-                    RectTo = _Grid.GetRowDisplayRectangle((int)i.Jump.Index.Value, false)
+                    RectTo = _Grid.GetRowDisplayRectangle((int)i.Jump.To.Index, false)
                 };
 
                 if (p.RectFrom.IsEmpty && p.RectTo.IsEmpty)

@@ -295,7 +295,7 @@ namespace SCReverser
                 Debugger.AltStack.OnChange += StackAlt_OnChange;
 
                 EnableDisableDebugger();
-                Debugger_OnInstructionChanged(null, null);
+                UpdateDebugState();
             }
             catch (Exception ex)
             {
@@ -329,7 +329,7 @@ namespace SCReverser
 
             Stack_OnChange(null, null);
             StackAlt_OnChange(null, null);
-            Debugger_OnInstructionChanged(null, null);
+            UpdateDebugState();
         }
 
         void Debugger_OnStateChanged(object sender, DebuggerState oldState, DebuggerState newState)
@@ -338,12 +338,26 @@ namespace SCReverser
         }
         void Debugger_OnInstructionChanged(object sender, Instruction instruction)
         {
+            //GridOpCode.ClearSelection();
+            //GridOpCode.Rows[(int)instructionIndex].Selected = true;
+            GridOpCode.CurrentCell = GridOpCode.Rows[instruction == null ? 0 : (int)instruction.Location.Index].Cells[3];
+            Jumps.RefreshDynJumps(Debugger);
+
+            //GridOpCode.Refresh();
+            Registers.Refresh();
+
+            //Application.DoEvents();
+        }
+        void UpdateDebugState()
+        {
+            int instruction = Debugger == null ? 0 : (int)Debugger.CurrentInstructionIndex;
+
             GridOpCode.Invalidate();
             Registers.Refresh();
 
             //GridOpCode.ClearSelection();
             //GridOpCode.Rows[(int)instructionIndex].Selected = true;
-            GridOpCode.CurrentCell = GridOpCode.Rows[instruction == null ? 0 : (int)instruction.Location.Index].Cells[3];
+            GridOpCode.CurrentCell = GridOpCode.Rows[instruction].Cells[3];
 
             Jumps.RefreshDynJumps(Debugger);
             //Application.DoEvents();

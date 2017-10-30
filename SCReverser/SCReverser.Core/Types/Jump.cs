@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using SCReverser.Core.Delegates;
-using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
 using SCReverser.Core.Interfaces;
 using System.Drawing.Drawing2D;
@@ -14,11 +13,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Offset
         /// </summary>
-        public uint? Offset { get; private set; }
-        /// <summary>
-        /// Index
-        /// </summary>
-        public uint? Index { get; private set; }
+        public IndexOffset To { get; private set; }
 
         /// <summary>
         /// Checker
@@ -49,35 +44,30 @@ namespace SCReverser.Core.Types
         {
             if (_Checker == null)
             {
-                Offset = null;
+                To = null;
                 return false;
             }
 
-            Offset = _Checker.Invoke(debug, ins);
-            if (Offset.HasValue)
+            uint? offset = _Checker.Invoke(debug, ins);
+            if (offset.HasValue)
             {
-                if (debug.OffsetToIndex(Offset.Value, out uint ix))
+                if (debug.OffsetToIndex(offset.Value, out uint ix))
                 {
-                    Index = ix;
+                    To = new IndexOffset() { Index = ix, Offset = offset.Value };
                     return true;
-                }
-                else
-                {
-                    // There will be an error
                 }
             }
 
-            Offset = null;
+            To = null;
             return false;
         }
 
         /// <summary>
         /// Jump
         /// </summary>
-        public Jump(uint offset, uint? index)
+        public Jump(uint offset, uint index)
         {
-            Offset = offset;
-            Index = index;
+            To = new IndexOffset() { Offset = offset, Index = index };
         }
         /// <summary>
         /// Constructor

@@ -10,6 +10,7 @@ using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -137,6 +138,7 @@ namespace SCReverser.Core.Interfaces
             byte[] all;
             OffsetRelationCache offsetCache = new OffsetRelationCache();
             List<Instruction> recallJump = new List<Instruction>();
+            List<Instruction> calls = new List<Instruction>();
 
             PrapareResultForOcurrences(result);
 
@@ -227,6 +229,9 @@ namespace SCReverser.Core.Interfaces
                                 Color = module.Color,
                             };
 
+                            if (ins.OpCode.Flags.HasFlag(OpCodeFlag.IsCall))
+                                calls.Add(ins);
+
                             ins.Location.Index = insNumber;
                             ins.Location.Offset = offset;
 
@@ -235,7 +240,7 @@ namespace SCReverser.Core.Interfaces
                             ProcessInstruction(ins, offsetCache);
 
                             // Recall jumps
-                            if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.Offset.HasValue && !ins.Jump.Index.HasValue)
+                            if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.To.Index == uint.MaxValue)
                                 recallJump.Add(ins);
 
                             result.Instructions.Add(ins);
@@ -289,14 +294,28 @@ namespace SCReverser.Core.Interfaces
             // Recall jumps
             foreach (Instruction j in recallJump)
             {
-                if (offsetCache.TryGetValue(j.Jump.Offset.Value, out uint index, OffsetIndexRelation.OffsetToIndex))
+                if (offsetCache.TryGetValue(j.Jump.To.Offset, out uint index, OffsetIndexRelation.OffsetToIndex))
                 {
-                    j.Jump = new Jump(j.Jump.Offset.Value, index);
+                    j.Jump.To.Index = index;
                 }
                 else
                 {
                     // If enter here, there will be an error
                     j.Jump = null;
+                }
+            }
+
+            foreach (Instruction j in calls)
+            {
+                if (j.Jump == null || j.Jump.IsDynamic) continue;
+
+                Instruction to = result.Instructions[(int)j.Jump.To.Index];
+                if (to != null)
+                {
+                    //if (to.Color == Color.Empty)
+                    to.Color = Color.FromArgb(50, Color.Blue);
+                    /*if (string.IsNullOrEmpty(to.Comment)) */
+                    to.Comment = "Method " + to.OffsetHex;
                 }
             }
 

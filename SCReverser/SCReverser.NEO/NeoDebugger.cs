@@ -34,7 +34,7 @@ namespace SCReverser.NEO
             get { return base.CurrentInstructionIndex; }
             set
             {
-                if (Engine == null) return;
+                if (Engine == null || Engine.State.HasFlag(VMState.HALT) || Engine.State.HasFlag(VMState.FAULT)) return;
 
                 // Set the engine instruction pointer
 

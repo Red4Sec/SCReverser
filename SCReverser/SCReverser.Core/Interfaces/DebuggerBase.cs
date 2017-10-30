@@ -232,10 +232,10 @@ namespace SCReverser.Core.Interfaces
                 State.HasFlag(DebuggerState.Disposed) || State.HasFlag(DebuggerState.Error) || State.HasFlag(DebuggerState.Halt)
                 );
         }
-        bool ShouldStep(DateTime startTime)
+        bool ShouldStep(DateTime startTime, uint ins)
         {
-            if ((DateTime.UtcNow - startTime).TotalSeconds > 5)
-                throw (new Exception("Possible infinite loop detected!"));
+            if ((DateTime.UtcNow - startTime).TotalSeconds > 10)
+                throw (new Exception("[" + ins.ToString() + " instructions processed] Possible infinite loop detected!"));
 
             return !AreEnded() && !State.HasFlag(DebuggerState.BreakPoint);
         }
@@ -248,10 +248,14 @@ namespace SCReverser.Core.Interfaces
 
             State &= ~DebuggerState.BreakPoint;
 
+            uint ins = 0;
             DateTime now = DateTime.UtcNow;
 
-            while (ShouldStep(now))
+            while (ShouldStep(now, ins))
+            {
                 StepInto();
+                ins++;
+            }
         }
         /// <summary>
         /// Step out
@@ -262,10 +266,15 @@ namespace SCReverser.Core.Interfaces
 
             State &= ~DebuggerState.BreakPoint;
 
+            uint ins = 0;
             DateTime now = DateTime.UtcNow;
             uint c = InvocationStackCount;
-            while (ShouldStep(now) && InvocationStackCount >= c)
+
+            while (ShouldStep(now, ins) && InvocationStackCount >= c)
+            {
                 StepInto();
+                ins++;
+            }
         }
         /// <summary>
         /// Step over
@@ -276,13 +285,16 @@ namespace SCReverser.Core.Interfaces
 
             State &= ~DebuggerState.BreakPoint;
 
+            uint ins = 0;
             DateTime now = DateTime.UtcNow;
             uint c = InvocationStackCount;
+
             do
             {
                 StepInto();
+                ins++;
             }
-            while (ShouldStep(now) && InvocationStackCount > c);
+            while (ShouldStep(now, ins) && InvocationStackCount > c);
         }
     }
 }
