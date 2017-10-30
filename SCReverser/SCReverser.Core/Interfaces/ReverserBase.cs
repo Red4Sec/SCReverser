@@ -313,9 +313,23 @@ namespace SCReverser.Core.Interfaces
                 if (to != null)
                 {
                     //if (to.Color == Color.Empty)
-                    to.Color = Color.FromArgb(50, Color.Blue);
+                    //to.Color = Color.FromArgb(50, Color.Blue);
                     /*if (string.IsNullOrEmpty(to.Comment)) */
+
                     to.Comment = "Method " + to.OffsetHex;
+                    to.BorderStyle = RowBorderStyle.EmptyBottom;
+
+                    for (int x = (int)to.Location.Index + 1, m = result.Instructions.Count; x < m; x++)
+                    {
+                        Instruction ins = result.Instructions[x];
+                        if (ins.OpCode.Flags.HasFlag(OpCodeFlag.IsRet))
+                        {
+                            ins.BorderStyle = RowBorderStyle.EmptyTop;
+                            break;
+                        }
+
+                        ins.BorderStyle = RowBorderStyle.OnlyLeftAndRight;
+                    }
                 }
             }
 

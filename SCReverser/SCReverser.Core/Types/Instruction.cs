@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
 using System.Drawing;
@@ -42,6 +43,10 @@ namespace SCReverser.Core.Types
         /// Color
         /// </summary>
         public Color Color { get; set; } = Color.Empty;
+        /// <summary>
+        /// Border style
+        /// </summary>
+        public RowBorderStyle BorderStyle { get; set; } = RowBorderStyle.None;
 
         /// <summary>
         /// Write instruction

@@ -581,6 +581,31 @@ namespace SCReverser
                     e.Graphics.FillRectangle(br, e.RowBounds);
                 }
             }
+
+            switch (i.BorderStyle)
+            {
+                case RowBorderStyle.All:
+                    {
+                        e.Graphics.DrawRectangle(Pens.DimGray, e.RowBounds.X, e.RowBounds.Y, e.RowBounds.Width - 1, e.RowBounds.Height - 1);
+                        break;
+                    }
+                case RowBorderStyle.OnlyLeftAndRight:
+                    {
+                        e.Graphics.DrawLine(Pens.DimGray, e.RowBounds.X, e.RowBounds.Y, e.RowBounds.X, e.RowBounds.Bottom);
+                        e.Graphics.DrawLine(Pens.DimGray, e.RowBounds.Right - 1, e.RowBounds.Y, e.RowBounds.Right - 1, e.RowBounds.Bottom);
+                        break;
+                    }
+                case RowBorderStyle.EmptyBottom:
+                    {
+                        e.Graphics.DrawLine(Pens.DimGray, e.RowBounds.X, e.RowBounds.Y, e.RowBounds.Right - 1, e.RowBounds.Y);
+                        goto case RowBorderStyle.OnlyLeftAndRight;
+                    }
+                case RowBorderStyle.EmptyTop:
+                    {
+                        e.Graphics.DrawLine(Pens.DimGray, e.RowBounds.X, e.RowBounds.Bottom, e.RowBounds.Right - 1, e.RowBounds.Bottom);
+                        goto case RowBorderStyle.OnlyLeftAndRight;
+                    }
+            }
         }
         void GridOpCode_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {

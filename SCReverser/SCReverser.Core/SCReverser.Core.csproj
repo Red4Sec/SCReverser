@@ -75,6 +75,7 @@
     <Compile Include="Delegates\OnCheckOcurrenceDelegate.cs" />
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
     <Compile Include="Delegates\OnInstructionDelegate.cs" />
+    <Compile Include="Enums\RowBorderStyle.cs" />
     <Compile Include="Enums\DebuggerState.cs" />
     <Compile Include="Enums\OffsetIndexRelation.cs" />
     <Compile Include="Enums\OpCodeFlag.cs" />
