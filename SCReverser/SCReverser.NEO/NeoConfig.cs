@@ -171,7 +171,6 @@ namespace SCReverser.NEO
                     if (File.Exists(s))
                     {
                         ls.Add(new StreamModule(name, File.OpenRead(s), false) { Color = cl });
-
                         continue;
                     }
                 }
