@@ -380,6 +380,7 @@ namespace SCReverser.Core.Interfaces
 
             // Style methods
             foreach (Types.Module mod in result.Modules)
+            {
                 foreach (Method met in mod.Methods)
                 {
                     met.Size = 0;
@@ -404,6 +405,11 @@ namespace SCReverser.Core.Interfaces
                         first.BorderStyle = first.BorderStyle == RowBorderStyle.EmptyBottom ? RowBorderStyle.All : RowBorderStyle.EmptyTop;
                     }
                 }
+
+                mod.Methods.Sort();
+            }
+
+            result.Modules.Sort();
 
             // Remove empty ocurrences
             foreach (string key in result.Ocurrences.Keys.ToArray())
