@@ -1,7 +1,5 @@
 ﻿using Be.Windows.Forms;
 using SCReverser.Controls;
-using SCReverser.Core;
-using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
@@ -30,12 +28,12 @@ namespace SCReverser
                 _LastSaveFile = value;
                 if (string.IsNullOrEmpty(_LastSaveFile))
                 {
-                    Text = "SCReverser";
+                    Text = "SCReverser by Red4Sec";
                     saveToolStripMenuItem.Enabled = false;
                 }
                 else
                 {
-                    Text = "SCReverser [" + _LastSaveFile + "]";
+                    Text = "SCReverser by Red4Sec [" + _LastSaveFile + "]";
                 }
             }
         }
