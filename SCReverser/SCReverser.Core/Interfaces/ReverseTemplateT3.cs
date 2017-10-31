@@ -1,7 +1,6 @@
 ﻿using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace SCReverser.Core.Interfaces
@@ -51,20 +50,20 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Create debugger
         /// </summary>
-        /// <param name="instructions">Instructions</param>
+        /// <param name="result">Reverse result</param>
         /// <param name="debugConfig">Debugger config</param>
-        public virtual DebuggerT CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        public virtual DebuggerT CreateDebugger(ReverseResult result, object debugConfig)
         {
-            return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { instructions, debugConfig });
+            return (DebuggerT)Activator.CreateInstance(typeof(DebuggerT), new object[] { result, debugConfig });
         }
         IReverser IReverseTemplate.CreateReverser()
         {
             ReverserT t = CreateReverser();
             return t;
         }
-        IDebugger IReverseTemplate.CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        IDebugger IReverseTemplate.CreateDebugger(ReverseResult result, object debugConfig)
         {
-            DebuggerT t = CreateDebugger(instructions, debugConfig);
+            DebuggerT t = CreateDebugger(result, debugConfig);
             return t;
         }
         /// <summary>

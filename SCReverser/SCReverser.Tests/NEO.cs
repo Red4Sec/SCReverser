@@ -27,7 +27,7 @@ namespace SCReverser.Tests
             ReverseResult rs = null;
             Assert.IsTrue(reverser.TryParse(ini, ref rs));
 
-            using (IDebugger debugger = n.CreateDebugger(rs.Instructions, ini))
+            using (IDebugger debugger = n.CreateDebugger(rs, ini))
             {
                 bool bp1 = false, bp2 = false;
                 // Check event
@@ -48,11 +48,11 @@ namespace SCReverser.Tests
 
                 // Check BP Executed
 
-                Assert.IsTrue(debugger.CurrentInstruction == debugger[1] && debugger.State.HasFlag(DebuggerState.BreakPoint));
+                Assert.IsTrue(debugger.CurrentInstruction == debugger.Instructions[1] && debugger.State.HasFlag(DebuggerState.BreakPoint));
 
                 debugger.Execute();
 
-                Assert.IsTrue(debugger.CurrentInstruction == debugger[2] && debugger.State.HasFlag(DebuggerState.BreakPoint));
+                Assert.IsTrue(debugger.CurrentInstruction == debugger.Instructions[2] && debugger.State.HasFlag(DebuggerState.BreakPoint));
 
                 // Check event
 

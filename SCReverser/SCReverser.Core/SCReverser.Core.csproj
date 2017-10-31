@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\OpCodeArgumentAttribute.cs" />
+    <Compile Include="Collections\MethodCollection.cs" />
     <Compile Include="Collections\ModuleCollection.cs" />
     <Compile Include="Collections\InstructionCollection.cs" />
     <Compile Include="Collections\KeyValueCollection.cs" />
@@ -70,6 +71,8 @@
     <Compile Include="Collections\OffsetRelationCache.cs" />
     <Compile Include="Collections\StackCollection.cs" />
     <Compile Include="Converters\UInt32HexTypeConverter.cs" />
+    <Compile Include="Delegates\OnMethodDelegate.cs" />
+    <Compile Include="Delegates\OnModuleDelegate.cs" />
     <Compile Include="Delegates\OnJumpDelegate.cs" />
     <Compile Include="Delegates\OnProgressDelegate.cs" />
     <Compile Include="Delegates\OnCheckOcurrenceDelegate.cs" />
@@ -100,6 +103,7 @@
     <Compile Include="Interfaces\IInitClassStream.cs" />
     <Compile Include="Interfaces\IRemember.cs" />
     <Compile Include="Interfaces\IReverseTemplate.cs" />
+    <Compile Include="Interfaces\IStartEnd.cs" />
     <Compile Include="Interfaces\IWritable.cs" />
     <Compile Include="Interfaces\ReverserBase.cs" />
     <Compile Include="Interfaces\ReverseTemplateT2.cs" />
@@ -115,6 +119,7 @@
     <Compile Include="Remembers\RememberForm.cs" />
     <Compile Include="Types\IndexOffset.cs" />
     <Compile Include="Types\Jump.cs" />
+    <Compile Include="Types\Method.cs" />
     <Compile Include="Types\Module.cs" />
     <Compile Include="Types\Ocurrence.cs" />
     <Compile Include="Types\OpCode.cs" />

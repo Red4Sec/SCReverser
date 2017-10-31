@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCReverser.NEO", "SCReverse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCReverser.Tests", "SCReverser.Tests\SCReverser.Tests.csproj", "{C3408C2E-84A4-40AF-B670-B4015DA6FCBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Be.HexEditor", "Be.HexEditor\Be.HexEditor.csproj", "{FF4ADB46-210E-429E-9176-68613F5CBE90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Be.Windows.Forms.HexBox", "Be.Windows.Forms.HexBox\Be.Windows.Forms.HexBox.csproj", "{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{7AB98135-378F-49BF-97F5-2AAA020A853C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,12 +59,30 @@ Global
 		{C3408C2E-84A4-40AF-B670-B4015DA6FCBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C3408C2E-84A4-40AF-B670-B4015DA6FCBB}.Release|x64.ActiveCfg = Release|x64
 		{C3408C2E-84A4-40AF-B670-B4015DA6FCBB}.Release|x64.Build.0 = Release|x64
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|x64.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|x64.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|x64.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{75A9588D-CF1A-4744-9188-65A4A61AAF6A} = {6D37BD7F-2FA6-4C7D-8F41-D9F12B228D34}
+		{FF4ADB46-210E-429E-9176-68613F5CBE90} = {7AB98135-378F-49BF-97F5-2AAA020A853C}
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457} = {7AB98135-378F-49BF-97F5-2AAA020A853C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {16D9E236-E8AB-4D86-978A-D961485320A2}

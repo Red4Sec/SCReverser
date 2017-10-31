@@ -9,6 +9,14 @@ namespace SCReverser.Core.Interfaces
     public interface IDebugger : IDisposable
     {
         /// <summary>
+        /// On module changed event
+        /// </summary>
+        event OnModuleDelegate OnModuleChanged;
+        /// <summary>
+        /// On method changed event
+        /// </summary>
+        event OnMethodDelegate OnMethodChanged;
+        /// <summary>
         /// On instruction changed event
         /// </summary>
         event OnInstructionDelegate OnInstructionChanged;
@@ -68,14 +76,21 @@ namespace SCReverser.Core.Interfaces
         /// </summary>
         Instruction CurrentInstruction { get; set; }
         /// <summary>
+        /// Modules
+        /// </summary>
+        ModuleCollection Modules { get; }
+        /// <summary>
         /// Instructions
         /// </summary>
-        Instruction[] Instructions { get; }
+        InstructionCollection Instructions { get; }
         /// <summary>
-        /// Get instruction by index
+        /// Current Method
         /// </summary>
-        /// <param name="instructionIndex">Instruction index</param>
-        Instruction this[uint instructionIndex] { get; }
+        Method CurrentMethod { get; }
+        /// <summary>
+        /// Current Module
+        /// </summary>
+        Module CurrentModule { get; }
         /// <summary>
         /// Resume
         /// </summary>
@@ -92,17 +107,5 @@ namespace SCReverser.Core.Interfaces
         /// Step out
         /// </summary>
         void StepOut();
-        /// <summary>
-        /// Index to Offset
-        /// </summary>
-        /// <param name="index">Index</param>
-        /// <param name="offset">Offset</param>
-        bool IndexToOffset(uint index, out uint offset);
-        /// <summary>
-        /// Offset to Index
-        /// </summary>
-        /// <param name="offset">Offset</param>
-        /// <param name="index">Index</param>
-        bool OffsetToIndex(uint offset, out uint index);
     }
 }

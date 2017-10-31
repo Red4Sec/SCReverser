@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Enums;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using System.IO;
 
@@ -6,6 +7,17 @@ namespace SCReverser.Core.Types
 {
     public class OpCode : IWritable
     {
+        /// <summary>
+        /// Size
+        /// </summary>
+        [JsonIgnore]
+        public uint Size
+        {
+            get
+            {
+                return RawValue == null ? 0 : (uint)RawValue.Length;
+            }
+        }
         /// <summary>
         /// Value
         /// </summary>

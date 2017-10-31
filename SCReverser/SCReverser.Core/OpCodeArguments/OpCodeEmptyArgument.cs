@@ -11,6 +11,17 @@ namespace SCReverser.Core.OpCodeArguments
     public class OpCodeEmptyArgument : IWritable
     {
         /// <summary>
+        /// Size
+        /// </summary>
+        [JsonIgnore]
+        public virtual uint Size
+        {
+            get
+            {
+                return RawValue == null ? 0 : (uint)RawValue.Length;
+            }
+        }
+        /// <summary>
         /// Raw value
         /// </summary>
         public byte[] RawValue { get; set; }

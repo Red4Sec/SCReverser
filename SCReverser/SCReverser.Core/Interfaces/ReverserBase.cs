@@ -157,6 +157,14 @@ namespace SCReverser.Core.Interfaces
                         Color = module.Color
                     };
 
+                    Method mEntryPoint = new Method()
+                    {
+                        Start = mAdd.Start,
+                        Name = "EntryPoint of " + module.Name,
+                    };
+
+                    Instruction lastIns = null;
+
                     try
                     {
                         if (module.Stream is FileStream fi && Path.GetExtension(fi.Name).ToLowerInvariant() == ".json")
@@ -215,7 +223,7 @@ namespace SCReverser.Core.Interfaces
                             OpCodeEmptyArgument arg = read.Create();
                             uint rBytes = arg.Read(module.Stream);
 
-                            Instruction ins = new Instruction()
+                            lastIns = new Instruction()
                             {
                                 OpCode = new OpCode()
                                 {
@@ -229,26 +237,35 @@ namespace SCReverser.Core.Interfaces
                                 Color = module.Color,
                             };
 
-                            if (ins.OpCode.Flags.HasFlag(OpCodeFlag.IsCall))
-                                calls.Add(ins);
+                            lastIns.Location.Index = insNumber;
+                            lastIns.Location.Offset = offset;
 
-                            ins.Location.Index = insNumber;
-                            ins.Location.Offset = offset;
+                            offsetCache.Add(lastIns.Location);
 
-                            offsetCache.Add(ins.Location);
+                            if (lastIns.OpCode.Flags.HasFlag(OpCodeFlag.IsCall))
+                                calls.Add(lastIns);
+                            else
+                            {
+                                if (mEntryPoint != null && lastIns.OpCode.Flags.HasFlag(OpCodeFlag.IsRet))
+                                {
+                                    mEntryPoint.End = lastIns.Location;
 
-                            ProcessInstruction(ins, offsetCache);
+                                    mAdd.Methods.Add(mEntryPoint);
+                                    mEntryPoint = null;
+                                }
+                            }
+                            ProcessInstruction(lastIns, offsetCache);
 
                             // Recall jumps
-                            if (ins.Jump != null && !ins.Jump.IsDynamic && ins.Jump.To.Index == uint.MaxValue)
-                                recallJump.Add(ins);
+                            if (lastIns.Jump != null && !lastIns.Jump.IsDynamic && lastIns.Jump.To.Index == uint.MaxValue)
+                                recallJump.Add(lastIns);
 
-                            result.Instructions.Add(ins);
+                            result.Instructions.Add(lastIns);
 
                             #region Fill ocurrences
                             foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
                             {
-                                if (ocur.Checker != null && ocur.Checker(ins, out string val))
+                                if (ocur.Checker != null && ocur.Checker(lastIns, out string val))
                                     ocur.Append(val, 1);
                             }
                             #endregion
@@ -263,7 +280,15 @@ namespace SCReverser.Core.Interfaces
                                 OnParseProgress?.Invoke(this, percent);
                             }
 
-                            ins.Write(ms);
+                            lastIns.Write(ms);
+                        }
+
+                        if (mEntryPoint != null)
+                        {
+                            mEntryPoint.End = lastIns.Location;
+
+                            mAdd.Methods.Add(mEntryPoint);
+                            mEntryPoint = null;
                         }
                     }
                     catch (Exception er)
@@ -277,10 +302,13 @@ namespace SCReverser.Core.Interfaces
                             module.Dispose();
                     }
 
-                    mAdd.End = new IndexOffset() { Offset = (uint)ms.Position, Index = (uint)result.Instructions.Count };
+                    long pos = ms.Position;
+                    mAdd.End = lastIns.Location;
+                    mAdd.Size = (uint)(pos - mAdd.Start.Offset);
+
                     ms.Seek(mAdd.Start.Offset, SeekOrigin.Begin);
 
-                    all = new byte[mAdd.End.Offset - mAdd.Start.Offset];
+                    all = new byte[mAdd.Size];
                     ms.Read(all, 0, all.Length);
 
                     using (SHA1 sha = SHA1.Create())
@@ -291,6 +319,7 @@ namespace SCReverser.Core.Interfaces
 
                 result.Bytes = ms.ToArray();
             }
+
             // Recall jumps
             foreach (Instruction j in recallJump)
             {
@@ -305,33 +334,76 @@ namespace SCReverser.Core.Interfaces
                 }
             }
 
+            // Calculate methods
             foreach (Instruction j in calls)
             {
                 if (j.Jump == null || j.Jump.IsDynamic) continue;
 
-                Instruction to = result.Instructions[(int)j.Jump.To.Index];
-                if (to != null)
+                Instruction to = result.Instructions[j.Jump.To.Index];
+                if (to == null) continue;
+
+                int asciiCount = 0;
+                string ascii = "";
+
+                foreach (Instruction ins in result.Instructions.Take(to.Location))
                 {
-                    //if (to.Color == Color.Empty)
-                    //to.Color = Color.FromArgb(50, Color.Blue);
-                    /*if (string.IsNullOrEmpty(to.Comment)) */
-
-                    to.Comment = "Method " + to.OffsetHex;
-                    to.BorderStyle = RowBorderStyle.EmptyBottom;
-
-                    for (int x = (int)to.Location.Index + 1, m = result.Instructions.Count; x < m; x++)
+                    if (ins.OpCode.Flags.HasFlag(OpCodeFlag.IsRet))
                     {
-                        Instruction ins = result.Instructions[x];
-                        if (ins.OpCode.Flags.HasFlag(OpCodeFlag.IsRet))
+                        Types.Module m = result.Modules.GetModuleOf(to.Location);
+                        if (m != null)
                         {
-                            ins.BorderStyle = RowBorderStyle.EmptyTop;
-                            break;
+                            m.Methods.Add(new Method()
+                            {
+                                Start = to.Location,
+                                End = ins.Location,
+                                Name = "Method " + to.OffsetHex + (string.IsNullOrEmpty(ascii) || asciiCount != 1 ? "" : " [" + ascii + "]")
+                            });
                         }
+                        break;
+                    }
+                    else
+                    {
+                        // Find only one ascii value for name
+                        if (ins.Argument != null)
+                        {
+                            string r = ins.Argument.ASCIIValue;
 
-                        ins.BorderStyle = RowBorderStyle.OnlyLeftAndRight;
+                            if (!string.IsNullOrEmpty(r))
+                            {
+                                ascii = r;
+                                asciiCount++;
+                            }
+                        }
                     }
                 }
             }
+
+            // Style methods
+            foreach (Types.Module mod in result.Modules)
+                foreach (Method met in mod.Methods)
+                {
+                    met.Size = 0;
+                    Instruction first = null;
+                    foreach (Instruction i in result.Instructions.Take(met.Start, met.End))
+                    {
+                        if (first == null)
+                        {
+                            first = i;
+                            i.Comment = met.Name;
+                            first.BorderStyle = RowBorderStyle.EmptyBottom;
+                        }
+                        else
+                        {
+                            first = i;
+                            first.BorderStyle = RowBorderStyle.OnlyLeftAndRight;
+                        }
+                        met.Size += i.Size;
+                    }
+                    if (first != null)
+                    {
+                        first.BorderStyle = first.BorderStyle == RowBorderStyle.EmptyBottom ? RowBorderStyle.All : RowBorderStyle.EmptyTop;
+                    }
+                }
 
             // Remove empty ocurrences
             foreach (string key in result.Ocurrences.Keys.ToArray())

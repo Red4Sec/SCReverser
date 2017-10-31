@@ -40,9 +40,9 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Create debugger
         /// </summary>
-        /// <param name="instructions">Instructions</param>
+        /// <param name="result">Reverse result</param>
         /// <param name="debugConfig">Config</param>
-        IDebugger CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig);
+        IDebugger CreateDebugger(ReverseResult result, object debugConfig);
         /// <summary>
         /// Get Logo
         /// </summary>

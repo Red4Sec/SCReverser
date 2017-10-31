@@ -1,4 +1,5 @@
-﻿using SCReverser.Controls;
+﻿using Be.Windows.Forms;
+using SCReverser.Controls;
 using SCReverser.Core;
 using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
@@ -287,7 +288,7 @@ namespace SCReverser
             {
                 CleanDebugger();
 
-                Debugger = Template.CreateDebugger(Result.Instructions, Config);
+                Debugger = Template.CreateDebugger(Result, Config);
 
                 Debugger.OnStateChanged += Debugger_OnStateChanged;
                 Debugger.OnInstructionChanged += Debugger_OnInstructionChanged;
@@ -343,7 +344,7 @@ namespace SCReverser
             GridOpCode.CurrentCell = GridOpCode.Rows[instruction == null ? 0 : (int)instruction.Location.Index].Cells[3];
             Jumps.RefreshDynJumps(Debugger);
 
-            //GridOpCode.Refresh();
+            GridOpCode.Invalidate();
             Registers.Refresh();
 
             //Application.DoEvents();
@@ -467,7 +468,7 @@ namespace SCReverser
 
             if (result != null)
             {
-                Hex.SetBytes(result.Bytes == null ? new byte[] { } : result.Bytes);
+                Hex.ByteProvider = new DynamicByteProvider(result == null || result.Bytes == null ? new byte[] { } : result.Bytes);
 
                 foreach (string sk in result.Ocurrences.Keys)
                 {
@@ -479,10 +480,39 @@ namespace SCReverser
 
                     tabControl1.TabPages.Add(t);
                 }
+
+                TreeModules.BeginUpdate();
+                TreeModules.Nodes.Clear();
+
+                foreach (Module md in result.Modules)
+                {
+                    TreeNode tm = new TreeNode(md.Name)
+                    {
+                        Tag = md,
+                        ImageKey = "Module",
+                        SelectedImageKey = "Module"
+                    };
+
+                    foreach (Method mt in md.Methods)
+                    {
+                        TreeNode tmt = new TreeNode(mt.Name) { Tag = mt, ImageKey = "Method", SelectedImageKey = "Method" };
+
+                        tmt.Nodes.Add(new TreeNode("From " + mt.Start.OffsetHex) { Tag = mt.Start, ImageKey = "OffsetFrom", SelectedImageKey = "OffsetFrom" });
+                        tmt.Nodes.Add(new TreeNode("To " + mt.End.OffsetHex) { Tag = mt.End, ImageKey = "OffsetTo", SelectedImageKey = "OffsetTo" });
+
+                        tm.Nodes.Add(tmt);
+                    }
+
+                    TreeModules.Nodes.Add(tm);
+                }
+
+                TreeModules.ExpandAll();
+                TreeModules.EndUpdate();
             }
             else
             {
-                Hex.SetBytes(new byte[] { });
+                TreeModules.Nodes.Clear();
+                Hex.ByteProvider = new DynamicByteProvider(result == null || result.Bytes == null ? new byte[] { } : result.Bytes);
             }
 
             GridOpCode.DataSource = result == null ? null : result.Instructions;
@@ -499,7 +529,6 @@ namespace SCReverser
             tsProgressBar.Visible = false;
             Enabled = true;
         }
-
         void tsInfo_Click(object sender, EventArgs e)
         {
             if (tsInfo.Text == "") return;
@@ -714,6 +743,41 @@ namespace SCReverser
             {
                 LastSaveFile = null;
                 Error(ex);
+            }
+        }
+
+        void TreeModules_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Tag == null) return;
+
+            if (e.Node.Tag is IStartEnd mt)
+            {
+                if (mt is Method) return;
+
+                GridOpCode.CurrentCell = GridOpCode.Rows[(int)mt.Start.Index].Cells.Cast<DataGridViewCell>().LastOrDefault();
+                GridOpCode.FirstDisplayedCell = GridOpCode.CurrentCell;
+                tabControl1.SelectedIndex = 0;
+            }
+            else if (e.Node.Tag is IndexOffset io)
+            {
+                GridOpCode.CurrentCell = GridOpCode.Rows[(int)io.Index].Cells.Cast<DataGridViewCell>().LastOrDefault();
+                GridOpCode.FirstDisplayedCell = GridOpCode.CurrentCell;
+                tabControl1.SelectedIndex = 0;
+            }
+        }
+        void TreeModules_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag is Module md)
+            {
+                Hex.Select(md.Start.Offset, md.Size);
+            }
+            else if (e.Node.Tag is Method mt)
+            {
+                Hex.Select(mt.Start.Offset, mt.Size);
+            }
+            else if (e.Node.Tag is IndexOffset io)
+            {
+                Hex.Select(io.Offset, 1);
             }
         }
     }

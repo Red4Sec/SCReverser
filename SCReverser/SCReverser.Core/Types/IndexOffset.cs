@@ -1,4 +1,5 @@
-﻿using SCReverser.Core.Helpers;
+﻿using Newtonsoft.Json;
+using SCReverser.Core.Helpers;
 
 namespace SCReverser.Core.Types
 {
@@ -12,6 +13,11 @@ namespace SCReverser.Core.Types
         /// Offset
         /// </summary>
         public uint Offset { get; set; }
+        /// <summary>
+        /// OffsetHex
+        /// </summary>
+        [JsonIgnore]
+        public string OffsetHex { get { return "0x" + Offset.ToString("X4"); } }
 
         /// <summary>
         /// Index between

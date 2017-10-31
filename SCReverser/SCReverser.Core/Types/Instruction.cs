@@ -10,6 +10,25 @@ namespace SCReverser.Core.Types
     public class Instruction : IWritable
     {
         /// <summary>
+        /// Size
+        /// </summary>
+        [JsonIgnore]
+        public uint Size
+        {
+            get
+            {
+                uint l = 0;
+
+                // Write OpCode
+                if (OpCode != null) l += OpCode.Size;
+
+                // Write arguments
+                if (Argument != null) l += Argument.Size;
+
+                return l;
+            }
+        }
+        /// <summary>
         /// Instruction index
         /// </summary>
         public IndexOffset Location { get; private set; } = new IndexOffset();
@@ -17,7 +36,7 @@ namespace SCReverser.Core.Types
         /// Offset Hex
         /// </summary>
         [JsonIgnore]
-        public string OffsetHex { get { return "0x" + Location.Offset.ToString("X4"); } }
+        public string OffsetHex { get { return Location.OffsetHex; } }
         /// <summary>
         /// OpCode
         /// </summary>

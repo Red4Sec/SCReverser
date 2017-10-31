@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
-using System.Collections.Generic;
+using System;
 using System.Drawing;
-using SCReverser.Core.Enums;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -53,7 +52,7 @@ namespace SCReverser.Core.Interfaces
             ReverserT r = CreateReverser();
             return r;
         }
-        public virtual IDebugger CreateDebugger(IEnumerable<Instruction> instructions, object debugConfig)
+        public virtual IDebugger CreateDebugger(ReverseResult result, object debugConfig)
         {
             throw new NotImplementedException();
         }

@@ -51,7 +51,7 @@ namespace SCReverser.Core.Types
             uint? offset = _Checker.Invoke(debug, ins);
             if (offset.HasValue)
             {
-                if (debug.OffsetToIndex(offset.Value, out uint ix))
+                if (debug.Instructions.OffsetToIndex(offset.Value, out uint ix))
                 {
                     To = new IndexOffset() { Index = ix, Offset = offset.Value };
                     return true;

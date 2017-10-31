@@ -4,20 +4,14 @@ using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Types;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace SCReverser.Core.Interfaces
 {
     public class DebuggerBase<T> : IDebugger
     {
-        /// <summary>
-        /// Cache offset - instruction index
-        /// </summary>
-        readonly OffsetRelationCache OffsetCache = new OffsetRelationCache();
-
         DebuggerState _State;
+        Method _CurrentMethod;
         uint _CurrentInstructionIndex;
 
         #region State variables
@@ -61,6 +55,14 @@ namespace SCReverser.Core.Interfaces
         }
         #endregion
 
+        /// <summary>
+        /// On module changed event
+        /// </summary>
+        public event OnModuleDelegate OnModuleChanged;
+        /// <summary>
+        /// On method changed event
+        /// </summary>
+        public event OnMethodDelegate OnMethodChanged;
         /// <summary>
         /// On instruction changed event
         /// </summary>
@@ -113,6 +115,12 @@ namespace SCReverser.Core.Interfaces
 
                 Instruction ins = Instructions[CurrentInstructionIndex];
 
+                // Search Module and Method
+                Module m = Modules.GetModuleOf(ins.Location);
+                if (m != null) CurrentMethod = m.Methods.GetMethodOf(ins.Location);
+                else CurrentMethod = null;
+
+                // Raise event
                 OnInstructionChanged?.Invoke(this, ins);
 
                 if (ins.HaveBreakPoint)
@@ -132,7 +140,7 @@ namespace SCReverser.Core.Interfaces
             get { return CurrentInstruction.Location.Offset; }
             set
             {
-                if (OffsetToIndex(value, out uint v))
+                if (Instructions.OffsetToIndex(value, out uint v))
                     CurrentInstructionIndex = v;
             }
         }
@@ -146,12 +154,42 @@ namespace SCReverser.Core.Interfaces
             set
             {
                 // Search index of this instruction
-                for (uint x = 0, m = (uint)(Instructions == null ? 0 : Instructions.Length); x < m; x++)
+                for (uint x = 0, m = (uint)(Instructions == null ? 0 : Instructions.Count); x < m; x++)
                     if (Instructions[x] == value)
                     {
                         CurrentInstructionIndex = x;
                         break;
                     }
+            }
+        }
+        /// <summary>
+        /// Current Module
+        /// </summary>
+        [Category("Debug")]
+        public Module CurrentModule
+        {
+            get { return _CurrentMethod == null ? null : _CurrentMethod.Parent; }
+        }
+        /// <summary>
+        /// Current Method
+        /// </summary>
+        [Category("Debug")]
+        public Method CurrentMethod
+        {
+            get { return _CurrentMethod; }
+            set
+            {
+                if (_CurrentMethod == value) return;
+
+                Module mbefore = _CurrentMethod == null ? null : _CurrentMethod.Parent;
+                _CurrentMethod = value;
+
+                Module mafter = _CurrentMethod == null ? null : _CurrentMethod.Parent;
+
+                if (mbefore != mafter)
+                    OnModuleChanged?.Invoke(this, mafter);
+
+                OnMethodChanged?.Invoke(this, value);
             }
         }
         /// <summary>
@@ -161,55 +199,40 @@ namespace SCReverser.Core.Interfaces
         public virtual uint InvocationStackCount { get; protected set; }
         #endregion
         /// <summary>
-        /// Get instruction by index
+        /// Modules
         /// </summary>
-        /// <param name="instructionIndex">Instruction index</param>
-        public Instruction this[uint instructionIndex]
-        {
-            get
-            {
-                if (Instructions.Length <= instructionIndex) return null;
-                return Instructions[instructionIndex];
-            }
-        }
+        [Browsable(false)]
+        public ModuleCollection Modules { get; private set; } = new ModuleCollection();
         /// <summary>
         /// Instructions
         /// </summary>
         [Browsable(false)]
-        public Instruction[] Instructions { get; private set; }
+        public InstructionCollection Instructions { get; private set; } = new InstructionCollection();
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="instructions">Instructions</param>
+        /// <param name="result">Reverse Result</param>
         /// <param name="debugConfig">Debugger config</param>
-        protected DebuggerBase(IEnumerable<Instruction> instructions, T debugConfig)
+        protected DebuggerBase(ReverseResult result, T debugConfig)
         {
+            if (result != null)
+            {
+                Modules.CopyFrom(result.Modules);
+                Instructions.CopyFrom(result.Instructions);
+            }
+
             Config = debugConfig;
-            Instructions = instructions.ToArray();
             State = DebuggerState.None;
             InvocationStackCount = 0;
             CurrentInstructionIndex = 0;
 
-            // Cache offsets
-            OffsetCache.FillWith(Instructions);
-        }
-        /// <summary>
-        /// Index to Offset
-        /// </summary>
-        /// <param name="index">Index</param>
-        /// <param name="offset">Offset</param>
-        public bool IndexToOffset(uint index, out uint offset)
-        {
-            return OffsetCache.TryGetValue(index, out offset, OffsetIndexRelation.IndexToOffset);
-        }
-        /// <summary>
-        /// Offset to Index
-        /// </summary>
-        /// <param name="offset">Offset</param>
-        /// <param name="index">Index</param>
-        public bool OffsetToIndex(uint offset, out uint index)
-        {
-            return OffsetCache.TryGetValue(offset, out index, OffsetIndexRelation.OffsetToIndex);
+            Instruction ins = Instructions[CurrentInstructionIndex];
+            if (ins != null)
+            {
+                Module m = Modules.GetModuleOf(ins.Location);
+                if (m != null)
+                    _CurrentMethod = m.Methods.GetMethodOf(ins.Location);
+            }
         }
         /// <summary>
         /// Free resources

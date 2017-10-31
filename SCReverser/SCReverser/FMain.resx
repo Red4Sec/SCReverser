@@ -121,6 +121,31 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>843, 39</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="toolStrip1.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="toolStripDropDownButton1.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -139,7 +164,6 @@
   <data name="toolStripButton1.Text" xml:space="preserve">
     <value>Open</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="toolStripButton8.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -236,45 +260,9 @@
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 39</value>
   </data>
-  <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>843, 39</value>
-  </data>
-  <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="toolStrip1.Text" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
   </metadata>
-  <data name="tsProgressBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 16</value>
-  </data>
-  <data name="tsProgressBar.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="tsInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>828, 17</value>
-  </data>
-  <data name="tsInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 523</value>
   </data>
@@ -296,7 +284,343 @@
   <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="tsProgressBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 16</value>
+  </data>
+  <data name="tsProgressBar.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="tsInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>828, 17</value>
+  </data>
+  <data name="tsInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
+    <value>tabInstructions</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabInstructions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tabInstructions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabInstructions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>835, 434</value>
+  </data>
+  <data name="tabInstructions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabInstructions.Text" xml:space="preserve">
+    <value>Instructions</value>
+  </data>
+  <data name="&gt;&gt;tabInstructions.Name" xml:space="preserve">
+    <value>tabInstructions</value>
+  </data>
+  <data name="&gt;&gt;tabInstructions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabInstructions.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabInstructions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Hex.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="Hex.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="Hex.Location" type="System.Drawing.Point, System.Drawing">
+    <value>389, 3</value>
+  </data>
+  <data name="Hex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 428</value>
+  </data>
+  <data name="Hex.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Hex.Name" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="&gt;&gt;Hex.Type" xml:space="preserve">
+    <value>Be.Windows.Forms.HexBox, Be.Windows.Forms.HexBox, Version=1.6.0.34421, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;Hex.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;Hex.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitter1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>383, 3</value>
+  </data>
+  <data name="splitter1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 428</value>
+  </data>
+  <data name="splitter1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;splitter1.Name" xml:space="preserve">
+    <value>splitter1</value>
+  </data>
+  <data name="&gt;&gt;splitter1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitter1.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;splitter1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TreeModules.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="TreeModules.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Consolas, 9.75pt</value>
+  </data>
+  <data name="TreeModules.ImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <metadata name="imageMethods.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>784, 17</value>
+  </metadata>
+  <data name="imageMethods.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACQ
+        IAAAAk1TRnQBSQFMAgEBBAEAAQgBAAEIAQABGgEAARoBAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFo
+        AwABNAMAAQEBAAEgBQABgAFU/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A
+        /wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wAFAAGDAVYBdgGvAbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AUkBPQFFAV3/ABkAAVQBSQE/AWgBxwGIAUYB/wFmAVcBRwGAAccBiAFGAf8DAgEDQAABSQE9
+        AUUBXQG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/ASEBHgEgASn4AAHH
+        AYgBRgH/AwABAQgAAwsBDgHHAYgBRgH/EAABIQEgAR4BKQHHAYgBRgH/DAADBwEJAccBiAFGAf8kAAG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf/sAAFnAVgBRgGBAcEBfgE8Af8B/QHLAZYB/wHwAd4BzQH/AcQBiAFHAf0BxwGI
+        AUYB/wEJAggBCxwAAcEBhgFJAfcBgAFnAU0BoQHHAYgBRgH/AfkBzwGcBf8BwAF5ATAB/wElASMBIAEt
+        GAABtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/xQAAQYBAgEIAf8BBgECAQgB/zAAAwYB90wA
+        AwQB+TAAAQYBAgEIAf8BMwEyATMBYwwAAccBiQFGAf8B/gHSAZ8B/wH9AcwBmAH/Af0BywGWCf8BwgF9
+        ATcB/wExAS0BKQE8HAABZwFXAUcBgAHEAYUBQwH/Af0BzAGYAf8B/QHMAZgN/wHHAYgBRgH/EAABtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVcBmwH/
+        AbYBVwGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFXAZsB/wG2AVcBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AaQBWQGPAeMQAAEGAQIBCAH/AQYBAgEI
+        Af8vAAH/AwYB908AAf8DAAH/LAABBgECAQgB/wEzATIBMwFjCAABxAGEAUEB/wH9AcwBmAH/Af0BzAGY
+        Af8B/QHMAZgB/wH9AcsBlg3/AfMB5QHXAf8cAAH+AdMBnwH/Af0BzAGYAf8B/QHMAZgB/wH9AcwBmBH/
+        AccBiAFGAf8IAAF9AVYBcgGmAbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8B6gHPAeIR/wG1
+        AVUBmQH/AbYBWAGbAf8BvgFrAaYR/wHXAaMBxwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8DBgEIDAABBgECAQgB/wEGAQIBCAH/KwAB/wMAAf8DBgH3TwAB/wMAAf8DAAH/KAABBgECAQgB/wEz
+        ATIBMwFjCAABxAGFAUIB/wH9AcwBmAH/Af0BzAGYAf8B/QHMAZgB/wH9AcsBlg3/AfAB4AHPAf8cAAH8
+        AdABnAH/Af0BzAGYAf8B/QHMAZgB/wH9AcwBmBH/AccBiAFGAf8IAAG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AbUBVQGaCf8B7AHWAeYB/wG7AWIBoAH/AbsBYgGhAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBVwGaAf8BuwFiAaEB/wHAAW4BqAH/AfYB6gHyCf8BtgFXAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/DAABBgECAQgB/wEGAQIBCAH/IAADKwFLAwAB/wMAAf8DAAH/AwYB908AAf8DAAH/
+        AwAB/wMAAf8DBwEKIAABBgECAQgB/wEzATIBMwFjCAABxAGFAUIB/wH9AcwBmAH/Af0BzAGYAf8B/QHL
+        AZcB/wH+AfIB4wP/Af4J/wHwAeABzwH/HAAB/AHQAZwB/wH9AcwBmAH/Af0BzAGYAf8B/gHPAZ0B/wH+
+        Ae8B3A3/AccBiAFGAf8EAAGfAVsBjAHcAbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsJ/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsJ/wG1AVYBmgH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BGgEZ
+        ARoBIQgAAQYBAgEIAf8BBgECAQgB/xwAAxUB4QMAAf8DAAH/AwAB/wMAAf8DBgH3TwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DNAGLHAABBgECAQgB/wEzATIBMwFjCAABxAGFAUIB/wH9AcwBmAH/Af4B9AHnAf8B/gHw
+        Ad8B/wH+AfAB3wH/Af4B8AHfAf8B/gHwAd8F/wHwAeABzwH/HAAB/AHQAZwB/wH9AcoBlAH/Af4B8AHe
+        Af8B/gHwAd8B/wH+AfAB3wH/Af4B8AHfAv8B8gHjBf8BxwGIAUYB/wQAAbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVcBmwn/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwn/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/CAABBgECAQgB/wEGAQIBCAH/GwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwYB908AAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMBAfwYAAEGAQIBCAH/ATMBMgEz
+        AWMIAAHIAYkBRwH/Af4B7wHdAf8B/gHwAd8B/wH+AfAB3wH/Af4B8AHfAf8B/gHwAd8B/wH+AfAB3wH/
+        Af4B8AHfAf8BxAGAAToB/xwAAdMBoAFrAf8B/gHwAd8B/wH+AfAB3wH/Af4B8AHfAf8B/gHwAd8B/wH+
+        AfAB3wH/Af4B8AHfAv8B8QHhAf8BxwGIAUYB/wQAAbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwn/AbQBUwGYAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVcBmwn/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/CAABBgECAQgB/wEGAQIBCAH/FwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/FwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/FAABBgECAQgB/wEzATIBMwFjDAABrAF9
+        AU4B2wHRAZ0BZQH/Af4B8AHfAf8B/gHwAd8B/wH+AfAB3wL/AfgB7QH/AccBiAFGAf8kAAHHAYgBRgL/
+        AfgB8AH/Af4B8AHfAf8B/gHwAd8B/wH+AfAB3wH/AccBiQFGAf8BgQFnAUwBogQAARkBFwEYAR8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbCf8BsgFQAZYB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AcMBdgGtCf8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8IAAEGAQIBCAH/AQYBAgEI
+        Af8TAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8DAAH/FwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8DAAH/AwAB/xAAAQYBAgEIAf8BMwEyATMBYxQAAccBiAFGAv8B9gHpAf8BwgGAATkB/wIWARUBHCwA
+        AVMBSQE+AWcBwAF5ATEB/wH7AfMB5wH/AccBiAFGAf8MAAGfAVoBiwHbAbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbMBUgGYAf8BtQFUAZkB/wHqAc8B4gn/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwn/Ad8BtQHSAf8BtQFUAZkB/wGz
+        AVIBmAH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/CAABBgECAQgB/wEGAQIBCAH/CAADKgFHAwAB/wMA
+        Af8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8XAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8DAAH/AwAB/wMJAQwIAAEGAQIBCAH/ATMBMgEzAWMUAAMHAQkBRgE+ATgBVzwAAhABDwEUASkBJgEk
+        ATIMAAGtAVkBlQHxAbYBWAGbAf8BtgFYAZsB/wG2AVgBmxH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsR/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wgAAQYBAgEIAf8BBgECAQgB/wQAAwIB+wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/xcAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMyAZgEAAEGAQIBCAH/ATMBMgEzAWMUAAMHAQlEAAEpASYBJAEyDAABqgFZ
+        AZMB6wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG0AVQBmQH/AbYBVwGbAf8B9QHnAfAJ/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsJ/wHpAdAB4gH/AbYBVgGaAf8BtAFUAZkB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wgAAQYBAgEI
+        Af8BBgECAQgB/wgAAyEBzAMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/FwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DLwFZCAABBgECAQgB/wEzATIBMwFjFAADBwEJ
+        HAABhQFqAU0BpwHFAYMBPgH/AVEBSAE9AWUcAAEpASYBJAEyDAABHwEdAR8BJwG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsJ/wGyAVABlgH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BwgF0AawJ/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wgAAQYBAgEIAf8BBgECAQgB/wwAAyIBNQMA
+        Af8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8XAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
+        Af8DAAH/EAABBgECAQgB/wEzATIBMwFjFAABcgFhAUgBjhgAAcgBiQFGAf8B/gHMAZgC/wH5AfIF/wHH
+        AYgBRgH/GAABxQGIAUQB/xAAAbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwn/AbQBUwGYAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG3AVgBmwn/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/CAABBgECAQgB/wEGAQIBCAH/FwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/FwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/FAABBgECAQgB/wEzATIBMwFjFAABoAF6AUsBzgGBAWgBTQGj
+        DAABwgGFAUcB+gHtAbwBhQH/Af0BzAGYAf8B/QHMAZgC/wH5AfIJ/wHYAawBfgH/AbMBfwFMAeQMAAGn
+        AXoBTwHUAVABRQE/AWUQAAG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsJ/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsJ/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wgAAQYBAgEIAf8BBgECAQgB/xsAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMGAfYDCAELAwgBCwMI
+        AQsDCAELAwgBCwMIAQsDCAELFAADCAELAwgBCwMIAQsDCAELAwgBCwMIAQsDCAELAwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAB/xgAAQYBAgEIAf8BMwEyATMBYxwAAccBiAFGAf8BIgEgAR4BKgQAAdUBmgFb
+        Af8B/QHMAZgB/wH9AcwBmAH/Af0BzAGYAv8B+QHyDf8BxAGCAT0B/wQAAUoBQgE6AVwBxwGHAUYB/xgA
+        AY0BWQF+Ab8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVcBmwn/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwn/
+        AbUBVgGaAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wEmASMBJQEwCAABBgECAQgB/wEG
+        AQIBCAH/HwAB/wMAAf8DAAH/AwAB/wMAAf8DBgH3TwAB/wMAAf8DAAH/AwAB/wMAAf8DEAHpHAABBgEC
+        AQgB/wEzATIBMwFjJAABxwGIAUYB/wHVAZoBWwH/Af0BzAGYAf8B/QHMAZgB/wH9AcwBmAL/AfkB8g3/
+        AcQBggE9Af8BxwGIAUYB/yQAAbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtQFVAZkJ/wHf
+        AbYB0wH/AbQBVAGZAf8BtAFUAZkB/wG2AVgBmwH/AbYBWAGbAf8BtwFYAZsB/wG0AVQBmQH/AbQBUwGY
+        Af8B5wHIAd4J/wG2AVcBmgH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8MAAEGAQIBCAH/
+        AQYBAgEIAf8gAAMbAdcDAAH/AwAB/wMAAf8DBgH3TwAB/wMAAf8DAAH/AwAB/wMyAWggAAEGAQIBCAH/
+        ATMBMgEzAWMoAAHVAZoBWwH/Af0BzAGYAf8B/QHMAZgB/wH+AfIB4wH/Af4B8AHfAf8B/gHzAeUJ/wHE
+        AYIBPQH/KAABigFYAXwBuwG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AfQB5QHwEf8BtQFV
+        AZkB/wG2AVgBmwH/Ab4BawGmEf8B4wHBAdkB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AQkBCAEJAQsMAAEGAQIBCAH/AQYBAgEIAf8kAAMSARkDAAH/AwAB/wMGAfdPAAH/AwAB/wMAAf8DAgED
+        JAABBgECAQgB/wEzATIBMwFjKAAB1QGaAVsB/wH+AdgBsAH/Af4B8AHfAf8B/gHwAd8B/wH+AfAB3wH/
+        Af4B8AHfAf8B/gHwAd8C/wH8AfkB/wHEAYIBPQH/LAABtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFXAZsB/wG1AVUBmQH/AbUBVQGZAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtQFVAZkB/wG1AVUBmQH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AakBWQGTAesQAAEGAQIBCAH/AQYBAgEIAf8vAAH/AwYB908AAf8DAAH/LAABBgEC
+        AQgB/wEzATIBMwFjKAABxwGIAUYB/wH+AfgB7AH/Af4B8AHfAf8B/gHwAd8B/wH+AfAB3wH/Af4B8AHf
+        Af8B/gHwAd8B/wH3Ae4B4wH/AccBiAFGAf8wAAG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG0AVgBmAH8
+        FAABBgECAQgB/wEGAQIBCAH/MAADBgH3TwAB/zAAAQYBAgEIAf8BMwEyATMBYywAAg0BDAEQAcMBgQE8
+        Af8B/gHwAd8B/wH+AfAB3wH/Af4B7wHeAf8BxgGIAUUB/wMFAQc4AAG2AVgBmwH/AbYBWAGbAf8BtgFY
+        AZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/
+        AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf//ABEA
+        AcgBhwFGAf8B2QGtAXsB/wGzAYEBSwHkRAABWgFHAVQBdAG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2
+        AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/ARYBFAEVARv/AG0AAYABVwF0AasBtgFYAZsB/wG2AVgBmwH/AbYBWAGb
+        Af8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BtgFYAZsB/wG2AVgBmwH/AbYBWAGbAf8BXQFIAVcBef8A
+        /wCOAAFCAU0BPgcAAT4DAAEoAwABaAMAATQDAAEBAQABAQUAAUABAxYAA///AKIABP8BwAEHB/8DAAH/
+        AeAC/wEAAQEH/wMAAfkBngFzAf4CAAf/AwAB4AE/AYAB/AIAAXwB/wH3Av8BfwH5AwABwAE/AYABeAIA
+        ATwB/wHnAv8BPwH5AwABgAE/AYABMAIAARwB/wHHAv8BHwH5AwABgAE/AYABMAIAARwB/wEHAv8BBwH5
+        AwABgAE/AYABIAIAAQwB/gEHAv8BAwH5AwABgAE/AYABIAIAAQwB/AEHAv8BAQH5AwABgAE/AYABIAIA
+        AQwB+AEAAQ8BgAEAAfkDAAHAAX8BwAFAAgABDAHwAQABDwGAAQABeQMAAfAB/wHhAcACAAEMAcABAAEP
+        AYABAAEZAwAB8wH/AfkBwAIAAQwBgAEAAQ8BgAEAAQkDAAH3Af8B/QHAAgABDAHAAQABDwGAAQABGQMA
+        AfcB8QH9AcACAAEMAeABAAEPAYABAAF5AwAB9wHgAf0B4AIAAQwB+AEAAQ8BgAEAAfkDAAHzAYABOQHg
+        AgABDAH8AQABDwGAAQEB+QMAAfwBgAEnAeACAAEMAf4BBwL/AQMB+QMAAf8BAAEfAfACAAEcAf8BBwL/
+        AQcB+QMAAf8BgAE/AfACAAEcAf8BhwL/AQ8B+QMAAf8BgAE/AfgCAAE8Af8B5wL/AT8B+QMAAf8BgAE/
+        AfwCAAF8Af8B9wL/AX8B+QMAAf8BwAF/Af4CAAf/AwAB/wHxAv8BAAEBB/8DAAT/AcABBwf/AwAN/wMA
+        Cw==
+</value>
+  </data>
+  <data name="TreeModules.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="TreeModules.SelectedImageIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TreeModules.Size" type="System.Drawing.Size, System.Drawing">
+    <value>380, 428</value>
+  </data>
+  <data name="TreeModules.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TreeModules.Name" xml:space="preserve">
+    <value>TreeModules</value>
+  </data>
+  <data name="&gt;&gt;TreeModules.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TreeModules.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;TreeModules.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>835, 434</value>
+  </data>
+  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>Hex &amp; Methods</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 63</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>843, 460</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabControl1.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -336,12 +660,6 @@
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>493, 17</value>
   </metadata>
-  <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 22</value>
-  </data>
-  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Go here</value>
-  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 26</value>
   </data>
@@ -417,84 +735,6 @@
   <data name="splitContainer1.Panel1MinSize" type="System.Int32, mscorlib">
     <value>200</value>
   </data>
-  <data name="SplitStack.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <metadata name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Alt Stack</value>
-  </data>
-  <data name="GridAltStack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="GridAltStack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 109</value>
-  </data>
-  <data name="GridAltStack.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 100</value>
-  </data>
-  <data name="GridAltStack.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;GridAltStack.Name" xml:space="preserve">
-    <value>GridAltStack</value>
-  </data>
-  <data name="&gt;&gt;GridAltStack.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GridAltStack.Parent" xml:space="preserve">
-    <value>SplitStack</value>
-  </data>
-  <data name="&gt;&gt;GridAltStack.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="dataGridViewTextBoxColumn2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>Stack</value>
-  </data>
-  <data name="GridStack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="GridStack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="GridStack.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 100</value>
-  </data>
-  <data name="GridStack.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;GridStack.Name" xml:space="preserve">
-    <value>GridStack</value>
-  </data>
-  <data name="&gt;&gt;GridStack.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GridStack.Parent" xml:space="preserve">
-    <value>SplitStack</value>
-  </data>
-  <data name="&gt;&gt;GridStack.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SplitStack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="SplitStack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="SplitStack.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="SplitStack.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 212</value>
-  </data>
-  <data name="SplitStack.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;SplitStack.Name" xml:space="preserve">
     <value>SplitStack</value>
   </data>
@@ -514,10 +754,10 @@
     <value>Fill</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 216</value>
+    <value>0, 243</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 212</value>
+    <value>265, 185</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -547,7 +787,7 @@
     <value>0, 0</value>
   </data>
   <data name="Registers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 216</value>
+    <value>265, 243</value>
   </data>
   <data name="Registers.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -597,129 +837,162 @@
   <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="tabInstructions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
+  <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 22</value>
   </data>
-  <data name="tabInstructions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Go here</value>
   </data>
-  <data name="tabInstructions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>835, 434</value>
-  </data>
-  <data name="tabInstructions.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tabInstructions.Text" xml:space="preserve">
-    <value>Instructions</value>
-  </data>
-  <data name="&gt;&gt;tabInstructions.Name" xml:space="preserve">
-    <value>tabInstructions</value>
-  </data>
-  <data name="&gt;&gt;tabInstructions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabInstructions.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="&gt;&gt;tabInstructions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Hex.CellBorderStyle" type="System.Windows.Forms.TableLayoutPanelCellBorderStyle, System.Windows.Forms">
-    <value>Inset</value>
-  </data>
-  <data name="Hex.ColumnCount" type="System.Int32, mscorlib">
+  <data name="SplitStack.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="Hex.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="&gt;&gt;GridAltStack.Name" xml:space="preserve">
+    <value>GridAltStack</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.Parent" xml:space="preserve">
+    <value>SplitStack</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;GridStack.Name" xml:space="preserve">
+    <value>GridStack</value>
+  </data>
+  <data name="&gt;&gt;GridStack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GridStack.Parent" xml:space="preserve">
+    <value>SplitStack</value>
+  </data>
+  <data name="&gt;&gt;GridStack.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SplitStack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="Hex.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Consolas, 8.25pt</value>
+  <data name="SplitStack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="Hex.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="Hex.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Hex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>829, 428</value>
-  </data>
-  <data name="Hex.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Hex.Name" xml:space="preserve">
-    <value>Hex</value>
-  </data>
-  <data name="&gt;&gt;Hex.Type" xml:space="preserve">
-    <value>System.ComponentModel.Design.ByteViewer, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="&gt;&gt;Hex.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;Hex.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Hex.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>835, 434</value>
-  </data>
-  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>Hex</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 63</value>
-  </data>
-  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>843, 460</value>
-  </data>
-  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+  <data name="SplitStack.RowCount" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="tabControl1.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="SplitStack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>265, 185</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
-    <value>tabControl1</value>
+  <data name="SplitStack.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;SplitStack.Name" xml:space="preserve">
+    <value>SplitStack</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;SplitStack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;SplitStack.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;SplitStack.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SplitStack.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="GridAltStack" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="GridStack" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>Alt Stack</value>
+  </data>
+  <data name="GridAltStack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="GridAltStack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 95</value>
+  </data>
+  <data name="GridAltStack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 87</value>
+  </data>
+  <data name="GridAltStack.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.Name" xml:space="preserve">
+    <value>GridAltStack</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.Parent" xml:space="preserve">
+    <value>SplitStack</value>
+  </data>
+  <data name="&gt;&gt;GridAltStack.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="dataGridViewTextBoxColumn2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="GridStack.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="GridStack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="GridStack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>259, 86</value>
+  </data>
+  <data name="GridStack.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;GridStack.Name" xml:space="preserve">
+    <value>GridStack</value>
+  </data>
+  <data name="&gt;&gt;GridStack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GridStack.Parent" xml:space="preserve">
+    <value>SplitStack</value>
+  </data>
+  <data name="&gt;&gt;GridStack.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>238, 17</value>
   </metadata>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>843, 24</value>
+  </data>
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
   <data name="formatToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 22</value>
   </data>
@@ -753,17 +1026,17 @@
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+  <data name="debuggerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 20</value>
   </data>
-  <data name="fileToolStripMenuItem.Text" xml:space="preserve">
-    <value>File</value>
+  <data name="debuggerToolStripMenuItem.Text" xml:space="preserve">
+    <value>Debugger</value>
   </data>
   <data name="executeToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="executeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="executeToolStripMenuItem.Text" xml:space="preserve">
     <value>Execute</value>
@@ -772,19 +1045,19 @@
     <value>False</value>
   </data>
   <data name="stopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="stopToolStripMenuItem.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="toolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>120, 6</value>
   </data>
   <data name="stepIntoToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="stepIntoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="stepIntoToolStripMenuItem.Text" xml:space="preserve">
     <value>Step into</value>
@@ -793,7 +1066,7 @@
     <value>False</value>
   </data>
   <data name="stepOverToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="stepOverToolStripMenuItem.Text" xml:space="preserve">
     <value>Step over</value>
@@ -802,40 +1075,10 @@
     <value>False</value>
   </data>
   <data name="stepOutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>123, 22</value>
   </data>
   <data name="stepOutToolStripMenuItem.Text" xml:space="preserve">
     <value>Step out</value>
-  </data>
-  <data name="debuggerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 20</value>
-  </data>
-  <data name="debuggerToolStripMenuItem.Text" xml:space="preserve">
-    <value>Debugger</value>
-  </data>
-  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>843, 24</value>
-  </data>
-  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <metadata name="saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>648, 17</value>
@@ -1067,6 +1310,12 @@
   </data>
   <data name="&gt;&gt;saveFileDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;imageMethods.Name" xml:space="preserve">
+    <value>imageMethods</value>
+  </data>
+  <data name="&gt;&gt;imageMethods.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FMain</value>

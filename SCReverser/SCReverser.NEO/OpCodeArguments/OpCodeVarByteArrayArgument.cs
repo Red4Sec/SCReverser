@@ -9,6 +9,23 @@ namespace SCReverser.NEO.OpCodeArguments
     public class OpCodeVarByteArrayArgument : OpCodeByteArrayArgument
     {
         /// <summary>
+        /// Size
+        /// </summary>
+        public override uint Size
+        {
+            get
+            {
+                uint size = base.Size;
+
+                if (size < 0xFD) size++;
+                else if (size <= 0xFFFF) size += 3;
+                else if (size <= 0xFFFFFFFF) size += 5;
+                else size += 9;
+
+                return size;
+            }
+        }
+        /// <summary>
         /// Max Length
         /// </summary>
         [JsonIgnore]

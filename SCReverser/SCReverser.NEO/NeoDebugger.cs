@@ -4,7 +4,6 @@ using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using SCReverser.NEO.Internals;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 
@@ -39,7 +38,7 @@ namespace SCReverser.NEO
                 // Set the engine instruction pointer
 
                 uint val;
-                if (IndexToOffset(value, out val))
+                if (Instructions.IndexToOffset(value, out val))
                 {
                     if (Engine.CurrentContext.InstructionPointer != val)
                         Engine.CurrentContext.InstructionPointer = (int)val;
@@ -52,9 +51,9 @@ namespace SCReverser.NEO
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="instructions">Instructions</param>
+        /// <param name="result">Result</param>
         /// <param name="config">Configuration</param>
-        public NeoDebugger(IEnumerable<Instruction> instructions, NeoConfig config) : base(instructions, config)
+        public NeoDebugger(ReverseResult result, NeoConfig config) : base(result, config)
         {
             // Set config
             if (config == null) config = new NeoConfig();
@@ -132,7 +131,7 @@ namespace SCReverser.NEO
                     else
                     {
                         // Only Copy when not halt
-                        if (OffsetToIndex((uint)Engine.CurrentContext.InstructionPointer, out uint index))
+                        if (Instructions.OffsetToIndex((uint)Engine.CurrentContext.InstructionPointer, out uint index))
                             CurrentInstructionIndex = index;
                     }
 
