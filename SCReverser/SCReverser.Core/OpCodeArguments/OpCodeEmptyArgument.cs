@@ -36,12 +36,11 @@ namespace SCReverser.Core.OpCodeArguments
                 if (RawValue != null)
                 {
                     foreach (byte b in RawValue)
-                    {
                         if (char.IsControl((char)b) && !char.IsWhiteSpace((char)b))
                             return "";
-                    }
 
-                    return Encoding.ASCII.GetString(RawValue).Trim();
+                    string ret = Encoding.ASCII.GetString(RawValue).Trim();
+                    return string.IsNullOrEmpty(ret.Trim('?')) ? "" : ret;
                 }
 
                 return "";

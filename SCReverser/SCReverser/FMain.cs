@@ -391,12 +391,21 @@ namespace SCReverser
                 return;
             }
 
+            Error(null);
+
             if (Config != null && Config is IDisposable d)
                 d.Dispose();
 
-            Config = Template.CreateNewConfig();
+            try
+            {
+                Config = Template.CreateNewConfig();
 
-            LoadFiles();
+                LoadFiles();
+            }
+            catch (Exception ex)
+            {
+                Error(ex);
+            }
         }
         void LoadFiles()
         {
