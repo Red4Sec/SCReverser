@@ -52,7 +52,7 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Have BreakPoint
         /// </summary>
-        public bool HaveBreakPoint { get; set; }
+        public bool BreakPoint { get; set; }
         /// <summary>
         /// Jump
         /// </summary>
@@ -65,10 +65,12 @@ namespace SCReverser.Core.Types
         /// <summary>
         /// Border style
         /// </summary>
+        [JsonIgnore]
         public RowBorderStyle BorderStyle { get; set; } = RowBorderStyle.None;
         /// <summary>
         /// Instruction flag
         /// </summary>
+        [JsonIgnore]
         public InstructionFlag Flags { get; set; } = InstructionFlag.None;
 
         /// <summary>

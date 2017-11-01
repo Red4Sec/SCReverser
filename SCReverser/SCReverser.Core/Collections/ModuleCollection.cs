@@ -27,7 +27,11 @@ namespace SCReverser.Core.Collections
         {
             Module[] mt = this.OrderBy(a => a.Start.Offset).ToArray();
             Clear();
-            foreach (Module m in mt) Add(m);
+            foreach (Module m in mt)
+            {
+                m.Methods.Sort();
+                Add(m);
+            }
         }
 
         /// <summary>

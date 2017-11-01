@@ -123,7 +123,7 @@ namespace SCReverser.Core.Interfaces
                 // Raise event
                 OnInstructionChanged?.Invoke(this, ins);
 
-                if (ins.HaveBreakPoint)
+                if (ins.BreakPoint)
                 {
                     // Raise breakpoint
                     State |= DebuggerState.BreakPoint;

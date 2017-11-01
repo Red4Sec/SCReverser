@@ -145,7 +145,7 @@ namespace SCReverser.Controls
                         if (selectToolStripMenuItem.Tag == null)
                             selectToolStripMenuItem.Tag = i;
 
-                        selectToolStripMenuItem.DropDownItems.Add(i.OffsetHex, null, selectToolStripMenuItem_Click).Tag = i;
+                        selectToolStripMenuItem.DropDownItems.Add(i.ToString(), null, selectToolStripMenuItem_Click).Tag = i;
                     }
 
                     if (selectToolStripMenuItem.DropDownItems.Count == 1)

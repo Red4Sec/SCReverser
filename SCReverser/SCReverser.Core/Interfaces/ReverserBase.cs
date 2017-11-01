@@ -203,6 +203,9 @@ namespace SCReverser.Core.Interfaces
                             result = JsonHelper.Deserialize<ReverseResult>(json, true);
                             if (result != null)
                             {
+                                // Prepare ocurrences
+                                PrapareResultForOcurrences(result);
+
                                 // Fill cache
                                 offsetCache.FillWith(result.Instructions);
 
@@ -212,12 +215,24 @@ namespace SCReverser.Core.Interfaces
                                     foreach (Instruction i in result.Instructions)
                                     {
                                         ProcessInstruction(result.Instructions, i, offsetCache);
+
+                                        // Recall jumps
+                                        if (i.Jump != null && i.Jump.To != null &&
+                                            offsetCache.TryGetValue(i.Jump.To.Offset, out uint index, OffsetIndexRelation.OffsetToIndex))
+                                        {
+                                            i.Jump.To.Index = index;
+                                        }
+
                                         i.Write(msX);
                                     }
                                     result.Bytes = msX.ToArray();
                                 }
 
-                                return true;
+                                // Regenerate borders
+                                result.StyleMethodBorders();
+                                // Regenerate ocurrences
+                                result.GenerateOcurrences();
+                                return result.Instructions.Count > 0;
                             }
 
                             module.Stream.Seek(originalPos, SeekOrigin.Begin);
@@ -236,8 +251,7 @@ namespace SCReverser.Core.Interfaces
 
                             string key = opCode.ToHexString();
 
-                            OpCodeArgumentAttribute read;
-                            if (!OpCodeCache.TryGetValue(key, out read) || read == null)
+                            if (!OpCodeCache.TryGetValue(key, out OpCodeArgumentAttribute read) || read == null)
                                 throw (new OpCodeNotFoundException()
                                 {
                                     Offset = offset,
@@ -396,55 +410,10 @@ namespace SCReverser.Core.Interfaces
             }
 
             // Style methods
-            foreach (Types.Module mod in result.Modules)
-            {
-                foreach (Method met in mod.Methods)
-                {
-                    met.Size = 0;
-                    Instruction first = null;
-                    foreach (Instruction i in result.Instructions.Take(met.Start, met.End))
-                    {
-                        if (first == null)
-                        {
-                            first = i;
-                            i.Comment = met.Name;
-                            first.BorderStyle = RowBorderStyle.EmptyBottom;
-                        }
-                        else
-                        {
-                            first = i;
-                            first.BorderStyle = RowBorderStyle.OnlyLeftAndRight;
-                        }
-                        met.Size += i.Size;
-                    }
-                    if (first != null)
-                    {
-                        first.BorderStyle = first.BorderStyle == RowBorderStyle.EmptyBottom ? RowBorderStyle.All : RowBorderStyle.EmptyTop;
-                    }
-                }
 
-                mod.Methods.Sort();
-            }
-
+            result.StyleMethodBorders();
             result.Modules.Sort();
-
-            #region Ocurrences - Fill & Clean
-            foreach (string key in result.Ocurrences.Keys.ToArray())
-            {
-                OcurrenceCollection ocur = result.Ocurrences[key];
-
-                // Fill
-                Parallel.ForEach(result.Instructions, (ins) =>
-                {
-                    if (ocur.Checker != null && ocur.Checker(ins, out string val))
-                        lock (ocur) ocur.Append(val, ins);
-                });
-
-                // Clean
-                if (result.Ocurrences[key].Count <= 0)
-                    result.Ocurrences.Remove(key);
-            }
-            #endregion
+            result.GenerateOcurrences();
 
             return result.Instructions.Count > 0;
         }

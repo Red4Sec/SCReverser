@@ -39,8 +39,8 @@ namespace SCReverser.Tests
                 };
 
                 // Add two demo BP
-                debugger.Instructions[1].HaveBreakPoint = true;
-                debugger.Instructions[2].HaveBreakPoint = true;
+                debugger.Instructions[1].BreakPoint = true;
+                debugger.Instructions[2].BreakPoint = true;
 
                 // Run!
 

@@ -57,7 +57,7 @@
             this.tsInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabInstructions = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.GridOpCode = new System.Windows.Forms.DataGridView();
             this.dcOffset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dcOpCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -65,17 +65,18 @@
             this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Jumps = new SCReverser.Controls.UCPJump();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.PanelRegisters = new System.Windows.Forms.Panel();
             this.SplitStack = new System.Windows.Forms.TableLayoutPanel();
             this.GridAltStack = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GridStack = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitter2 = new System.Windows.Forms.Splitter();
             this.Registers = new System.Windows.Forms.PropertyGrid();
+            this.Jumps = new SCReverser.Controls.UCPJump();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.Hex = new Be.Windows.Forms.HexBox();
-            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.SplitterHex = new System.Windows.Forms.Splitter();
             this.TreeModules = new System.Windows.Forms.TreeView();
             this.imageMethods = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -98,13 +99,9 @@
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabInstructions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridOpCode)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.PanelRegisters.SuspendLayout();
             this.SplitStack.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridAltStack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridStack)).BeginInit();
@@ -235,25 +232,19 @@
             // 
             // tabInstructions
             // 
-            this.tabInstructions.Controls.Add(this.splitContainer1);
+            this.tabInstructions.Controls.Add(this.splitter1);
+            this.tabInstructions.Controls.Add(this.GridOpCode);
+            this.tabInstructions.Controls.Add(this.PanelRegisters);
+            this.tabInstructions.Controls.Add(this.Jumps);
             resources.ApplyResources(this.tabInstructions, "tabInstructions");
             this.tabInstructions.Name = "tabInstructions";
             this.tabInstructions.UseVisualStyleBackColor = true;
             // 
-            // splitContainer1
+            // splitter1
             // 
-            resources.ApplyResources(this.splitContainer1, "splitContainer1");
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.GridOpCode);
-            this.splitContainer1.Panel1.Controls.Add(this.Jumps);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Panel2.Controls.Add(this.Registers);
+            resources.ApplyResources(this.splitter1, "splitter1");
+            this.splitter1.Name = "splitter1";
+            this.splitter1.TabStop = false;
             // 
             // GridOpCode
             // 
@@ -350,18 +341,14 @@
             resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Click += new System.EventHandler(this.goHereToolStripMenuItem_Click);
             // 
-            // Jumps
+            // PanelRegisters
             // 
-            resources.ApplyResources(this.Jumps, "Jumps");
-            this.Jumps.Grid = this.GridOpCode;
-            this.Jumps.Name = "Jumps";
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Gray;
-            this.panel1.Controls.Add(this.SplitStack);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
+            this.PanelRegisters.BackColor = System.Drawing.SystemColors.Control;
+            this.PanelRegisters.Controls.Add(this.SplitStack);
+            this.PanelRegisters.Controls.Add(this.splitter2);
+            this.PanelRegisters.Controls.Add(this.Registers);
+            resources.ApplyResources(this.PanelRegisters, "PanelRegisters");
+            this.PanelRegisters.Name = "PanelRegisters";
             // 
             // SplitStack
             // 
@@ -461,19 +448,31 @@
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // splitter2
+            // 
+            resources.ApplyResources(this.splitter2, "splitter2");
+            this.splitter2.Name = "splitter2";
+            this.splitter2.TabStop = false;
+            // 
             // Registers
             // 
             resources.ApplyResources(this.Registers, "Registers");
             this.Registers.LineColor = System.Drawing.SystemColors.ControlDark;
             this.Registers.Name = "Registers";
             this.Registers.ToolbarVisible = false;
-            this.Registers.ViewBackColor = System.Drawing.Color.White;
-            this.Registers.ViewBorderColor = System.Drawing.Color.White;
+            this.Registers.ViewBackColor = System.Drawing.SystemColors.Control;
+            this.Registers.ViewBorderColor = System.Drawing.SystemColors.Control;
+            // 
+            // Jumps
+            // 
+            resources.ApplyResources(this.Jumps, "Jumps");
+            this.Jumps.Grid = this.GridOpCode;
+            this.Jumps.Name = "Jumps";
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.Hex);
-            this.tabPage1.Controls.Add(this.splitter1);
+            this.tabPage1.Controls.Add(this.SplitterHex);
             this.tabPage1.Controls.Add(this.TreeModules);
             resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Name = "tabPage1";
@@ -490,11 +489,11 @@
             this.Hex.StringViewVisible = true;
             this.Hex.VScrollBarVisible = true;
             // 
-            // splitter1
+            // SplitterHex
             // 
-            resources.ApplyResources(this.splitter1, "splitter1");
-            this.splitter1.Name = "splitter1";
-            this.splitter1.TabStop = false;
+            resources.ApplyResources(this.SplitterHex, "SplitterHex");
+            this.SplitterHex.Name = "SplitterHex";
+            this.SplitterHex.TabStop = false;
             // 
             // TreeModules
             // 
@@ -649,13 +648,9 @@
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabInstructions.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridOpCode)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.PanelRegisters.ResumeLayout(false);
             this.SplitStack.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GridAltStack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridStack)).EndInit();
@@ -697,10 +692,7 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar tsProgressBar;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView GridOpCode;
         private System.Windows.Forms.PropertyGrid Registers;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel SplitStack;
         private System.Windows.Forms.DataGridView GridAltStack;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -720,8 +712,12 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ImageList imageMethods;
         private Be.Windows.Forms.HexBox Hex;
-        private System.Windows.Forms.TreeView TreeModules;
+        public System.Windows.Forms.Splitter SplitterHex;
+        public System.Windows.Forms.TreeView TreeModules;
+        public System.Windows.Forms.DataGridView GridOpCode;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Splitter splitter2;
+        public System.Windows.Forms.Panel PanelRegisters;
     }
 }
 

@@ -1,6 +1,5 @@
 ﻿using Be.Windows.Forms;
 using SCReverser.Controls;
-using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
@@ -17,7 +16,7 @@ using System.Windows.Forms;
 
 namespace SCReverser
 {
-    public partial class FMain : FRememberForm
+    public partial class FMain : FMainBase
     {
         string _LastSaveFile;
 
@@ -304,12 +303,12 @@ namespace SCReverser
 
         void Stack_OnChange(object sender, EventArgs e)
         {
-            GridStack.DataSource = Debugger == null ? null : Debugger.Stack.ToArray();
+            GridStack.DataSource = Debugger?.Stack.ToArray();
             GridStack.ClearSelection();
         }
         void StackAlt_OnChange(object sender, EventArgs e)
         {
-            GridAltStack.DataSource = Debugger == null ? null : Debugger.AltStack.ToArray();
+            GridAltStack.DataSource = Debugger?.AltStack.ToArray();
             GridAltStack.ClearSelection();
             SplitStack.RowStyles[1].Height = Debugger == null || Debugger.AltStack.Count <= 0 ? 0F : 50F;
         }
@@ -525,7 +524,7 @@ namespace SCReverser
                 Hex.ByteProvider = new DynamicByteProvider(result == null || result.Bytes == null ? new byte[] { } : result.Bytes);
             }
 
-            GridOpCode.DataSource = result == null ? null : result.Instructions;
+            GridOpCode.DataSource = result?.Instructions;
 
             // Create debugger
             stopToolStripMenuItem_Click(null, null);
@@ -575,7 +574,7 @@ namespace SCReverser
 
                     if (r.DataBoundItem is Instruction i)
                     {
-                        i.HaveBreakPoint = !i.HaveBreakPoint;
+                        i.BreakPoint = !i.BreakPoint;
                         GridOpCode.InvalidateRow(r.Index);
                     }
                 }
@@ -613,7 +612,7 @@ namespace SCReverser
                 }
             }
 
-            if (i.HaveBreakPoint)
+            if (i.BreakPoint)
             {
                 using (Brush br = new SolidBrush(Color.FromArgb(50, Color.Red)))
                 {

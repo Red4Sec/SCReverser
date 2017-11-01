@@ -8,9 +8,25 @@
         "Offset": 0
       },
       "End": {
-        "Index": 15,
-        "Offset": 19
+        "Index": 14,
+        "Offset": 18
       },
+      "Size": 19,
+      "Methods": [
+        {
+          "Name": "EntryPoint of VerificationScript",
+          "Start": {
+            "Index": 0,
+            "Offset": 0
+          },
+          "End": {
+            "Index": 14,
+            "Offset": 18
+          },
+          "Color": "",
+          "Size": 19
+        }
+      ],
       "Color": ""
     }
   ],
@@ -26,9 +42,9 @@
         "Description": "Does nothing.",
         "Flags": 0
       },
-      "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "Comment": "EntryPoint of VerificationScript",
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -45,7 +61,7 @@
         "RawValue": "BQA="
       },
       "Comment": "Jmp to 0x0006",
-      "HaveBreakPoint": false,
+      "BreakPoint": false,
       "Color": ""
     },
     {
@@ -60,8 +76,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -75,8 +91,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -90,7 +106,7 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
+      "BreakPoint": false,
       "Color": ""
     },
     {
@@ -107,8 +123,8 @@
         "$type": "SCReverser.Core.OpCodeArguments.OpCodeShortArgument, SCReverser.Core",
         "RawValue": "+f8="
       },
-      "Comment": "??",
-      "HaveBreakPoint": false,
+      "Comment": "Jump [ifnot] to 0x0000",
+      "BreakPoint": false,
       "Color": ""
     },
     {
@@ -123,8 +139,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -138,8 +154,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -153,8 +169,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -168,8 +184,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -183,8 +199,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -198,8 +214,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -213,8 +229,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -228,8 +244,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     },
     {
       "Location": {
@@ -243,34 +259,8 @@
         "Flags": 0
       },
       "Comment": "",
-      "HaveBreakPoint": false,
-      "Color": ""
+      "BreakPoint": false,
+      "Color": "10, 0, 0, 0"
     }
-  ],
-  "Ocurrences": {
-    "Strings": [
-      {
-        "Count": 1,
-        "Value": "??"
-      }
-    ],
-    "OpCodes": [
-      {
-        "Count": 12,
-        "Value": "NOP"
-      },
-      {
-        "Count": 1,
-        "Value": "JMP"
-      },
-      {
-        "Count": 1,
-        "Value": "PUSH0"
-      },
-      {
-        "Count": 1,
-        "Value": "JMPIFNOT"
-      }
-    ]
-  }
+  ]
 }
