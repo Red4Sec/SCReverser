@@ -1,5 +1,6 @@
 ﻿using Be.Windows.Forms;
 using SCReverser.Controls;
+using SCReverser.Core.Collections;
 using SCReverser.Core.Delegates;
 using SCReverser.Core.Enums;
 using SCReverser.Core.Helpers;
@@ -483,7 +484,11 @@ namespace SCReverser
                     {
                         Tag = "Ocurrence"
                     };
-                    t.Controls.Add(new UCOcurrence(result.Ocurrences[sk], sk) { Dock = DockStyle.Fill });
+
+                    t.Controls.Add(new UCOcurrence(result.Ocurrences[sk], sk)
+                    {
+                        Dock = DockStyle.Fill
+                    });
 
                     tabControl1.TabPages.Add(t);
                 }

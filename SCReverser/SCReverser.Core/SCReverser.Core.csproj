@@ -78,6 +78,7 @@
     <Compile Include="Delegates\OnCheckOcurrenceDelegate.cs" />
     <Compile Include="Delegates\OnStateChangedDelegate.cs" />
     <Compile Include="Delegates\OnInstructionDelegate.cs" />
+    <Compile Include="Enums\InstructionFlag.cs" />
     <Compile Include="Enums\RowBorderStyle.cs" />
     <Compile Include="Enums\DebuggerState.cs" />
     <Compile Include="Enums\OffsetIndexRelation.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Types\Method.cs" />
     <Compile Include="Types\Module.cs" />
     <Compile Include="Types\Ocurrence.cs" />
+    <Compile Include="Types\OcurrenceParams.cs" />
     <Compile Include="Types\OpCode.cs" />
     <Compile Include="OpCodeArguments\OpCodeEmptyArgument.cs" />
     <Compile Include="Types\Instruction.cs" />

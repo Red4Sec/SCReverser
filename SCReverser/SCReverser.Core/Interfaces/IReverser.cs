@@ -10,7 +10,7 @@ namespace SCReverser.Core.Interfaces
         /// OnProgress
         /// </summary>
         event OnProgressDelegate OnParseProgress;
-        
+
         /// <summary>
         /// Get instructions from stream
         /// </summary>
@@ -20,8 +20,9 @@ namespace SCReverser.Core.Interfaces
         /// <summary>
         /// Process instruction
         /// </summary>
+        /// <param name="bag">Bag</param>
         /// <param name="ins">Instruction</param>
         /// <param name="offsetToIndexCache">Cache</param>
-        void ProcessInstruction(Instruction ins, OffsetRelationCache offsetToIndexCache);
+        void ProcessInstruction(InstructionCollection bag, Instruction ins, OffsetRelationCache offsetToIndexCache);
     }
 }

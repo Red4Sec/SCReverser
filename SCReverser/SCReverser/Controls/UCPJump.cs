@@ -11,7 +11,7 @@ namespace SCReverser.Controls
 {
     public class UCPJump : Control
     {
-        const int MaxDrawJump = 7;
+        const int MaxDrawJump = 10;
         const int ArrowWidth = 5;
 
         /// <summary>

@@ -66,6 +66,10 @@ namespace SCReverser.Core.Types
         /// Border style
         /// </summary>
         public RowBorderStyle BorderStyle { get; set; } = RowBorderStyle.None;
+        /// <summary>
+        /// Instruction flag
+        /// </summary>
+        public InstructionFlag Flags { get; set; } = InstructionFlag.None;
 
         /// <summary>
         /// Write instruction

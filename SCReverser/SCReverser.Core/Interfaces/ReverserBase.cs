@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SCReverser.Core.Interfaces
 {
@@ -95,10 +96,28 @@ namespace SCReverser.Core.Interfaces
         {
             if (result == null) return;
 
+            if (!result.Ocurrences.ContainsKey("DeadCode"))
+                result.Ocurrences["DeadCode"] = new OcurrenceCollection() { Checker = DeadCodeCheckOcurrence };
             if (!result.Ocurrences.ContainsKey("Strings"))
                 result.Ocurrences["Strings"] = new OcurrenceCollection() { Checker = StringCheckOcurrence };
             if (!result.Ocurrences.ContainsKey("OpCodes"))
                 result.Ocurrences["OpCodes"] = new OcurrenceCollection() { Checker = OpCodesCheckOcurrence };
+        }
+        /// <summary>
+        /// Check if instruction have OpCode
+        /// </summary>
+        /// <param name="i">Instruction</param>
+        /// <param name="name">OpCode name</param>
+        bool DeadCodeCheckOcurrence(Instruction i, out string name)
+        {
+            if (i.Flags.HasFlag(InstructionFlag.DeadCode) && i.OpCode != null)
+            {
+                name = i.OpCode.Name;
+                return true;
+            }
+
+            name = null;
+            return false;
         }
         /// <summary>
         /// Check if instruction have OpCode
@@ -187,7 +206,7 @@ namespace SCReverser.Core.Interfaces
                                 {
                                     foreach (Instruction i in result.Instructions)
                                     {
-                                        ProcessInstruction(i, offsetCache);
+                                        ProcessInstruction(result.Instructions, i, offsetCache);
                                         i.Write(msX);
                                     }
                                     result.Bytes = msX.ToArray();
@@ -242,6 +261,8 @@ namespace SCReverser.Core.Interfaces
 
                             offsetCache.Add(lastIns.Location);
 
+                            ProcessInstruction(result.Instructions, lastIns, offsetCache);
+
                             if (lastIns.OpCode.Flags.HasFlag(OpCodeFlag.IsCall))
                                 calls.Add(lastIns);
                             else
@@ -254,21 +275,12 @@ namespace SCReverser.Core.Interfaces
                                     mEntryPoint = null;
                                 }
                             }
-                            ProcessInstruction(lastIns, offsetCache);
 
                             // Recall jumps
                             if (lastIns.Jump != null && !lastIns.Jump.IsDynamic && lastIns.Jump.To.Index == uint.MaxValue)
                                 recallJump.Add(lastIns);
 
                             result.Instructions.Add(lastIns);
-
-                            #region Fill ocurrences
-                            foreach (OcurrenceCollection ocur in result.Ocurrences.Values)
-                            {
-                                if (ocur.Checker != null && ocur.Checker(lastIns, out string val))
-                                    ocur.Append(val, 1);
-                            }
-                            #endregion
 
                             offset += (uint)(rBytes + OpCodeSize);
                             insNumber++;
@@ -411,20 +423,36 @@ namespace SCReverser.Core.Interfaces
 
             result.Modules.Sort();
 
-            // Remove empty ocurrences
+
+            #region Ocurrences - Fill & Clean
             foreach (string key in result.Ocurrences.Keys.ToArray())
             {
+                OcurrenceCollection ocur = result.Ocurrences[key];
+
+                // Fill
+                Parallel.ForEach(result.Instructions, (ins) =>
+                {
+                    if (ocur.Checker != null && ocur.Checker(ins, out string val))
+                        lock (ocur) ocur.Append(val, 1);
+                });
+
+                // Clean
                 if (result.Ocurrences[key].Count <= 0)
                     result.Ocurrences.Remove(key);
             }
+            #endregion
 
             return result.Instructions.Count > 0;
         }
         /// <summary>
         /// Process instruction
         /// </summary>
+        /// <param name="bag">Bag</param>
         /// <param name="ins">Instruction</param>
         /// <param name="offsetToIndexCache">Cache</param>
-        public virtual void ProcessInstruction(Instruction ins, OffsetRelationCache offsetToIndexCache) { }
+        public virtual void ProcessInstruction(InstructionCollection bag, Instruction ins, OffsetRelationCache offsetToIndexCache)
+        {
+
+        }
     }
 }

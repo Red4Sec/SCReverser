@@ -13,6 +13,10 @@ namespace SCReverser.Core.Collections
         /// </summary>
         [JsonIgnore]
         public OnCheckOcurrenceDelegate Checker { get; set; }
+        /// <summary>
+        /// Control Params
+        /// </summary>
+        public OcurrenceParams ControlParams { get; set; }
 
         /// <summary>
         /// Copy ordered to

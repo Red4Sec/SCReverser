@@ -5,6 +5,7 @@ using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
 using SCReverser.Core.Types;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace SCReverser.NEO
@@ -104,14 +105,110 @@ namespace SCReverser.NEO
         /// <summary>
         /// Fill jumps
         /// </summary>
+        /// <param name="bag">Bag</param>
         /// <param name="ins">Instruction</param>
         /// <param name="offsetToIndexCache">Cache</param>
-        public override void ProcessInstruction(Instruction ins, OffsetRelationCache offsetToIndexCache)
+        public override void ProcessInstruction(InstructionCollection bag, Instruction ins, OffsetRelationCache offsetToIndexCache)
         {
             if (ins.OpCode == null) return;
 
             switch (ins.OpCode.Name)
             {
+                case "DROP":
+                    {
+                        /*
+                         0x03C5	PUSH0		Method 0x03C5 [R4S]
+                         0x03C6	NEWARRAY		
+                         0x03C7	TOALTSTACK		
+That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
+                         0x03CC	NOP		
+                         0x03CD	FROMALTSTACK		
+                       > 0x03CE	DROP		
+                        */
+
+                        int y = 1;
+                        for (int x = (int)ins.Location.Index - 1; x >= 0 && y <= 6; x--, y++)
+                        {
+                            Instruction i = bag[x];
+                            if (i == null || i.OpCode == null) return;
+
+                            switch (y)
+                            {
+                                case 1:
+                                    {
+                                        if (i.OpCode.Name != "FROMALTSTACK") return;
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        if (i.OpCode.Name != "NOP") return;
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        if (!i.OpCode.Name.StartsWith("PUSH"))
+                                            return;
+
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        if (i.OpCode.Name != "TOALTSTACK") return;
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        if (i.OpCode.Name != "NEWARRAY") return;
+                                        break;
+                                    }
+                                case 6:
+                                    {
+                                        if (i.OpCode.Name != "PUSH0") return;
+                                        break;
+                                    }
+                            }
+                        }
+
+                        if (y == 7)
+                        {
+                            ins.Flags = InstructionFlag.DeadCode;
+                            ins.Color = Color.FromArgb(10, Color.Black);
+
+                            y = 1;
+                            for (int x = (int)ins.Location.Index - 1, m = x - 6; x > m; x--, y++)
+                            {
+                                if (y == 3) continue;
+
+                                Instruction i = bag[x];
+
+                                i.Flags = InstructionFlag.DeadCode;
+                                i.Color = Color.FromArgb(10, Color.Black);
+                            }
+                        }
+                        break;
+                    }
+                case "NOP":
+                    {
+                        ins.Flags = InstructionFlag.DeadCode;
+                        ins.Color = Color.FromArgb(10, Color.Black);
+                        break;
+                    }
+                case "FROMALTSTACK":
+                    {
+                        if (ins.Location.Index != 0)
+                        {
+                            Instruction prev = bag[ins.Location.Index - 1];
+                            if (prev != null && prev.OpCode != null && prev.OpCode.Name == "TOALTSTACK")
+                            {
+                                prev.Flags = InstructionFlag.DeadCode;
+                                prev.Color = Color.FromArgb(10, Color.Black);
+
+                                ins.Flags = InstructionFlag.DeadCode;
+                                ins.Color = Color.FromArgb(10, Color.Black);
+                            }
+                        }
+                        break;
+                    }
                 case "RET":
                     {
                         ins.Jump = new Jump(new OnJumpDelegate(
@@ -137,6 +234,13 @@ namespace SCReverser.NEO
                         if (!(ins.Argument is OpCodeShortArgument a)) return;
 
                         uint offset = (uint)a.Value;
+
+                        if (offset == 3)
+                        {
+                            ins.Flags = InstructionFlag.DeadCode;
+                            ins.Color = Color.FromArgb(10, Color.Black);
+                        }
+
                         offset = ins.Location.Offset + offset;
 
                         uint? index = null;
