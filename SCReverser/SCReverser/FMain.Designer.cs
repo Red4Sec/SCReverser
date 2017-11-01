@@ -641,6 +641,7 @@
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FMain";
+            this.Shown += new System.EventHandler(this.FMain_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FMain_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

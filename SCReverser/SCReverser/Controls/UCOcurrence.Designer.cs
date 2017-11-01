@@ -56,7 +56,8 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grid.Location = new System.Drawing.Point(0, 31);
+            this.Grid.Location = new System.Drawing.Point(0, 38);
+            this.Grid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Grid.Name = "Grid";
             this.Grid.RowHeadersVisible = false;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
@@ -64,7 +65,7 @@
             this.Grid.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.Grid.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.Grid.Size = new System.Drawing.Size(586, 313);
+            this.Grid.Size = new System.Drawing.Size(781, 385);
             this.Grid.TabIndex = 2;
             this.Grid.VirtualMode = true;
             // 
@@ -91,18 +92,20 @@
             // txtSearch
             // 
             this.txtSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSearch.Location = new System.Drawing.Point(5, 5);
+            this.txtSearch.Location = new System.Drawing.Point(7, 6);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(576, 20);
+            this.txtSearch.Size = new System.Drawing.Size(767, 22);
             this.txtSearch.TabIndex = 1;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // chart
             // 
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chart.Location = new System.Drawing.Point(0, 5);
+            this.chart.Location = new System.Drawing.Point(0, 6);
+            this.chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chart.Name = "chart";
-            this.chart.Size = new System.Drawing.Size(586, 149);
+            this.chart.Size = new System.Drawing.Size(781, 184);
             this.chart.TabIndex = 3;
             // 
             // panel1
@@ -110,30 +113,33 @@
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(5);
-            this.panel1.Size = new System.Drawing.Size(586, 31);
+            this.panel1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.panel1.Size = new System.Drawing.Size(781, 38);
             this.panel1.TabIndex = 0;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.chart);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 190);
+            this.panel2.Location = new System.Drawing.Point(0, 233);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.panel2.Size = new System.Drawing.Size(586, 154);
+            this.panel2.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.panel2.Size = new System.Drawing.Size(781, 190);
             this.panel2.TabIndex = 4;
             // 
             // UCOcurrence
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "UCOcurrence";
-            this.Size = new System.Drawing.Size(586, 344);
+            this.Size = new System.Drawing.Size(781, 423);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.panel1.ResumeLayout(false);

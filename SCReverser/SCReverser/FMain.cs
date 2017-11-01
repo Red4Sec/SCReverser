@@ -64,7 +64,6 @@ namespace SCReverser
 
             StackAlt_OnChange(null, null);
 
-
             // Auto select if only one
             if (formatToolStripMenuItem.DropDownItems.Count == 1)
             {
@@ -72,7 +71,6 @@ namespace SCReverser
 
                 formatToolStripMenuItem.Visible = false;
                 toolStripDropDownButton1.Visible = false;
-                openToolStripMenuItem_Click_1(null, null);
             }
         }
         protected override void OnClosed(EventArgs e)
@@ -791,6 +789,12 @@ namespace SCReverser
             {
                 Hex.Select(io.Offset, 1);
             }
+        }
+        void FMain_Shown(object sender, EventArgs e)
+        {
+            // Auto select if only one
+            if (formatToolStripMenuItem.DropDownItems.Count == 1)
+                openToolStripMenuItem_Click_1(null, null);
         }
     }
 }

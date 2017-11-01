@@ -38,25 +38,23 @@ namespace SCReverser.Core.Collections
         /// Append ocurrence
         /// </summary>
         /// <param name="name">Arg</param>
-        /// <param name="value">Value</param>
-        public void Append(string name, int value)
+        /// <param name="ins">Instructions</param>
+        public void Append(string name, params Instruction[] ins)
         {
-            if (value <= 0) return;
+            if (ins == null || ins.Length <= 0) return;
 
+            int il = ins.Length;
             foreach (Ocurrence a in this.ToArray())
-            {
                 if (a.Value == name)
                 {
-                    a.Count += value;
-
-                    if (a.Count <= 0)
-                        Remove(a);
-
+                    a.Instructions.AddRange(ins);
                     return;
                 }
-            }
 
-            Add(new Ocurrence() { Value = name, Count = value });
+            Ocurrence oc = new Ocurrence() { Value = name };
+            oc.Instructions.AddRange(ins);
+
+            Add(oc);
         }
     }
 }

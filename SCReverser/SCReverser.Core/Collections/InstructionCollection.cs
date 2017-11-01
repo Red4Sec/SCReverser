@@ -48,6 +48,18 @@ namespace SCReverser.Core.Collections
             base.InsertItem(index, item);
         }
         /// <summary>
+        /// Add range
+        /// </summary>
+        /// <param name="ins">Instructiond</param>
+        public void AddRange(Instruction[] ins)
+        {
+            if (ins == null) return;
+
+            foreach (Instruction i in ins)
+                Add(i);
+        }
+
+        /// <summary>
         /// Index to Offset
         /// </summary>
         /// <param name="index">Index</param>

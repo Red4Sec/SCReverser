@@ -96,8 +96,13 @@ namespace SCReverser.Core.Interfaces
         {
             if (result == null) return;
 
-            if (!result.Ocurrences.ContainsKey("DeadCode"))
-                result.Ocurrences["DeadCode"] = new OcurrenceCollection() { Checker = DeadCodeCheckOcurrence };
+            if (!result.Ocurrences.ContainsKey("Unusable Code"))
+                result.Ocurrences["Unusable Code"] = new OcurrenceCollection()
+                {
+                    Checker = DeadCodeCheckOcurrence,
+                    ControlParams = new UnusableCodeChartParams(result)
+                };
+
             if (!result.Ocurrences.ContainsKey("Strings"))
                 result.Ocurrences["Strings"] = new OcurrenceCollection() { Checker = StringCheckOcurrence };
             if (!result.Ocurrences.ContainsKey("OpCodes"))
@@ -423,7 +428,6 @@ namespace SCReverser.Core.Interfaces
 
             result.Modules.Sort();
 
-
             #region Ocurrences - Fill & Clean
             foreach (string key in result.Ocurrences.Keys.ToArray())
             {
@@ -433,7 +437,7 @@ namespace SCReverser.Core.Interfaces
                 Parallel.ForEach(result.Instructions, (ins) =>
                 {
                     if (ocur.Checker != null && ocur.Checker(ins, out string val))
-                        lock (ocur) ocur.Append(val, 1);
+                        lock (ocur) ocur.Append(val, ins);
                 });
 
                 // Clean

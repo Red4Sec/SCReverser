@@ -13,6 +13,7 @@ namespace SCReverser.Controls
     {
         OcurrenceCollection Original;
         DataTable Source = new DataTable();
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -59,28 +60,57 @@ namespace SCReverser.Controls
 
         void CalculateChart(IEnumerable<Ocurrence> oc)
         {
-            string name = Text;
+            Ocurrence[] ocRes = oc.ToArray();
 
             chart.ChartAreas.Clear();
             chart.Series.Clear();
             chart.Legends.Clear();
 
-            chart.ChartAreas.Add(name);
-            chart.Series.Add(name);
-            chart.Legends.Add(name);
+            Series sBar = new Series(Text);
 
-            chart.Legends[name].IsDockedInsideChartArea = true;
-            chart.Legends[name].DockedToChartArea = name;
-            chart.Series[name].ChartArea = name;
-            chart.Series[name].Legend = name;
-            chart.Series[name].ChartType = SeriesChartType.StackedBar;
+            chart.ChartAreas.Add(sBar.Name);
+            chart.Series.Add(sBar);
+            chart.Legends.Add(sBar.Name);
+
+            chart.Legends[sBar.Name].IsDockedInsideChartArea = true;
+            chart.Legends[sBar.Name].DockedToChartArea = sBar.Name;
+            sBar.ChartArea = sBar.Name;
+            sBar.Legend = sBar.Name;
+            sBar.ChartType = SeriesChartType.StackedBar;
             //chart.Legends[k].Docking = Docking.Bottom;
             //chart.Legends[k].Alignment = StringAlignment.Center;
 
-            chart.ChartAreas[name].AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
+            chart.ChartAreas[sBar.Name].AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
+
+            // ----
+            Series sPie = new Series(sBar.Name + " %");
+            sPie.Legend = null;
+            sPie.IsVisibleInLegend = false;
+
+            chart.ChartAreas.Add(sPie.Name);
+            chart.Series.Add(sPie);
+
+            chart.ChartAreas[0].Position.Auto = false;
+            chart.ChartAreas[0].Position.Height = 100;
+            chart.ChartAreas[0].Position.Width = 88;
+            chart.ChartAreas[1].Position.Auto = false;
+            chart.ChartAreas[1].Position.X = 90;
+            chart.ChartAreas[1].Position.Height = 100;
+            chart.ChartAreas[1].Position.Width = 10;
+
+            chart.Series[sPie.Name].ChartArea = sPie.Name;
+            chart.Series[sPie.Name].ChartType = SeriesChartType.Pie;
+
+            chart.ChartAreas[sPie.Name].AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
 
             foreach (Ocurrence o in oc.Take(5).OrderBy(u => u.Count))
-                chart.Series[name].Points.AddXY(o.Value, o.Count);
+            {
+                sPie.Points.AddXY(o.Value, o.Count);
+                sBar.Points.AddXY(o.Value, o.Count);
+            }
+
+            if (ocRes != null && Original.ControlParams != null)
+                Original.ControlParams.OnChart(ocRes, chart);
         }
 
         void txtSearch_TextChanged(object sender, EventArgs e)
