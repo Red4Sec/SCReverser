@@ -32,5 +32,4 @@ And much more!
 
 Uses the real chain of blocks for debugging!
 
-![Debugger](https://github.com/Red4Sec/SCReverser/blob/master/SCReverser/Resources/ImagesForReadme/2017-10-31%2019_45_58-SCReverser.png?raw=true)
 ![Debugger](https://github.com/Red4Sec/SCReverser/blob/master/SCReverser/Resources/ImagesForReadme/2017-10-31%2019_46_34-SCReverser.png?raw=true)
