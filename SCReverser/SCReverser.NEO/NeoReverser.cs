@@ -171,7 +171,7 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
 
                         if (y == 7)
                         {
-                            ins.Flags = InstructionFlag.DeadCode;
+                            ins.Flags = InstructionFlag.UnusableCode;
                             ins.Color = Color.FromArgb(10, Color.Black);
 
                             y = 1;
@@ -181,7 +181,7 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
 
                                 Instruction i = bag[x];
 
-                                i.Flags = InstructionFlag.DeadCode;
+                                i.Flags = InstructionFlag.UnusableCode;
                                 i.Color = Color.FromArgb(10, Color.Black);
                             }
                         }
@@ -189,7 +189,7 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                     }
                 case "NOP":
                     {
-                        ins.Flags = InstructionFlag.DeadCode;
+                        ins.Flags = InstructionFlag.UnusableCode;
                         ins.Color = Color.FromArgb(10, Color.Black);
                         break;
                     }
@@ -200,10 +200,10 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                             Instruction prev = bag[ins.Location.Index - 1];
                             if (prev != null && prev.OpCode != null && prev.OpCode.Name == "TOALTSTACK")
                             {
-                                prev.Flags = InstructionFlag.DeadCode;
+                                prev.Flags = InstructionFlag.UnusableCode;
                                 prev.Color = Color.FromArgb(10, Color.Black);
 
-                                ins.Flags = InstructionFlag.DeadCode;
+                                ins.Flags = InstructionFlag.UnusableCode;
                                 ins.Color = Color.FromArgb(10, Color.Black);
                             }
                         }
@@ -237,7 +237,7 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
 
                         if (offset == 3)
                         {
-                            ins.Flags = InstructionFlag.DeadCode;
+                            ins.Flags = InstructionFlag.UnusableCode;
                             ins.Color = Color.FromArgb(10, Color.Black);
                         }
 

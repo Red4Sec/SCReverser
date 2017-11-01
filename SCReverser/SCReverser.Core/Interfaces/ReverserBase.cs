@@ -99,7 +99,7 @@ namespace SCReverser.Core.Interfaces
             if (!result.Ocurrences.ContainsKey("Unusable Code"))
                 result.Ocurrences["Unusable Code"] = new OcurrenceCollection()
                 {
-                    Checker = DeadCodeCheckOcurrence,
+                    Checker = UnusableCodeCheckOcurrence,
                     ControlParams = new UnusableCodeChartParams(result)
                 };
 
@@ -109,13 +109,13 @@ namespace SCReverser.Core.Interfaces
                 result.Ocurrences["OpCodes"] = new OcurrenceCollection() { Checker = OpCodesCheckOcurrence };
         }
         /// <summary>
-        /// Check if instruction have OpCode
+        /// Check if instruction are unusable
         /// </summary>
         /// <param name="i">Instruction</param>
         /// <param name="name">OpCode name</param>
-        bool DeadCodeCheckOcurrence(Instruction i, out string name)
+        bool UnusableCodeCheckOcurrence(Instruction i, out string name)
         {
-            if (i.Flags.HasFlag(InstructionFlag.DeadCode) && i.OpCode != null)
+            if (i.Flags.HasFlag(InstructionFlag.UnusableCode) && i.OpCode != null)
             {
                 name = i.OpCode.Name;
                 return true;

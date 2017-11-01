@@ -11,9 +11,9 @@ namespace SCReverser.Core.Enums
         /// </summary>
         None = 0,
         /// <summary>
-        /// DeadCode
+        /// UnusableCode
         /// </summary>
-        DeadCode = 1,
+        UnusableCode = 1,
         #endregion
     }
 }
