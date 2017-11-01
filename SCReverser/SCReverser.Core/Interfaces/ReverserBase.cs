@@ -258,7 +258,7 @@ namespace SCReverser.Core.Interfaces
                                 },
                                 Argument = arg.GetType() == typeof(OpCodeEmptyArgument) ? null : arg,
                                 Comment = arg.ASCIIValue,
-                                Color = module.Color,
+                                Color = mAdd.Color,
                             };
 
                             lastIns.Location.Index = insNumber;

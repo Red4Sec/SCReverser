@@ -709,7 +709,7 @@ namespace SCReverser
         {
             if (e.Button == MouseButtons.Right)
             {
-                var hti = GridOpCode.HitTest(e.X, e.Y);
+                DataGridView.HitTestInfo hti = GridOpCode.HitTest(e.X, e.Y);
                 GridOpCode.ClearSelection();
                 if (hti.RowIndex < 0) return;
 
@@ -764,17 +764,26 @@ namespace SCReverser
             {
                 if (mt is Method) return;
 
-                GridOpCode.CurrentCell = GridOpCode.Rows[(int)mt.Start.Index].Cells.Cast<DataGridViewCell>().LastOrDefault();
-                GridOpCode.FirstDisplayedCell = GridOpCode.CurrentCell;
-                tabControl1.SelectedIndex = 0;
+                SelectInstruction(mt.Start);
             }
             else if (e.Node.Tag is IndexOffset io)
             {
-                GridOpCode.CurrentCell = GridOpCode.Rows[(int)io.Index].Cells.Cast<DataGridViewCell>().LastOrDefault();
-                GridOpCode.FirstDisplayedCell = GridOpCode.CurrentCell;
-                tabControl1.SelectedIndex = 0;
+                SelectInstruction(io);
             }
         }
+        /// <summary>
+        /// Select grid row
+        /// </summary>
+        /// <param name="index">Index</param>
+        public void SelectInstruction(IndexOffset index)
+        {
+            if (index == null) return;
+
+            GridOpCode.CurrentCell = GridOpCode.Rows[(int)index.Index].Cells.Cast<DataGridViewCell>().LastOrDefault();
+            GridOpCode.FirstDisplayedCell = GridOpCode.CurrentCell;
+            tabControl1.SelectedIndex = 0;
+        }
+
         void TreeModules_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Tag is Module md)

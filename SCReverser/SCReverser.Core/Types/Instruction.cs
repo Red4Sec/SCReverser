@@ -72,6 +72,14 @@ namespace SCReverser.Core.Types
         public InstructionFlag Flags { get; set; } = InstructionFlag.None;
 
         /// <summary>
+        /// Set color from his flags
+        /// </summary>
+        public void ApplyColorForFlags()
+        {
+            if (Flags.HasFlag(InstructionFlag.UnusableCode))
+                Color = Color.FromArgb(10, Color.Black);
+        }
+        /// <summary>
         /// Write instruction
         /// </summary>
         /// <param name="stream">Stream</param>

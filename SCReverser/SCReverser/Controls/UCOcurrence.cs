@@ -2,6 +2,7 @@
 using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
@@ -31,6 +32,7 @@ namespace SCReverser.Controls
 
             Source.Columns.Add("Count", typeof(uint));
             Source.Columns.Add("Value", typeof(string));
+            Source.Columns.Add("Tag", typeof(Ocurrence));
             Grid.DataSource = Source;
 
             Fill(ocurrences);
@@ -51,7 +53,7 @@ namespace SCReverser.Controls
             Source.Rows.Clear();
 
             foreach (Ocurrence o in ocurrences.GetOrdered())
-                Source.Rows.Add(o.Count, o.Value);
+                Source.Rows.Add(o.Count, o.Value, o);
 
             Source.EndLoadData();
 
@@ -120,6 +122,61 @@ namespace SCReverser.Controls
             (Source).DefaultView.RowFilter = String.IsNullOrEmpty(txtSearch.Text) ? "" : String.Format("Value LIKE '%{0}%'", search);
             CalculateChart(Original
                 .Where(u => u.Value.IndexOf(search, StringComparison.InvariantCultureIgnoreCase) != -1));
+        }
+        void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            e.Cancel = Grid.SelectedRows.Count <= 0;
+
+            if (!e.Cancel)
+            {
+                selectToolStripMenuItem.Tag = null;
+                selectToolStripMenuItem.DropDownItems.Clear();
+
+                foreach (DataGridViewRow r in Grid.SelectedRows)
+                {
+                    if (r.DataBoundItem == null || !(r.DataBoundItem is DataRowView dr))
+                        continue;
+
+                    Ocurrence o = (Ocurrence)dr.Row["Tag"];
+                    if (o == null) continue;
+
+                    foreach (Instruction i in o.Instructions)
+                    {
+                        if (selectToolStripMenuItem.Tag == null)
+                            selectToolStripMenuItem.Tag = i;
+
+                        selectToolStripMenuItem.DropDownItems.Add(i.OffsetHex, null, selectToolStripMenuItem_Click).Tag = i;
+                    }
+
+                    if (selectToolStripMenuItem.DropDownItems.Count == 1)
+                    {
+                        selectToolStripMenuItem.DropDownItems[0].Visible = false;
+                    }
+                }
+            }
+        }
+        void selectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripItem i = (ToolStripItem)sender;
+
+            if (i.Tag != null && i.Tag is Instruction ins)
+            {
+                Form f = FindForm();
+                if (!(f is FMain fm)) return;
+
+                fm.SelectInstruction(ins.Location);
+            }
+        }
+        void Grid_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                DataGridView.HitTestInfo hti = Grid.HitTest(e.X, e.Y);
+                Grid.ClearSelection();
+                if (hti.RowIndex < 0) return;
+
+                Grid.Rows[hti.RowIndex].Selected = true;
+            }
         }
     }
 }

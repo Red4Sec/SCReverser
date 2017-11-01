@@ -114,7 +114,8 @@ namespace SCReverser.NEO
 
             switch (ins.OpCode.Name)
             {
-                case "DROP":
+                // Detect bad property optimization
+                case nameof(NeoOpCode.DROP):
                     {
                         /*
                          0x03C5	PUSH0		Method 0x03C5 [R4S]
@@ -136,12 +137,23 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                             {
                                 case 1:
                                     {
-                                        if (i.OpCode.Name != "FROMALTSTACK") return;
+                                        if (i.OpCode.Name != nameof(NeoOpCode.FROMALTSTACK))
+                                        {
+                                            // Detect Push / Drop
+                                            if (i.OpCode.Name.StartsWith("PUSH"))
+                                            {
+                                                ins.Flags = InstructionFlag.UnusableCode;
+                                                ins.ApplyColorForFlags();
+                                                i.Flags = InstructionFlag.UnusableCode;
+                                                i.ApplyColorForFlags();
+                                            }
+                                            return;
+                                        }
                                         break;
                                     }
                                 case 2:
                                     {
-                                        if (i.OpCode.Name != "NOP") return;
+                                        if (i.OpCode.Name != nameof(NeoOpCode.NOP)) return;
                                         break;
                                     }
                                 case 3:
@@ -153,17 +165,17 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                                     }
                                 case 4:
                                     {
-                                        if (i.OpCode.Name != "TOALTSTACK") return;
+                                        if (i.OpCode.Name != nameof(NeoOpCode.TOALTSTACK)) return;
                                         break;
                                     }
                                 case 5:
                                     {
-                                        if (i.OpCode.Name != "NEWARRAY") return;
+                                        if (i.OpCode.Name != nameof(NeoOpCode.NEWARRAY)) return;
                                         break;
                                     }
                                 case 6:
                                     {
-                                        if (i.OpCode.Name != "PUSH0") return;
+                                        if (i.OpCode.Name != nameof(NeoOpCode.PUSH0)) return;
                                         break;
                                     }
                             }
@@ -172,7 +184,7 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                         if (y == 7)
                         {
                             ins.Flags = InstructionFlag.UnusableCode;
-                            ins.Color = Color.FromArgb(10, Color.Black);
+                            ins.ApplyColorForFlags();
 
                             y = 1;
                             for (int x = (int)ins.Location.Index - 1, m = x - 6; x > m; x--, y++)
@@ -182,34 +194,36 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                                 Instruction i = bag[x];
 
                                 i.Flags = InstructionFlag.UnusableCode;
-                                i.Color = Color.FromArgb(10, Color.Black);
+                                i.ApplyColorForFlags();
                             }
                         }
                         break;
                     }
-                case "NOP":
+                // Detect NOP
+                case nameof(NeoOpCode.NOP):
                     {
                         ins.Flags = InstructionFlag.UnusableCode;
-                        ins.Color = Color.FromArgb(10, Color.Black);
+                        ins.ApplyColorForFlags();
                         break;
                     }
-                case "FROMALTSTACK":
+                // Detect To/From ALTSTACK
+                case nameof(NeoOpCode.FROMALTSTACK):
                     {
                         if (ins.Location.Index != 0)
                         {
                             Instruction prev = bag[ins.Location.Index - 1];
-                            if (prev != null && prev.OpCode != null && prev.OpCode.Name == "TOALTSTACK")
+                            if (prev != null && prev.OpCode != null && prev.OpCode.Name == nameof(NeoOpCode.TOALTSTACK))
                             {
                                 prev.Flags = InstructionFlag.UnusableCode;
-                                prev.Color = Color.FromArgb(10, Color.Black);
-
                                 ins.Flags = InstructionFlag.UnusableCode;
-                                ins.Color = Color.FromArgb(10, Color.Black);
+
+                                prev.ApplyColorForFlags();
+                                ins.ApplyColorForFlags();
                             }
                         }
                         break;
                     }
-                case "RET":
+                case nameof(NeoOpCode.RET):
                     {
                         ins.Jump = new Jump(new OnJumpDelegate(
                             (d, i) =>
@@ -228,8 +242,8 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                         );
                         break;
                     }
-                case "CALL":
-                case "JMP":
+                case nameof(NeoOpCode.CALL):
+                case nameof(NeoOpCode.JMP):
                     {
                         if (!(ins.Argument is OpCodeShortArgument a)) return;
 
@@ -237,8 +251,9 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
 
                         if (offset == 3)
                         {
+                            // Detect JMP to next line
                             ins.Flags = InstructionFlag.UnusableCode;
-                            ins.Color = Color.FromArgb(10, Color.Black);
+                            ins.ApplyColorForFlags();
                         }
 
                         offset = ins.Location.Offset + offset;
@@ -253,12 +268,12 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                             ins.Comment = ins.OpCode.Name.Substring(0, 1).ToUpper() + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
                         break;
                     }
-                case "JMPIF":
-                case "JMPIFNOT":
+                case nameof(NeoOpCode.JMPIF):
+                case nameof(NeoOpCode.JMPIFNOT):
                     {
                         if (!(ins.Argument is OpCodeShortArgument a)) return;
 
-                        bool check = ins.OpCode.Name == "JMPIF";
+                        bool check = ins.OpCode.Name == nameof(NeoOpCode.JMPIF);
                         uint offset = (uint)a.Value;
 
                         offset = ins.Location.Offset + offset;
