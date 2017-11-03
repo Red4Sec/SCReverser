@@ -258,14 +258,14 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
 
                         offset = ins.Location.Offset + offset;
 
-                        uint? index = null;
                         if (offsetToIndexCache.TryGetValue(offset, out uint ix, OffsetIndexRelation.OffsetToIndex))
-                            index = ix;
-
-                        ins.Jump = new Jump(offset, uint.MaxValue);
+                            ins.Jump = new Jump(offset, ix);
+                        else
+                            ins.Jump = new Jump(offset, uint.MaxValue);
 
                         if (string.IsNullOrEmpty(ins.Comment))
-                            ins.Comment = ins.OpCode.Name.Substring(0, 1).ToUpper() + ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
+                            ins.Comment = ins.OpCode.Name.Substring(0, 1).ToUpper() +
+                                ins.OpCode.Name.Substring(1).ToLower() + " to 0x" + offset.ToString("X4");
                         break;
                     }
                 case nameof(NeoOpCode.JMPIF):
@@ -298,10 +298,16 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                                         // If condition are ok (no dot)
                                         if (neodebug.Engine.EvaluationStack.Peek().GetBoolean() == check)
                                             i.Jump.Style = DashStyle.Solid;
+                                        else
+                                            i.Jump.Style = DashStyle.Dot;
                                     }
                                     return offset;
                                 }
-                                catch { }
+                                catch
+                                {
+                                    //i.Jump.Style = DashStyle.DashDot;
+                                    //return offset;
+                                }
 
                                 return null;
                             })

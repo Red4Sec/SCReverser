@@ -106,7 +106,8 @@ namespace SCReverser.Controls
             foreach (Instruction i in Jumps)
             {
                 if (i.Jump.To == null || i.Jump.To.Index == i.Location.Index) continue;
-                if (!i.Jump.To.IndexBetween(indexFrom, indexTo)) continue;
+                if (!i.Jump.To.IndexBetween(indexFrom, indexTo) && !i.Location.IndexBetween(indexFrom, indexTo))
+                    continue;
 
                 PaintState p = new PaintState()
                 {

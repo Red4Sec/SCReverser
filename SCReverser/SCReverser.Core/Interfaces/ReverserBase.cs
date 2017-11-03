@@ -10,14 +10,11 @@ using SCReverser.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SCReverser.Core.Interfaces
 {
