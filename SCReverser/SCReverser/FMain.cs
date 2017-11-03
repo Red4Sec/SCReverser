@@ -328,7 +328,6 @@ namespace SCReverser
             StackAlt_OnChange(null, null);
             UpdateDebugState();
         }
-
         void Debugger_OnStateChanged(object sender, DebuggerState oldState, DebuggerState newState)
         {
             EnableDisableDebugger();
@@ -434,11 +433,9 @@ namespace SCReverser
         }
         void ALoadFiles()
         {
-            ReverseResult rs = null;
-
             try
             {
-                rs = new ReverseResult();
+                ReverseResult rs = new ReverseResult();
 
                 if (Config != null && !Reverser.TryParse(Config, ref rs))
                     throw (new Exception("Error parsing the file"));
@@ -447,7 +444,7 @@ namespace SCReverser
             }
             catch (Exception ex)
             {
-                EndLoad(rs);
+                EndLoad(null);
                 Error(ex);
             }
         }
@@ -754,7 +751,6 @@ namespace SCReverser
                 Error(ex);
             }
         }
-
         void TreeModules_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Tag == null) return;
@@ -778,11 +774,16 @@ namespace SCReverser
         {
             if (index == null) return;
 
+            if (InvokeRequired)
+            {
+                Invoke(new Action<IndexOffset>(SelectInstruction), index);
+                return;
+            }
+
             GridOpCode.CurrentCell = GridOpCode.Rows[(int)index.Index].Cells.Cast<DataGridViewCell>().LastOrDefault();
             GridOpCode.FirstDisplayedCell = GridOpCode.CurrentCell;
             tabControl1.SelectedIndex = 0;
         }
-
         void TreeModules_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Tag is Module md)
