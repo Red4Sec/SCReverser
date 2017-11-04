@@ -108,20 +108,28 @@ namespace SCReverser.NEO
 
                     // Copy stack
                     int evc = Engine.EvaluationStack.Count;
-                    NeoStackItem[] it = new NeoStackItem[evc];
+                    if (evc > 0)
+                    {
+                        NeoStackItem[] it = new NeoStackItem[evc];
 
-                    for (int x = 0, m = evc; x < m; x++)
-                        it[x] = new NeoStackItem(Engine.EvaluationStack.Peek(x));
+                        for (int x = 0, m = evc; x < m; x++)
+                            it[x] = new NeoStackItem(Engine.EvaluationStack.Peek(x));
 
-                    Stack.CopyFrom(it);
+                        Stack.CopyFrom(it);
+                    }
+                    else Stack.Clear();
 
                     evc = Engine.AltStack.Count;
-                    it = new NeoStackItem[evc];
+                    if (evc > 0)
+                    {
+                        NeoStackItem[] it = new NeoStackItem[evc];
 
-                    for (int x = 0, m = evc; x < m; x++)
-                        it[x] = new NeoStackItem(Engine.AltStack.Peek(x));
+                        for (int x = 0, m = evc; x < m; x++)
+                            it[x] = new NeoStackItem(Engine.AltStack.Peek(x));
 
-                    AltStack.CopyFrom(it);
+                        AltStack.CopyFrom(it);
+                    }
+                    else AltStack.Clear();
 
                     // Copy state
                     if (Engine.State.HasFlag(VMState.HALT))

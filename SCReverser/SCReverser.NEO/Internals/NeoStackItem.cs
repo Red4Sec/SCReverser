@@ -5,6 +5,7 @@ using SCReverser.Core.Helpers;
 using System.Linq;
 using System.Reflection;
 using Neo.SmartContract;
+using System.Numerics;
 
 namespace SCReverser.NEO.Internals
 {
@@ -47,13 +48,24 @@ namespace SCReverser.NEO.Internals
                             if (v == null || v.Length == 0)
                                 return "[0]";
 
+                            if (v.Length > 200) return "[" + v.Length.ToString() + "] ...";
+
                             return "[" + v.Length.ToString() + "] 0x" + v.ToHexString();
                         }
-                    case "Neo.VM.Types.Integer": return value.GetBigInteger();
+                    case "Neo.VM.Types.Integer":
+                        {
+                            BigInteger v = value.GetBigInteger();
+
+                            if (v > ulong.MaxValue) return "[BigInteger] ...";
+
+                            return v.ToString();
+                        }
                     case "Neo.VM.Types.Struct":
                     case "Neo.VM.Types.Array":
                         {
                             StackItem[] si = value.GetArray();
+
+                            if (si.Length > 200) return "[" + si.Length.ToString() + "] ...";
                             return
                                 "[" + si.Length + "]" +
                                 JsonHelper.Serialize(si.Select(u => GetPrintable(u)).ToArray(), true, false);

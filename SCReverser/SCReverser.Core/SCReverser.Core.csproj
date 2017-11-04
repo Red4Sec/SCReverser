@@ -110,6 +110,9 @@
     <Compile Include="Interfaces\ReverserBase.cs" />
     <Compile Include="Interfaces\ReverseTemplateT2.cs" />
     <Compile Include="Interfaces\ReverseTemplateT3.cs" />
+    <Compile Include="OpCodeArguments\OpCodeByteArrayFromIntArgument.cs" />
+    <Compile Include="OpCodeArguments\OpCodeByteArrayFromUShortArgument.cs" />
+    <Compile Include="OpCodeArguments\OpCodeByteArrayFromByteArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeIntArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeShortArgumentBigEndian.cs" />
     <Compile Include="OpCodeArguments\OpCodeShortArgument.cs" />

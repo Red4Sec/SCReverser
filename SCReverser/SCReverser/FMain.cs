@@ -284,12 +284,15 @@ namespace SCReverser
             {
                 CleanDebugger();
 
-                Debugger = Template.CreateDebugger(Result, Config);
+                if (Result != null)
+                {
+                    Debugger = Template.CreateDebugger(Result, Config);
 
-                Debugger.OnStateChanged += Debugger_OnStateChanged;
-                Debugger.OnInstructionChanged += Debugger_OnInstructionChanged;
-                Debugger.Stack.OnChange += Stack_OnChange;
-                Debugger.AltStack.OnChange += StackAlt_OnChange;
+                    Debugger.OnStateChanged += Debugger_OnStateChanged;
+                    Debugger.OnInstructionChanged += Debugger_OnInstructionChanged;
+                    Debugger.Stack.OnChange += Stack_OnChange;
+                    Debugger.AltStack.OnChange += StackAlt_OnChange;
+                }
 
                 EnableDisableDebugger();
                 UpdateDebugState();
@@ -334,15 +337,13 @@ namespace SCReverser
         }
         void Debugger_OnInstructionChanged(object sender, Instruction instruction)
         {
-            //GridOpCode.ClearSelection();
-            //GridOpCode.Rows[(int)instructionIndex].Selected = true;
             GridOpCode.CurrentCell = GridOpCode.Rows[instruction == null ? 0 : (int)instruction.Location.Index].Cells[3];
             Jumps.RefreshDynJumps(Debugger);
 
-            GridOpCode.Invalidate();
+            GridOpCode.Refresh();
+            GridAltStack.Refresh();
+            GridStack.Refresh();
             Registers.Refresh();
-
-            //Application.DoEvents();
         }
         void UpdateDebugState()
         {

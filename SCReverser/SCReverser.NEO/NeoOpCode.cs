@@ -241,13 +241,13 @@ namespace SCReverser.NEO
         PUSHBYTES75 = 0x4B,
         #endregion
 
-        [OpCodeArgument(typeof(OpCodeByteArgument))]
+        [OpCodeArgument(typeof(OpCodeByteArrayFromByteArgument))]
         [Description("The next byte contains the number of bytes to be pushed onto the stack.")]
         PUSHDATA1 = 0x4C,
-        [OpCodeArgument(typeof(OpCodeUShortArgument))]
+        [OpCodeArgument(typeof(OpCodeByteArrayFromUShortArgument))]
         [Description("The next two bytes contain the number of bytes to be pushed onto the stack.")]
         PUSHDATA2 = 0x4D,
-        [OpCodeArgument(typeof(OpCodeIntArgument))]
+        [OpCodeArgument(typeof(OpCodeByteArrayFromIntArgument))]
         [Description("The next four bytes contain the number of bytes to be pushed onto the stack.")]
         PUSHDATA4 = 0x4E,
 

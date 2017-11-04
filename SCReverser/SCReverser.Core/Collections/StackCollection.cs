@@ -48,7 +48,7 @@ namespace SCReverser.Core.Collections
             }
 
             if (change)
-                NotifyChanges();
+                OnChange?.Invoke(this, EventArgs.Empty);
         }
 
         public IEnumerator<StackItem> GetEnumerator() { return List.GetEnumerator(); }
@@ -59,6 +59,17 @@ namespace SCReverser.Core.Collections
         /// </summary>
         public void NotifyChanges()
         {
+            OnChange?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Clear
+        /// </summary>
+        public void Clear()
+        {
+            if (List.Count <= 0) return;
+
+            List.Clear();
             OnChange?.Invoke(this, EventArgs.Empty);
         }
     }
