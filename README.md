@@ -2,7 +2,7 @@
 
 SCReverser allows you to perform debugging and reverse engineering on smart contracts.
 
-Contains a plugin through which you can read intelligent contracts NEO
+Contains a plugin through which you can read NEO smart contracts
 
 It is possible to open:
 - Contract addresses
