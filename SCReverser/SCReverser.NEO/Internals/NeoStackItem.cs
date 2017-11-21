@@ -56,7 +56,8 @@ namespace SCReverser.NEO.Internals
                         {
                             BigInteger v = value.GetBigInteger();
 
-                            if (v > ulong.MaxValue) return "[BigInteger] ...";
+                            if (v.Sign >= 0 && v > ulong.MaxValue) return "[BigInteger] ...";
+                            else if (v.Sign < 0 && v < long.MinValue) return "[-BigInteger] ...";
 
                             return v.ToString();
                         }

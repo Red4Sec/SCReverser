@@ -32,7 +32,7 @@ namespace SCReverser.Core.Collections
 
                 if (List.Count > x)
                 {
-                    if (ob.Equals(List[x]))
+                    if (ob.ToString() == List[x].ToString())
                         continue;
                 }
 
