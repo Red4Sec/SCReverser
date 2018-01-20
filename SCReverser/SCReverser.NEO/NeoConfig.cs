@@ -154,8 +154,11 @@ namespace SCReverser.NEO
                 if (UInt160.TryParse(s, out UInt160 hash160))
                 {
                     ContractState c = Blockchain.Default.GetContract(hash160);
-                    ls.Add(new StreamModule(name, new MemoryStream(c.Script), false) { Color = cl });
-                    continue;
+                    if (c != null)
+                    {
+                        ls.Add(new StreamModule(name, new MemoryStream(c.Script), false) { Color = cl });
+                        continue;
+                    }
                 }
 
                 try
