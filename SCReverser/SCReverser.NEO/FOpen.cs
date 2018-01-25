@@ -20,13 +20,9 @@ namespace SCReverser.NEO
                     return false;
                 }
 
-                config = new NeoConfig()
-                {
-                    VerificationScript = f.txtVerification.Text,
-                    InvocationScript = f.txtInvocation.Text,
-                    TriggerType = (ETriggerType)f.scriptType.SelectedItem,
-                    EnableBlockChain = true,
-                };
+                config = new NeoConfig();
+                config.SaveValues(f);
+                config.EnableBlockChain = true;
 
                 config.BlockChainPath = f.txtBlockChain.Text;
             }

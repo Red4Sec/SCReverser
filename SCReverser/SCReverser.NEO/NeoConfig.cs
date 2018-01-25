@@ -72,6 +72,11 @@ namespace SCReverser.NEO
         public bool EnableBlockChain { get; set; } = false;
 
         /// <summary>
+        /// Fake
+        /// </summary>
+        public EFake Fake { get; set; } = EFake.Witness | EFake.Storage | EFake.Signature;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public NeoConfig() { }
@@ -132,7 +137,7 @@ namespace SCReverser.NEO
                 default: return null;
             }
 
-            return new NeoEngine(t, container, script_table, service, Fixed8.Zero, true);
+            return new NeoEngine(t, container, script_table, service, Fake, Fixed8.Zero, true);
         }
         /// <summary>
         /// Get stream
@@ -163,7 +168,7 @@ namespace SCReverser.NEO
 
                 try
                 {
-                    byte[] bhex = s.Replace(" ", "").HexToBytes();
+                    byte[] bhex = s.Replace(" ", "").Replace("\r", "").Replace("\n", "").HexToBytes();
                     ls.Add(new StreamModule(name, new MemoryStream(bhex), false) { Color = cl });
                     continue;
                 }
@@ -206,6 +211,9 @@ namespace SCReverser.NEO
             fo.txtInvocation.Text = InvocationScript;
             fo.txtBlockChain.Text = BlockChainPath;
             fo.scriptType.SelectedItem = TriggerType;
+
+            fo.cFakeWitness.Checked = Fake.HasFlag(EFake.Witness);
+            fo.cFakeStorage.Checked = Fake.HasFlag(EFake.Storage);
         }
         public override void SaveValues(Form f)
         {
@@ -217,8 +225,14 @@ namespace SCReverser.NEO
             InvocationScript = fo.txtInvocation.Text;
             BlockChainPath = fo.txtBlockChain.Text;
             TriggerType = (ETriggerType)fo.scriptType.SelectedItem;
+
+            Fake = EFake.None;
+
+            if (fo.cFakeWitness.Checked) Fake |= EFake.Witness;
+            if (fo.cFakeStorage.Checked) Fake |= EFake.Storage;
         }
         #endregion
+
         /// <summary>
         /// Free resources
         /// </summary>

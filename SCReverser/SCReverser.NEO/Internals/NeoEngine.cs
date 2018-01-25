@@ -3,7 +3,9 @@ using Neo.Core;
 using Neo.SmartContract;
 using Neo.VM;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
+using System.Text;
 
 namespace SCReverser.NEO.Internals
 {
@@ -30,6 +32,15 @@ namespace SCReverser.NEO.Internals
         /// Set Max Array Size
         /// </summary>
         private const uint MaxArraySize = 1024;
+        #endregion
+
+        #region Variables
+        /// <summary>
+        /// Fake
+        /// </summary>
+        private readonly EFake Fake;
+
+        Dictionary<string, byte[]> Storage = new Dictionary<string, byte[]>();
         #endregion
 
         #region Checks
@@ -199,17 +210,23 @@ namespace SCReverser.NEO.Internals
                     case OpCode.DUP:
                     case OpCode.OVER:
                     case OpCode.TUCK:
-                        size = 1;
-                        break;
+                        {
+                            size = 1;
+                            break;
+                        }
                     case OpCode.UNPACK:
-                        StackItem item = EvaluationStack.Peek();
-                        if (!item.IsArray) return false;
-                        size = item.GetArray().Length;
-                        break;
+                        {
+                            StackItem item = EvaluationStack.Peek();
+                            if (!item.IsArray) return false;
+                            size = item.GetArray().Length;
+                            break;
+                        }
                 }
+
             if (size == 0) return true;
             size += EvaluationStack.Count + AltStack.Count;
             if (size > MaxStackSize) return false;
+
             return true;
         }
         #endregion
@@ -217,22 +234,132 @@ namespace SCReverser.NEO.Internals
         //long gas_consumed = 0;
         const Decimal Ratio = 100000;
 
-        public NeoEngine(TriggerType trigger, IScriptContainer container, IScriptTable table, InteropService service, Fixed8 gas, bool testMode = false)
+        public NeoEngine(TriggerType trigger, IScriptContainer container, IScriptTable table, InteropService service, EFake fake, Fixed8 gas, bool testMode = false)
             : base(trigger, container, table, service, gas, testMode)
         {
+            Fake = fake;
         }
 
         public new void StepInto()
         {
-            Check();
-            base.StepInto();
-        }
-
-        void Check()
-        {
             if (CurrentContext.InstructionPointer < CurrentContext.Script.Length)
             {
                 OpCode nextOpcode = CurrentContext.NextInstruction;
+
+                switch (nextOpcode)
+                {
+                    case OpCode.SYSCALL:
+                        {
+                            if (Fake != EFake.None)
+                            {
+                                // Read api name
+                                byte length = CurrentContext.Script[CurrentContext.InstructionPointer + 1];
+                                string api_name = Encoding.ASCII.GetString(CurrentContext.Script, CurrentContext.InstructionPointer + 2, length);
+
+                                switch (api_name)
+                                {
+                                    #region Fake Witness
+                                    case "Neo.Runtime.CheckWitness":
+                                    case "AntShares.Runtime.CheckWitness":
+                                        {
+                                            if (Fake.HasFlag(EFake.Witness))
+                                            {
+                                                // Read OpCode
+                                                CurrentContext.InstructionPointer++;
+
+                                                // Fake witness
+                                                EvaluationStack.Pop();
+                                                EvaluationStack.Push(true);
+                                                return;
+                                            }
+                                            break;
+                                        }
+                                    #endregion
+
+                                    #region Fake Storage
+                                    case "Neo.Storage.Get":
+                                    case "AntShares.Storage.Get":
+                                        {
+                                            if (Fake.HasFlag(EFake.Storage))
+                                            {
+                                                //object sk =
+                                                EvaluationStack.Pop();
+                                                byte[] data = EvaluationStack.Pop().GetByteArray();
+
+                                                if (!Storage.TryGetValue(/*sk +*/ Encoding.ASCII.GetString(data), out data))
+                                                {
+                                                    EvaluationStack.Push(new byte[0]);
+                                                }
+                                                else
+                                                {
+                                                    EvaluationStack.Push(data);
+                                                }
+
+                                                // Read OpCode + Length + String
+                                                CurrentContext.InstructionPointer += 2 + length;
+
+                                                return;
+                                            }
+                                            break;
+                                        }
+                                    case "Neo.Storage.Delete":
+                                    case "AntShares.Storage.Delete":
+                                        {
+                                            if (Fake.HasFlag(EFake.Storage))
+                                            {
+                                                //object sk =
+                                                EvaluationStack.Pop();
+                                                byte[] data = EvaluationStack.Pop().GetByteArray();
+
+                                                Storage.Remove(/*sk +*/ Encoding.ASCII.GetString(data));
+
+                                                // Read OpCode + Length + String
+                                                CurrentContext.InstructionPointer += 2 + length;
+                                            }
+                                            break;
+                                        }
+                                    case "Neo.Storage.Put":
+                                    case "AntShares.Storage.Put":
+                                        {
+                                            if (Fake.HasFlag(EFake.Storage))
+                                            {
+
+                                            }
+                                            break;
+                                        }
+                                        #endregion
+                                }
+                            }
+
+                            break;
+                        }
+                    case OpCode.CHECKSIG:
+                        {
+                            if (Fake.HasFlag(EFake.Signature))
+                            {
+                                // Read OpCode
+                                CurrentContext.InstructionPointer++;
+
+                                // Fake signature
+                                byte[] pubkey = EvaluationStack.Pop().GetByteArray();
+                                byte[] signature = EvaluationStack.Pop().GetByteArray();
+                                EvaluationStack.Push(true);
+
+                                return;
+                            }
+
+                            break;
+                        }
+                    case OpCode.CHECKMULTISIG:
+                        {
+                            if (Fake.HasFlag(EFake.Signature))
+                            {
+
+                            }
+
+                            break;
+                        }
+                }
 
                 //gas_consumed = checked(gas_consumed + GetPrice(nextOpcode) * ratio);
                 //if (!testMode && gas_consumed > gas_amount) return false;
@@ -252,6 +379,8 @@ namespace SCReverser.NEO.Internals
                 if (!CheckBigIntegers(nextOpcode))
                     throw (new Exception("VM-Limits Raised [CheckBigIntegers]"));
             }
+
+            base.StepInto();
         }
 
         unsafe static uint ToUInt32(byte[] value, int startIndex)

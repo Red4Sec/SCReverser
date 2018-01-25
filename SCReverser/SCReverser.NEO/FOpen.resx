@@ -234,11 +234,68 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="cFakeStorage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cFakeStorage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="cFakeStorage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>308, 238</value>
+  </data>
+  <data name="cFakeStorage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 17</value>
+  </data>
+  <data name="cFakeStorage.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="cFakeStorage.Text" xml:space="preserve">
+    <value>Fake Storage</value>
+  </data>
+  <data name="&gt;&gt;cFakeStorage.Name" xml:space="preserve">
+    <value>cFakeStorage</value>
+  </data>
+  <data name="&gt;&gt;cFakeStorage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cFakeStorage.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;cFakeStorage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cFakeWitness.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cFakeWitness.Location" type="System.Drawing.Point, System.Drawing">
+    <value>308, 260</value>
+  </data>
+  <data name="cFakeWitness.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 17</value>
+  </data>
+  <data name="cFakeWitness.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="cFakeWitness.Text" xml:space="preserve">
+    <value>Fake Witness</value>
+  </data>
+  <data name="&gt;&gt;cFakeWitness.Name" xml:space="preserve">
+    <value>cFakeWitness</value>
+  </data>
+  <data name="&gt;&gt;cFakeWitness.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cFakeWitness.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;cFakeWitness.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="scriptType.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 257</value>
   </data>
   <data name="scriptType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>386, 21</value>
+    <value>274, 21</value>
   </data>
   <data name="scriptType.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -253,7 +310,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;scriptType.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -280,7 +337,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -307,7 +364,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -337,7 +394,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -367,7 +424,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -394,7 +451,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 101</value>
@@ -418,7 +475,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="txtBlockChain.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 206</value>
@@ -439,7 +496,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;txtBlockChain.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="txtInvocation.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 40</value>
@@ -466,7 +523,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;txtInvocation.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="button3.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -496,7 +553,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;button3.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="txtVerification.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 120</value>
@@ -523,7 +580,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;txtVerification.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="button2.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -553,7 +610,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="button1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -580,7 +637,7 @@
     <value>panel2</value>
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>239, 24</value>

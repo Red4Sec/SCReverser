@@ -34,6 +34,7 @@
             this.bCancel = new System.Windows.Forms.Button();
             this.bOk = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cFakeWitness = new System.Windows.Forms.CheckBox();
             this.scriptType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,6 +50,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.cFakeStorage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -86,6 +88,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Controls.Add(this.cFakeStorage);
+            this.panel2.Controls.Add(this.cFakeWitness);
             this.panel2.Controls.Add(this.scriptType);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label3);
@@ -101,6 +105,14 @@
             this.panel2.Controls.Add(this.button1);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
+            // 
+            // cFakeWitness
+            // 
+            resources.ApplyResources(this.cFakeWitness, "cFakeWitness");
+            this.cFakeWitness.Checked = true;
+            this.cFakeWitness.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cFakeWitness.Name = "cFakeWitness";
+            this.cFakeWitness.UseVisualStyleBackColor = true;
             // 
             // scriptType
             // 
@@ -182,6 +194,14 @@
             this.openFileDialog1.DefaultExt = "*";
             resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
             // 
+            // cFakeStorage
+            // 
+            resources.ApplyResources(this.cFakeStorage, "cFakeStorage");
+            this.cFakeStorage.Checked = true;
+            this.cFakeStorage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cFakeStorage.Name = "cFakeStorage";
+            this.cFakeStorage.UseVisualStyleBackColor = true;
+            // 
             // FOpen
             // 
             this.AcceptButton = this.bOk;
@@ -226,5 +246,7 @@
         public System.Windows.Forms.ComboBox scriptType;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
+        internal System.Windows.Forms.CheckBox cFakeWitness;
+        internal System.Windows.Forms.CheckBox cFakeStorage;
     }
 }
