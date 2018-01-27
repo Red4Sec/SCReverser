@@ -2,9 +2,12 @@
 using Neo.Core;
 using Neo.SmartContract;
 using Neo.VM;
+using SCReverser.Core.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 
 namespace SCReverser.NEO.Internals
@@ -40,8 +43,71 @@ namespace SCReverser.NEO.Internals
         /// </summary>
         private readonly EFake Fake;
 
+        static Type StorageContextType;
+        static Type InteropInterfaceType;
+        static MethodInfo StorageToArrayMethod;
+        static FieldInfo InteropInterfaceFiled;
+
         Dictionary<string, byte[]> Storage = new Dictionary<string, byte[]>();
+
+        static NeoEngine()
+        {
+            Assembly asm = typeof(ApplicationEngine).Assembly;
+
+            StorageContextType = asm.GetType("Neo.SmartContract.StorageContext");
+            StorageToArrayMethod = StorageContextType.GetMethod("ToArray");
+
+            asm = typeof(StackItem).Assembly;
+            InteropInterfaceType = asm.GetType("Neo.VM.Types.InteropInterface");
+            InteropInterfaceFiled = InteropInterfaceType.GetField("_object", BindingFlags.NonPublic | BindingFlags.Instance);
+        }
         #endregion
+
+        /// <summary>
+        /// Load Storage
+        /// </summary>
+        void LoadStorage()
+        {
+            if (!Fake.HasFlag(EFake.Storage)) return;
+
+            if (!File.Exists("storage.json"))
+            {
+                return;
+            }
+
+            string save = File.ReadAllText("storage.json", Encoding.UTF8);
+
+            Storage = JsonHelper.Deserialize<Dictionary<string, byte[]>>(save);
+            if (Storage == null) Storage = new Dictionary<string, byte[]>();
+        }
+        /// <summary>
+        /// Save storage
+        /// </summary>
+        void SaveStorage()
+        {
+            string json = JsonHelper.Serialize(Storage);
+            File.WriteAllText("storage.json", json, Encoding.UTF8);
+        }
+        /// <summary>
+        /// Get StorageKey
+        /// </summary>
+        /// <param name="it">Item</param>
+        string GetStorageKey(object it)
+        {
+            if (it.GetType() == InteropInterfaceType)
+            {
+                it = InteropInterfaceFiled.GetValue(it);
+            }
+
+            if (it.GetType() == StorageContextType)
+            {
+                object or = StorageToArrayMethod.Invoke(it, new object[] { });
+                if (or == null) return "";
+
+                return ((byte[])or).ToHexString();
+            }
+            return "";
+        }
 
         #region Checks
         private bool CheckArraySize(OpCode nextInstruction)
@@ -238,6 +304,7 @@ namespace SCReverser.NEO.Internals
             : base(trigger, container, table, service, gas, testMode)
         {
             Fake = fake;
+            LoadStorage();
         }
 
         public new void StepInto()
@@ -283,10 +350,11 @@ namespace SCReverser.NEO.Internals
                                             if (Fake.HasFlag(EFake.Storage))
                                             {
                                                 //object sk =
-                                                EvaluationStack.Pop();
+                                                string key = GetStorageKey(EvaluationStack.Pop());
                                                 byte[] data = EvaluationStack.Pop().GetByteArray();
+                                                if (data == null) data = new byte[] { };
 
-                                                if (!Storage.TryGetValue(/*sk +*/ Encoding.ASCII.GetString(data), out data))
+                                                if (!Storage.TryGetValue(key + data.ToHexString(), out data))
                                                 {
                                                     EvaluationStack.Push(new byte[0]);
                                                 }
@@ -308,13 +376,16 @@ namespace SCReverser.NEO.Internals
                                             if (Fake.HasFlag(EFake.Storage))
                                             {
                                                 //object sk =
-                                                EvaluationStack.Pop();
+                                                string key = GetStorageKey(EvaluationStack.Pop());
                                                 byte[] data = EvaluationStack.Pop().GetByteArray();
+                                                if (data == null) data = new byte[] { };
 
-                                                Storage.Remove(/*sk +*/ Encoding.ASCII.GetString(data));
+                                                Storage.Remove(key + data.ToHexString());
 
                                                 // Read OpCode + Length + String
                                                 CurrentContext.InstructionPointer += 2 + length;
+
+                                                SaveStorage();
                                             }
                                             break;
                                         }
@@ -323,7 +394,17 @@ namespace SCReverser.NEO.Internals
                                         {
                                             if (Fake.HasFlag(EFake.Storage))
                                             {
+                                                string key = GetStorageKey(EvaluationStack.Pop());
+                                                byte[] data = EvaluationStack.Pop().GetByteArray();
+                                                byte[] data2 = EvaluationStack.Pop().GetByteArray();
+                                                if (data == null) data = new byte[] { };
 
+                                                Storage[key + data.ToHexString()] = data2;
+
+                                                // Read OpCode + Length + String
+                                                CurrentContext.InstructionPointer += 2 + length;
+
+                                                SaveStorage();
                                             }
                                             break;
                                         }
