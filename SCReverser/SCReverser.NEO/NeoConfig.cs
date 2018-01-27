@@ -49,7 +49,8 @@ namespace SCReverser.NEO
             }
             set
             {
-                if (_BlockChainPath == value) return;
+                if (_BlockChainPath == value && (Blockchain.Default != null && !(Blockchain.Default is NullBlockChain)))
+                    return;
 
                 _BlockChainPath = value;
 

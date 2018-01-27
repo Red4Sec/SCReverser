@@ -325,18 +325,28 @@ namespace SCReverser.NEO.Internals
 
                                 switch (api_name)
                                 {
+                                    case "Neo.Transaction.GetReferences":
+                                        {
+                                            EvaluationStack.Push(new StackItem[] { });
+
+                                            // Read OpCode + Length + String
+                                            CurrentContext.InstructionPointer += 2 + length;
+
+                                            return;
+                                        }
+
                                     #region Fake Witness
                                     case "Neo.Runtime.CheckWitness":
                                     case "AntShares.Runtime.CheckWitness":
                                         {
                                             if (Fake.HasFlag(EFake.Witness))
                                             {
-                                                // Read OpCode
-                                                CurrentContext.InstructionPointer++;
-
                                                 // Fake witness
                                                 EvaluationStack.Pop();
                                                 EvaluationStack.Push(true);
+
+                                                // Read OpCode
+                                                CurrentContext.InstructionPointer += 2 + length;
                                                 return;
                                             }
                                             break;
@@ -365,7 +375,6 @@ namespace SCReverser.NEO.Internals
 
                                                 // Read OpCode + Length + String
                                                 CurrentContext.InstructionPointer += 2 + length;
-
                                                 return;
                                             }
                                             break;
@@ -386,6 +395,7 @@ namespace SCReverser.NEO.Internals
                                                 CurrentContext.InstructionPointer += 2 + length;
 
                                                 SaveStorage();
+                                                return;
                                             }
                                             break;
                                         }
@@ -405,6 +415,7 @@ namespace SCReverser.NEO.Internals
                                                 CurrentContext.InstructionPointer += 2 + length;
 
                                                 SaveStorage();
+                                                return;
                                             }
                                             break;
                                         }

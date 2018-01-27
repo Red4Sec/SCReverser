@@ -257,7 +257,7 @@ namespace SCReverser.Core.Interfaces
         }
         bool ShouldStep(DateTime startTime, uint ins)
         {
-            if ((DateTime.UtcNow - startTime).TotalSeconds > 30)
+            if ((DateTime.UtcNow - startTime).TotalSeconds > 60)
                 throw (new Exception("[" + ins.ToString() + " instructions processed] Possible infinite loop detected!"));
 
             return !AreEnded() && !State.HasFlag(DebuggerState.BreakPoint);
