@@ -239,7 +239,11 @@ namespace SCReverser.NEO
         public void Dispose()
         {
             if (!EnableBlockChain) return;
-            Blockchain.RegisterBlockchain(new NullBlockChain());
+            try
+            {
+                Blockchain.RegisterBlockchain(new NullBlockChain());
+            }
+            catch { }
         }
     }
 }

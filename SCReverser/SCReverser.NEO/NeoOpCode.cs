@@ -309,14 +309,19 @@ namespace SCReverser.NEO
         [Description("Does nothing.")]
         NOP = 0x61,
         [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsJump)]
+        [Description("Jump.")]
         JMP = 0x62,
         [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsJump)]
+        [Description("Jump if.")]
         JMPIF = 0x63,
         [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsJump)]
+        [Description("Jump if not.")]
         JMPIFNOT = 0x64,
         [OpCodeArgument(typeof(OpCodeShortArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
+        [Description("Call to.")]
         CALL = 0x65,
         [OpCodeArgument(Flags = OpCodeFlag.IsRet)]
+        [Description("Return.")]
         RET = 0x66,
         [OpCodeArgument(typeof(OpCodeByteArrayArgument), ConstructorArguments = new object[] { 20 })]
         APPCALL = 0x67,
@@ -328,6 +333,7 @@ namespace SCReverser.NEO
 
         #region Stack
         [OpCodeArgument]
+        [Description("Duplicates the top alt stack item.")]
         DUPFROMALTSTACK = 0x6A,
         [Description("Puts the input onto the top of the alt stack. Removes it from the main stack.")]
         [OpCodeArgument]
@@ -523,10 +529,13 @@ namespace SCReverser.NEO
         PACK = 0xC1,
         [OpCodeArgument]
         UNPACK = 0xC2,
+        [Description("Pops index and array from stack, then push the item in the array index to the stack.")]
         [OpCodeArgument]
         PICKITEM = 0xC3,
+        [Description("Pops newItem, index and array from stack, then copy the newItem to the array value at index.")]
         [OpCodeArgument]
         SETITEM = 0xC4,
+        [Description("Pops size from stack and creates a new array with that size, and pushes the array into the stack.")]
         [OpCodeArgument]
         NEWARRAY = 0xC5,
         [OpCodeArgument]
@@ -534,6 +543,7 @@ namespace SCReverser.NEO
         #endregion
 
         #region Exceptions
+        [Description("Throws an exception.")]
         [OpCodeArgument]
         THROW = 0xF0,
         [OpCodeArgument]
