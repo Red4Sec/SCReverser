@@ -283,8 +283,9 @@ namespace SCReverser.NEO.Internals
                     case OpCode.UNPACK:
                         {
                             StackItem item = EvaluationStack.Peek();
-                            if (!item.IsArray) return false;
-                            size = item.GetArray().Length;
+                            if (!(item is Neo.VM.Types.Array ar)) return false;
+
+                            size = ar.Count;
                             break;
                         }
                 }
@@ -485,7 +486,7 @@ namespace SCReverser.NEO.Internals
 
         public Decimal GetPricePublic()
         {
-            return (base.GetPrice() * Ratio) / (Decimal)Math.Pow(10, Blockchain.UtilityToken.Precision);
+            return (((decimal)base.GasConsumed) * Ratio) / (Decimal)Math.Pow(10, Blockchain.UtilityToken.Precision);
         }
     }
 }

@@ -98,8 +98,8 @@ namespace SCReverser.NEO
         {
             IScriptContainer container = null;
 
+            Block block;
             DataCache<UInt160, AccountState> accounts;
-            DataCache<ECPoint, ValidatorState> validators;
             DataCache<UInt256, AssetState> assets;
             DataCache<UInt160, ContractState> contracts;
             DataCache<StorageKey, StorageItem> storages;
@@ -108,18 +108,18 @@ namespace SCReverser.NEO
             {
                 // Real Blockchain
 
-                accounts = Blockchain.Default.CreateCache<UInt160, AccountState>();
-                validators = Blockchain.Default.CreateCache<ECPoint, ValidatorState>();
-                assets = Blockchain.Default.CreateCache<UInt256, AssetState>();
-                contracts = Blockchain.Default.CreateCache<UInt160, ContractState>();
-                storages = Blockchain.Default.CreateCache<StorageKey, StorageItem>();
+                block = Blockchain.Default.GetBlock(Blockchain.Default.Height);
+                accounts = Blockchain.Default.GetStates<UInt160, AccountState>();
+                assets = Blockchain.Default.GetStates<UInt256, AssetState>();
+                contracts = Blockchain.Default.GetStates<UInt160, ContractState>();
+                storages = Blockchain.Default.GetStates<StorageKey, StorageItem>();
             }
             else
             {
                 // Fake Blockchain
 
+                block = Blockchain.GenesisBlock;
                 accounts = new NeoFakeDbCache<UInt160, AccountState>();
-                validators = new NeoFakeDbCache<ECPoint, ValidatorState>();
                 assets = new NeoFakeDbCache<UInt256, AssetState>();
                 contracts = new NeoFakeDbCache<UInt160, ContractState>();
                 storages = new NeoFakeDbCache<StorageKey, StorageItem>();
@@ -127,7 +127,7 @@ namespace SCReverser.NEO
 
             // Create Engine
             IScriptTable script_table = new CachedScriptTable(contracts);
-            StateMachine service = new StateMachine(accounts, validators, assets, contracts, storages);
+            StateMachine service = new StateMachine(block, accounts, assets, contracts, storages);
 
             TriggerType t;
 

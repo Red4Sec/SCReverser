@@ -540,6 +540,20 @@ namespace SCReverser.NEO
         NEWARRAY = 0xC5,
         [OpCodeArgument]
         NEWSTRUCT = 0xC6,
+        [OpCodeArgument]
+        NEWMAP = 0xC7,
+        [OpCodeArgument]
+        APPEND = 0xC8,
+        [OpCodeArgument]
+        REVERSE = 0xC9,
+        [OpCodeArgument]
+        REMOVE = 0xCA,
+        [OpCodeArgument]
+        HASKEY = 0xCB,
+        [OpCodeArgument]
+        KEYS = 0xCC,
+        [OpCodeArgument]
+        VALUES = 0xCD,
         #endregion
 
         #region Exceptions

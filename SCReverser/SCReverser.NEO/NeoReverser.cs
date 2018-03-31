@@ -5,7 +5,6 @@ using SCReverser.Core.Enums;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.OpCodeArguments;
 using SCReverser.Core.Types;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace SCReverser.NEO

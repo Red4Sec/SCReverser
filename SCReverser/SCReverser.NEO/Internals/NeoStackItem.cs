@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Neo.SmartContract;
 using Neo.VM;
 using SCReverser.Core.Extensions;
 using SCReverser.Core.Helpers;
+using System;
 using System.Linq;
-using System.Reflection;
-using Neo.SmartContract;
 using System.Numerics;
+using System.Reflection;
 
 namespace SCReverser.NEO.Internals
 {
@@ -64,7 +64,8 @@ namespace SCReverser.NEO.Internals
                     case "Neo.VM.Types.Struct":
                     case "Neo.VM.Types.Array":
                         {
-                            StackItem[] si = value.GetArray();
+                            Neo.VM.Types.Array ar = value as Neo.VM.Types.Array;
+                            StackItem[] si = ar.ToArray();
 
                             if (si.Length > 200) return "[" + si.Length.ToString() + "] ...";
                             return

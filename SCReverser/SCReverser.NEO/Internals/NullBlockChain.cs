@@ -15,6 +15,8 @@ namespace SCReverser.NEO.Internals
 
         public override uint Height => 0;
 
+        public override bool IsDisposed => false;
+
         public override bool AddBlock(Block block)
         {
             return false;
@@ -33,11 +35,6 @@ namespace SCReverser.NEO.Internals
         public override bool ContainsUnspent(UInt256 hash, ushort index)
         {
             return false;
-        }
-
-        public override DataCache<TKey, TValue> CreateCache<TKey, TValue>()
-        {
-            return new NeoFakeDbCache<TKey, TValue>();
         }
 
         public override void Dispose()
@@ -84,6 +81,11 @@ namespace SCReverser.NEO.Internals
             return null;
         }
 
+        public override MetaDataCache<T> GetMetaData<T>()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override Block GetNextBlock(UInt256 hash)
         {
             return null;
@@ -92,6 +94,11 @@ namespace SCReverser.NEO.Internals
         public override UInt256 GetNextBlockHash(UInt256 hash)
         {
             return UInt256.Zero;
+        }
+
+        public override DataCache<TKey, TValue> GetStates<TKey, TValue>()
+        {
+            return new NeoFakeDbCache<TKey, TValue>();
         }
 
         public override StorageItem GetStorageItem(StorageKey key)
@@ -120,7 +127,7 @@ namespace SCReverser.NEO.Internals
             return null;
         }
 
-        public override IEnumerable<VoteState> GetVotes(IEnumerable<Transaction> others)
+        public override IEnumerable<TransactionOutput> GetUnspent(UInt256 hash)
         {
             yield break;
         }
