@@ -34,6 +34,7 @@
             this.bCancel = new System.Windows.Forms.Button();
             this.bOk = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cFakeStorage = new System.Windows.Forms.CheckBox();
             this.cFakeWitness = new System.Windows.Forms.CheckBox();
             this.scriptType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -43,14 +44,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtBlockChain = new System.Windows.Forms.TextBox();
-            this.txtInvocation = new System.Windows.Forms.TextBox();
+            this.txtArguments = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.txtVerification = new System.Windows.Forms.TextBox();
+            this.txtScript = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.cFakeStorage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -98,13 +98,21 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.txtBlockChain);
-            this.panel2.Controls.Add(this.txtInvocation);
+            this.panel2.Controls.Add(this.txtArguments);
             this.panel2.Controls.Add(this.button3);
-            this.panel2.Controls.Add(this.txtVerification);
+            this.panel2.Controls.Add(this.txtScript);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.button1);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
+            // 
+            // cFakeStorage
+            // 
+            resources.ApplyResources(this.cFakeStorage, "cFakeStorage");
+            this.cFakeStorage.Checked = true;
+            this.cFakeStorage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cFakeStorage.Name = "cFakeStorage";
+            this.cFakeStorage.UseVisualStyleBackColor = true;
             // 
             // cFakeWitness
             // 
@@ -158,10 +166,10 @@
             resources.ApplyResources(this.txtBlockChain, "txtBlockChain");
             this.txtBlockChain.Name = "txtBlockChain";
             // 
-            // txtInvocation
+            // txtArguments
             // 
-            resources.ApplyResources(this.txtInvocation, "txtInvocation");
-            this.txtInvocation.Name = "txtInvocation";
+            resources.ApplyResources(this.txtArguments, "txtArguments");
+            this.txtArguments.Name = "txtArguments";
             // 
             // button3
             // 
@@ -170,10 +178,10 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // txtVerification
+            // txtScript
             // 
-            resources.ApplyResources(this.txtVerification, "txtVerification");
-            this.txtVerification.Name = "txtVerification";
+            resources.ApplyResources(this.txtScript, "txtScript");
+            this.txtScript.Name = "txtScript";
             // 
             // button2
             // 
@@ -193,14 +201,6 @@
             // 
             this.openFileDialog1.DefaultExt = "*";
             resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
-            // 
-            // cFakeStorage
-            // 
-            resources.ApplyResources(this.cFakeStorage, "cFakeStorage");
-            this.cFakeStorage.Checked = true;
-            this.cFakeStorage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cFakeStorage.Name = "cFakeStorage";
-            this.cFakeStorage.UseVisualStyleBackColor = true;
             // 
             // FOpen
             // 
@@ -236,8 +236,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        public System.Windows.Forms.TextBox txtInvocation;
-        public System.Windows.Forms.TextBox txtVerification;
+        public System.Windows.Forms.TextBox txtArguments;
+        public System.Windows.Forms.TextBox txtScript;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.TextBox txtBlockChain;
         private System.Windows.Forms.Button button3;

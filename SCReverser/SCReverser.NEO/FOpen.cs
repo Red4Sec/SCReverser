@@ -46,8 +46,8 @@ namespace SCReverser.NEO
         {
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
 
-            if (sender == button1) txtVerification.Text = openFileDialog1.FileName;
-            else if (sender == button2) txtInvocation.Text = openFileDialog1.FileName;
+            if (sender == button1) txtScript.Text = openFileDialog1.FileName;
+            else if (sender == button2) txtArguments.Text = openFileDialog1.FileName;
         }
         void button3_Click(object sender, EventArgs e)
         {

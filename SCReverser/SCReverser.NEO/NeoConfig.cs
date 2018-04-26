@@ -28,11 +28,11 @@ namespace SCReverser.NEO
         /// <summary>
         /// Script
         /// </summary>
-        public string VerificationScript { get; set; }
+        public string Script { get; set; }
         /// <summary>
         /// Script
         /// </summary>
-        public string InvocationScript { get; set; }
+        public string Arguments { get; set; }
         /// <summary>
         /// Trigger type
         /// </summary>
@@ -88,7 +88,7 @@ namespace SCReverser.NEO
         /// <param name="script">Script</param>
         public NeoConfig(byte[] script) : this()
         {
-            VerificationScript = Convert.ToBase64String(script);
+            Script = Convert.ToBase64String(script);
         }
 
         /// <summary>
@@ -148,10 +148,10 @@ namespace SCReverser.NEO
             List<StreamModule> ls = new List<StreamModule>();
 
             int x = 0;
-            foreach (string s in new string[] { InvocationScript, VerificationScript })
+            foreach (string s in new string[] { Arguments, Script })
             {
                 x++;
-                string name = x == 1 ? "InvocationScript" : "VerificationScript";
+                string name = x == 1 ? "Arguments" : "Script";
 
                 if (string.IsNullOrEmpty(s)) continue;
 
@@ -187,6 +187,27 @@ namespace SCReverser.NEO
 
                 try
                 {
+                    // Convert from strings
+
+                    List<byte> bytes = new List<byte>();
+                    foreach (string op in s.Split(new char[] { ',', ';', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        if (!Enum.TryParse(op, true, out NeoOpCode ret))
+                            throw new FormatException();
+
+                        bytes.Add((byte)ret);
+                    }
+
+                    if (bytes.Count > 0)
+                    {
+                        ls.Add(new StreamModule(name, new MemoryStream(bytes.ToArray()), false) { Color = cl });
+                        continue;
+                    }
+                }
+                catch { }
+
+                try
+                {
                     // Convert from b64
                     byte[] sc = Convert.FromBase64String(s);
                     if (sc != null)
@@ -208,8 +229,8 @@ namespace SCReverser.NEO
 
             if (!(f is FOpen fo)) return;
 
-            fo.txtVerification.Text = VerificationScript;
-            fo.txtInvocation.Text = InvocationScript;
+            fo.txtScript.Text = Script;
+            fo.txtArguments.Text = Arguments;
             fo.txtBlockChain.Text = BlockChainPath;
             fo.scriptType.SelectedItem = TriggerType;
 
@@ -222,8 +243,8 @@ namespace SCReverser.NEO
 
             if (!(f is FOpen fo)) return;
 
-            VerificationScript = fo.txtVerification.Text;
-            InvocationScript = fo.txtInvocation.Text;
+            Script = fo.txtScript.Text;
+            Arguments = fo.txtArguments.Text;
             BlockChainPath = fo.txtBlockChain.Text;
             TriggerType = (ETriggerType)fo.scriptType.SelectedItem;
 
