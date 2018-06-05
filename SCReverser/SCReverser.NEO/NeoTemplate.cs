@@ -20,8 +20,7 @@ namespace SCReverser.NEO
         /// </summary>
         public override object CreateNewConfig()
         {
-            NeoConfig cfg;
-            if (!FOpen.ShowForm(out cfg)) return null;
+            if (!FOpen.ShowForm(out NeoConfig cfg)) return null;
             return cfg;
         }
         /// <summary>

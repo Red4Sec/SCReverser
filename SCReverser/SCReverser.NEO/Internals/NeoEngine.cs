@@ -447,7 +447,16 @@ namespace SCReverser.NEO.Internals
                         {
                             if (Fake.HasFlag(EFake.Signature))
                             {
+                                // Read OpCode
+                                CurrentContext.InstructionPointer++;
 
+                                for (int x = 0; x < 2; x++)
+                                {
+                                    var it = EvaluationStack.Pop();
+                                    // if is int, push by this int
+                                }
+
+                                EvaluationStack.Push(true);
                             }
 
                             break;

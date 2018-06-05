@@ -85,9 +85,11 @@ namespace SCReverser.Controls
             chart.ChartAreas[sBar.Name].AlignmentOrientation = AreaAlignmentOrientations.Horizontal;
 
             // ----
-            Series sPie = new Series(sBar.Name + " %");
-            sPie.Legend = null;
-            sPie.IsVisibleInLegend = false;
+            Series sPie = new Series(sBar.Name + " %")
+            {
+                Legend = null,
+                IsVisibleInLegend = false
+            };
 
             chart.ChartAreas.Add(sPie.Name);
             chart.Series.Add(sPie);

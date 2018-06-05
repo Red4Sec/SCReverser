@@ -316,6 +316,7 @@
     <Compile Include="FOpen.Designer.cs">
       <DependentUpon>FOpen.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Internals\CachedScriptTable.cs" />
     <Compile Include="Internals\EFake.cs" />
     <Compile Include="Internals\ETriggerType.cs" />

@@ -58,9 +58,7 @@ namespace SCReverser
             EnableDisableDebugger();
 
             GridOpCode.AutoGenerateColumns = false;
-            GridStack.AutoGenerateColumns = false;
-            GridAltStack.AutoGenerateColumns = false;
-
+            
             StackAlt_OnChange(null, null);
 
             // Auto select if only one
@@ -306,14 +304,11 @@ namespace SCReverser
 
         void Stack_OnChange(object sender, EventArgs e)
         {
-            GridStack.DataSource = Debugger?.Stack.ToArray();
-            GridStack.ClearSelection();
+            stacks.SetStackSource(Debugger?.Stack.ToArray());
         }
         void StackAlt_OnChange(object sender, EventArgs e)
         {
-            GridAltStack.DataSource = Debugger?.AltStack.ToArray();
-            GridAltStack.ClearSelection();
-            SplitStack.RowStyles[1].Height = Debugger == null || Debugger.AltStack.Count <= 0 ? 0F : 50F;
+            stacks.SetAltStackSource(Debugger?.AltStack.ToArray());
         }
         void CleanDebugger()
         {
@@ -341,8 +336,7 @@ namespace SCReverser
             Jumps.RefreshDynJumps(Debugger);
 
             GridOpCode.Refresh();
-            GridAltStack.Refresh();
-            GridStack.Refresh();
+            stacks.RefreshGrids();
             Registers.Refresh();
         }
         void UpdateDebugState()

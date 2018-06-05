@@ -6,6 +6,7 @@ using Neo.IO.Caching;
 using Neo.SmartContract;
 using Neo.VM;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SCReverser.Core.Interfaces;
 using SCReverser.Core.Remembers;
 using SCReverser.Core.Types;
@@ -16,6 +17,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.IO;
+using System.Numerics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
@@ -177,6 +179,20 @@ namespace SCReverser.NEO
 
                 try
                 {
+                    JArray array = JArray.Parse(s);
+                    if (array.Count > 0)
+                    {
+                        ScriptBuilder sb = new ScriptBuilder();
+                        WriteJArrayToMs(array, sb, false);
+
+                        ls.Add(new StreamModule(name, new MemoryStream(sb.ToArray(), false), false) { Color = cl });
+                        continue;
+                    }
+                }
+                catch { }
+
+                try
+                {
                     if (File.Exists(s))
                     {
                         ls.Add(new StreamModule(name, File.OpenRead(s), false) { Color = cl });
@@ -220,6 +236,61 @@ namespace SCReverser.NEO
             }
 
             return ls.ToArray();
+        }
+
+        void WriteJArrayToMs(JArray array, ScriptBuilder ms, bool usePack)
+        {
+            int m = array.Count;
+            for (int x = m - 1; x >= 0; x--)
+            {
+                JToken o = array[x];
+                switch (o.Type)
+                {
+                    case JTokenType.Integer:
+                        {
+                            ms.EmitPush(new BigInteger(o.Value<int>()));
+                            break;
+                        }
+                    case JTokenType.String:
+                        {
+                            string str = o.Value<string>();
+
+                            if (str.StartsWith("0x", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                ms.EmitPush(str.Substring(2).HexToBytes());
+                            }
+                            else
+                            {
+                                ms.EmitPush(str);
+                            }
+
+                            break;
+                        }
+                    case JTokenType.Boolean:
+                        {
+                            ms.EmitPush(o.Value<bool>() ? 1 : 0);
+                            break;
+                        }
+                    case JTokenType.Bytes:
+                        {
+                            ms.EmitPush(o.Value<byte[]>());
+                            break;
+                        }
+                    case JTokenType.Array:
+                        {
+                            WriteJArrayToMs(o.Value<JArray>(), ms, true);
+                            break;
+                        }
+                    default: throw (new Exception("Type not allowed: " + o.Type));
+                }
+            }
+
+            // Pack
+
+            if (!usePack) return;
+
+            ms.EmitPush(m);
+            ms.Emit(Neo.VM.OpCode.PACK);
         }
 
         #region Remember in form

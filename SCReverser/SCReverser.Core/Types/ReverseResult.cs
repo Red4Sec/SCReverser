@@ -63,7 +63,12 @@ namespace SCReverser.Core.Types
                         if (first == null)
                         {
                             first = i;
-                            i.Comment = met.Name;
+
+                            if (!string.IsNullOrEmpty(i.Comment))
+                                i.Comment = met.Name + " [" + i.Comment + "]";
+                            else
+                                i.Comment = met.Name;
+
                             first.BorderStyle = RowBorderStyle.EmptyBottom;
                         }
                         else

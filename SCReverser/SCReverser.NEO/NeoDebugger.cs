@@ -37,8 +37,7 @@ namespace SCReverser.NEO
 
                 // Set the engine instruction pointer
 
-                uint val;
-                if (Instructions.IndexToOffset(value, out val))
+                if (Instructions.IndexToOffset(value, out uint val))
                 {
                     if (Engine.CurrentContext.InstructionPointer != val)
                         Engine.CurrentContext.InstructionPointer = (int)val;
