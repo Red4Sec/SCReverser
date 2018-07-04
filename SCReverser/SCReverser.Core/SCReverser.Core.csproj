@@ -48,8 +48,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -114,6 +114,7 @@
     <Compile Include="OpCodeArguments\OpCodeByteArrayFromUShortArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeByteArrayFromByteArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeIntArgument.cs" />
+    <Compile Include="OpCodeArguments\OpCodeCall_IArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeShortArgumentBigEndian.cs" />
     <Compile Include="OpCodeArguments\OpCodeShortArgument.cs" />
     <Compile Include="OpCodeArguments\OpCodeUShortArgument.cs" />
@@ -138,12 +139,12 @@
     <Compile Include="Types\StreamModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="FEditConfig.resx">
       <DependentUpon>FEditConfig.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -242,11 +242,32 @@ That is the only valid > 0x03C8	PUSHBYTES3	0x523453	R4S
                         break;
                     }
                 case nameof(NeoOpCode.CALL):
+                case nameof(NeoOpCode.CALL_E):
+                case nameof(NeoOpCode.CALL_ED):
+                case nameof(NeoOpCode.CALL_EDT):
+                case nameof(NeoOpCode.CALL_ET):
+                case nameof(NeoOpCode.CALL_I):
                 case nameof(NeoOpCode.JMP):
                     {
-                        if (!(ins.Argument is OpCodeShortArgument a)) return;
+                        uint offset;
 
-                        uint offset = (uint)a.Value;
+                        if (ins.Argument is OpCodeShortArgument a)
+                        {
+                            offset = (uint)a.Value;
+                        }
+                        else
+                        {
+                            if (ins.Argument is OpCodeCall_IArgument c)
+                            {
+                                // TODO: Check this
+
+                                offset = (uint)c.Value - 2;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
 
                         if (offset == 3)
                         {

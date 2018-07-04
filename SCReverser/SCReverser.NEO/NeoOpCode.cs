@@ -329,6 +329,19 @@ namespace SCReverser.NEO
         SYSCALL = 0x68,
         [OpCodeArgument(typeof(OpCodeByteArrayArgument), ConstructorArguments = new object[] { 20 })]
         TAILCALL = 0x69,
+
+        // Stack isolation
+
+        [OpCodeArgument(typeof(OpCodeCall_IArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
+        CALL_I = 0xE0,
+        [OpCodeArgument(typeof(OpCodeCall_IArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
+        CALL_E = 0xE1,
+        [OpCodeArgument(typeof(OpCodeCall_IArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
+        CALL_ED = 0xE2,
+        [OpCodeArgument(typeof(OpCodeCall_IArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
+        CALL_ET = 0xE3,
+        [OpCodeArgument(typeof(OpCodeCall_IArgument), Flags = OpCodeFlag.IsCall | OpCodeFlag.IsJump)]
+        CALL_EDT = 0xE4,
         #endregion
 
         #region Stack
