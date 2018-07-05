@@ -7,6 +7,7 @@ using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using SCReverser.NEO;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -741,9 +742,13 @@ namespace SCReverser
                 });
             }
 
+            var ls = new List<Instruction>();
             foreach (var jump in Jumps.GetJumps())
             {
                 if (jump.Jump == null || jump.Jump.To == null || jump.Jump.To.Index != i.Location.Index) continue;
+
+                if (ls.Contains(jump)) continue;
+                ls.Add(jump);
 
                 goToToolStripMenuItem.DropDownItems.Add(jump.ToString(), null, (s, e2) =>
                 {

@@ -392,6 +392,7 @@ namespace SCReverser.Core.Interfaces
                     else
                     {
                         // Find only one ascii value for name
+
                         if (ins.Argument != null)
                         {
                             string r = ins.Argument.ASCIIValue;
