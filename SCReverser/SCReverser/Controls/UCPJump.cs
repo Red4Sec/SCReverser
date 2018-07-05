@@ -62,6 +62,12 @@ namespace SCReverser.Controls
                 true);
         }
 
+        internal IEnumerable<Instruction> GetJumps()
+        {
+            foreach (var j in Jumps) yield return j;
+            foreach (var j in DynJumps) yield return j;
+        }
+
         void _Grid_DataSourceChanged(object sender, EventArgs e)
         {
             if (_Grid.DataSource == null)

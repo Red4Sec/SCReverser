@@ -59,6 +59,7 @@
             this.dcComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PanelRegisters = new System.Windows.Forms.Panel();
             this.stacks = new SCReverser.Controls.UStacks();
             this.splitter2 = new System.Windows.Forms.Splitter();
@@ -318,15 +319,22 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.goHereToolStripMenuItem});
+            this.goHereToolStripMenuItem,
+            this.goToToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // goHereToolStripMenuItem
             // 
             this.goHereToolStripMenuItem.Name = "goHereToolStripMenuItem";
             resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Click += new System.EventHandler(this.goHereToolStripMenuItem_Click);
+            // 
+            // goToToolStripMenuItem
+            // 
+            this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
+            resources.ApplyResources(this.goToToolStripMenuItem, "goToToolStripMenuItem");
             // 
             // PanelRegisters
             // 
@@ -605,6 +613,7 @@
         private System.Windows.Forms.Splitter splitter2;
         public System.Windows.Forms.Panel PanelRegisters;
         private Controls.UStacks stacks;
+        private System.Windows.Forms.ToolStripMenuItem goToToolStripMenuItem;
     }
 }
 

@@ -7,6 +7,7 @@ using SCReverser.Core.Interfaces;
 using SCReverser.Core.Types;
 using SCReverser.NEO;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace SCReverser
             EnableDisableDebugger();
 
             GridOpCode.AutoGenerateColumns = false;
-            
+
             StackAlt_OnChange(null, null);
 
             // Auto select if only one
@@ -333,11 +334,15 @@ namespace SCReverser
         void Debugger_OnInstructionChanged(object sender, Instruction instruction)
         {
             GridOpCode.CurrentCell = GridOpCode.Rows[instruction == null ? 0 : (int)instruction.Location.Index].Cells[3];
-            Jumps.RefreshDynJumps(Debugger);
 
-            GridOpCode.Refresh();
-            stacks.RefreshGrids();
-            Registers.Refresh();
+            if (sender != null)
+            {
+                Jumps.RefreshDynJumps(Debugger);
+
+                GridOpCode.Refresh();
+                stacks.RefreshGrids();
+                Registers.Refresh();
+            }
         }
         void UpdateDebugState()
         {
@@ -716,6 +721,37 @@ namespace SCReverser
 
             Debugger.CurrentInstruction = i;
             Error(null);
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            goToToolStripMenuItem.DropDownItems.Clear();
+
+            if (Debugger == null || GridOpCode.SelectedRows.Count != 1) return;
+
+            DataGridViewRow r = GridOpCode.SelectedRows[0];
+            if (r.DataBoundItem == null || !(r.DataBoundItem is Instruction i)) return;
+
+            if (i.Jump != null && i.Jump.To != null)
+            {
+                var to = GridOpCode.Rows[(int)i.Jump.To.Index].DataBoundItem as Instruction;
+                goToToolStripMenuItem.DropDownItems.Add(to.ToString(), null, (s, e2) =>
+                {
+                    Debugger_OnInstructionChanged(null, to);
+                });
+            }
+
+            foreach (var jump in Jumps.GetJumps())
+            {
+                if (jump.Jump == null || jump.Jump.To == null || jump.Jump.To.Index != i.Location.Index) continue;
+
+                goToToolStripMenuItem.DropDownItems.Add(jump.ToString(), null, (s, e2) =>
+                {
+                    Debugger_OnInstructionChanged(null, jump);
+                });
+            }
+
+            goToToolStripMenuItem.Enabled = goToToolStripMenuItem.DropDownItems.Count > 0;
         }
 
         void GridOpCode_CurrentCellChanged(object sender, EventArgs e) { Jumps.Invalidate(); }
