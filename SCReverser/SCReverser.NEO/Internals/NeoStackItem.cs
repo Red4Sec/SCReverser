@@ -3,6 +3,7 @@ using Neo.VM;
 using SCReverser.Core.Extensions;
 using SCReverser.Core.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -28,16 +29,35 @@ namespace SCReverser.NEO.Internals
 
             _PrintableValue = GetPrintable(value).ToString();
         }
+
         /// <summary>
         /// Get Printable version
         /// </summary>
         /// <param name="value">Value</param>
         object GetPrintable(StackItem value)
         {
+            var alreadyPrinted = new List<StackItem>();
+            return GetPrintable(value, alreadyPrinted);
+        }
+
+        /// <summary>
+        /// Get Printable version
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <param name="alreadyPrinted">Already printed</param>
+        object GetPrintable(StackItem value, List<StackItem> alreadyPrinted)
+        {
             if (value == null) return "NULL";
             else
             {
                 Type tp = value.GetType();
+
+                if (alreadyPrinted.Contains(value) && (tp.FullName == "Neo.VM.Types.Struct" || tp.FullName == "Neo.VM.Types.Array"))
+                {
+                    return "..";
+                }
+
+                alreadyPrinted.Add(value);
 
                 switch (tp.FullName)
                 {
@@ -70,7 +90,7 @@ namespace SCReverser.NEO.Internals
                             if (si.Length > 200) return "[" + si.Length.ToString() + "] ...";
                             return
                                 "[" + si.Length + "]" +
-                                JsonHelper.Serialize(si.Select(u => GetPrintable(u)).ToArray(), true, false);
+                                JsonHelper.Serialize(si.Select(u => GetPrintable(u, alreadyPrinted)).ToArray(), true, false);
                         }
                     case "Neo.VM.Types.InteropInterface":
                         {
